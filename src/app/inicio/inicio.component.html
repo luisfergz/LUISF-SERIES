@@ -1,0 +1,51 @@
+<!-- Carousel -->
+<div id="carouselInicio" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+  <div class="carousel-indicators">
+    <button *ngFor="let serie of series; let i = index"
+      type="button"
+      [attr.data-bs-target]="'#carouselInicio'"
+      [attr.data-bs-slide-to]="i"
+      [class.active]="i === 0"
+      [attr.aria-label]="'Slide ' + (i + 1)">
+    </button>
+  </div>
+  <div class="carousel-inner">
+    <div *ngFor="let serie of series; let i = index" class="carousel-item" [class.active]="i === 0">
+      <img [src]="serie.portada" [alt]="serie.nombre" (error)="serie.portada='general/default-image-large.png'">
+      <div class="carousel-info">
+        <span class="title">{{ serie.nombre }}</span>
+        <div class="temporadas">
+          <span class="label">Temporadas:</span>
+          <div class="valor-container">
+            <ng-container *ngFor="let temp of serie.temporada; let i = index">
+              <span *ngIf="i < 12" class="valor">{{ temp.temporada }}</span>
+            </ng-container>
+            <span class="valor extra" *ngIf="serie.temporada.length > 12">...</span>
+          </div>
+        </div>
+        <a class="descargar" [routerLink]="['/series', serie.id]">DESCARGA AQUI</a>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselInicio" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselInicio" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<!-- Canal -->
+<div class="canal">
+  <div class="top-content">
+    <span>Canal</span>
+    <img src="general/youtube.png" alt="Canal">
+    <span>Youtube</span>
+  </div>
+  <div class="bottom-content">
+    <img src="general/canal.jpg" alt="Youtube">
+    <a [href]="canalUrl" target="_blank">Luis✪F</a>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+
+/* Tablets en modo landscape */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+}
+
+/* Móviles en modo landscape */
+@media (min-width: 480px) and (max-width: 768px) {
+
+}
+
+/* Móviles en modo portrait */
+@media (max-width: 480px) {
+
+}

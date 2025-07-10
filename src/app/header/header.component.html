@@ -1,0 +1,67 @@
+<header>
+  <div>
+    <a routerLink="/"><img class="logo" src="general/logo.webp" alt="logo"></a>
+  </div>
+  <div class="movil">
+    <div [ngTemplateOutlet]="menuTemplate"></div>
+  </div>
+  <div class="menu-container">
+    <a class="menu-icon" [class.active]="menuActive" (click)="toggleMenu()">
+      <i class="fa" [class.fa-bars]="!menuActive" [class.fa-times]="menuActive"></i>
+    </a>
+
+    <div class="title">
+      <a routerLink="/">Luis✪F Series</a>
+    </div>
+
+    <div class="user-icon" (click)="toggleDropdown()">
+      <img src="general/user-default.jpg" alt="menu">
+    </div>
+    
+
+    <div class="desktop w-100">
+      <div [ngTemplateOutlet]="menuTemplate"></div>
+    </div>
+
+    <!-- <div class="actions">
+      <ng-container *ngIf="!isLoggedIn">
+        <a class="login btn btn-outline-primary" (click)="openLoginModal()">
+          Iniciar sesión
+        </a>
+        <a class="singup btn btn-primary" (click)="openSignupModal()">
+          Registrarse
+        </a>
+      </ng-container>
+
+      <div *ngIf="isLoggedIn" class="user-profile" (click)="toggleDropdown()">
+        <img [src]="userProfilePicture" class="profile-picture" alt="Foto de perfil de {{ userName }}">
+        <span class="username ms-2">{{ userName }}</span>
+      </div>
+
+      <div *ngIf="isLoggedIn" [ngTemplateOutlet]="loggedInTemplate"></div>
+    </div> -->
+    
+  </div>
+</header>
+
+<ng-template #menuTemplate>
+  <nav class="nav menu-bar" [class.active]="menuActive">
+    <a *ngFor="let item of menu" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: item.exact}"
+        [routerLink]="item.url"><i [class]="item.icon"></i> {{ item.nombre }}</a>
+  </nav>
+</ng-template>
+
+<ng-template #loggedInTemplate>
+  <div class="dropdown-menu" *ngIf="dropdownOpen">
+    <a class="dropdown-item" (click)="logout()">
+      <i class="fa-solid fa-user me-2"></i>Perfil
+    </a>
+    <a class="dropdown-item" (click)="logout()">
+      <i class="fa-solid fa-gear me-2"></i>Configuración
+    </a>
+    <a class="dropdown-item" (click)="logout()">
+      <i class="fa-solid fa-right-from-bracket me-2"></i>Cerrar Sesión
+    </a>
+  </div>
+</ng-template>

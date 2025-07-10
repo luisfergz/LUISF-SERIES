@@ -1,0 +1,62 @@
+<!-- Contenido -->
+<div class="container-fluid">
+  <div class="info-container">
+    <div class="info-report">
+      <img src="general/stop.png">
+      <span>Favor de reportar enlaces erróneos de series</span>
+      <img src="general/stop.png">
+    </div>
+    <div class="info-video">
+      <img src="general/vlc.png">
+      <span>Se Recomienda Utilizar <a [href]="vlc" target="_blank">VLC</a> para Reproducir las Series</span>
+      <img src="general/vlc.png">
+    </div>
+    <div class="info-tutorial">
+      <img src="general/star.gif">
+      <span>Como Descargar las Series Tutorial <a [href]="tutorial" target="_blank">aquí</a></span>
+      <img src="general/star.gif">
+    </div>
+  </div>
+
+  <span class="title">Todas tus series favoritas en un mismo lugar.</span>
+  <div class="busqueda">
+    <div class="input-group">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Buscar serie..."
+        maxlength="40"
+        [(ngModel)]="busqueda"
+        (input)="filtrarSeries()"
+      />
+      <button class="limpiar btn" (click)="busqueda = ''; filtrarSeries()" *ngIf="busqueda">
+        <i class="fa-regular fa-circle-xmark"></i>
+      </button>
+    </div>
+    <button class="buscar btn btn-primary" (click)="filtrarSeries()">Buscar</button>
+  </div>
+  <div class="alert alert-warning" role="alert" *ngIf="busqueda && !seriesFiltradas.length">
+    <strong>No hay resultados para la búsqueda "{{ busqueda }}"</strong>
+  </div>
+
+  <div class="series-container" *ngIf="seriesFiltradas.length">
+    <div class="card" *ngFor="let serie of seriesFiltradas">
+      <div class="card-body">
+        <div>
+          <img
+            [src]="serie.imagen"
+            [alt]="serie.nombre"
+            (error)="serie.imagen='general/default-image.png'"
+          />
+        </div>
+        <div class="content">
+          <div class="info">
+            <h1 class="nombre display-4">{{ serie.nombre }}</h1>
+            <p class="sinopsis lead">{{ serie.sinopsiscorta }}</p>
+          </div>
+          <a class="ver-mas btn btn-primary" [routerLink]="['/series', serie.id]">VER MÁS</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

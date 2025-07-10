@@ -1,0 +1,49 @@
+footer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background-color: #21174c;
+  padding: 1rem;
+  padding-top: 0.6rem;
+  border-top: solid .1rem rgb(0,0,0,.2);
+}
+.social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.6rem;
+  margin-bottom: .5rem;
+}
+.copyright {
+  text-align: center;
+  margin-bottom: .2rem;
+}
+.lead {
+  font-size: 18px;
+}
+.item {
+  font-size: 22px;
+  color: #fff;
+}
+
+
+/* Media Query: Móviles (max-width: 576px) */
+@media (max-width: 576px) {
+  .item {
+    font-size: 24px;
+  }
+  .lead {
+    font-size: 16px;
+  }
+}
+
+/* Media Query: Tabletas (min-width: 577px) and (max-width: 768px) */
+@media (min-width: 577px) and (max-width: 768px) {
+  .item {
+    font-size: 26px;
+  }
+}

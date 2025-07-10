@@ -1,0 +1,12 @@
+<ngx-spinner class="loading" bdColor="rgba(0, 0, 0, 0.8)" type="ball-scale-multiple" [fullScreen]="true">
+  <img src="general/loading.gif">
+  <span style="color: white;">Cargando<span class="dots"></span></span>
+</ngx-spinner>
+
+<div class="d-flex w-100 h-100 flex-column justify-content-between">
+  <div>
+    <app-header></app-header>
+    <router-outlet></router-outlet>
+  </div>
+  <app-footer></app-footer>
+</div>

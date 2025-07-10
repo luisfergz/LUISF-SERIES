@@ -1,0 +1,467 @@
+[
+  {
+    "id": "arm",
+    "iniciopos": 1,
+    "nombre": "Monstruos de verdad",
+    "sinopsis": "La serie se centra en particular en tres juveniles monstruos (Ickis, Oblina y Krumm) quienes asisten a una escuela para monstruos bajo un vertedero de la ciudad y aprenden a asustar a los humanos. Muchos de los episodios se resuelven alrededor de los monstruos que salen a la superficie para realizar los sustos como las asignaciones de la clase. Al parecer, la serie tiene lugar en un basural fuera del área de la ciudad de Nueva York, más probablemente en Nueva Jersey.",
+    "sinopsiscorta": "La serie se centra en particular en tres juveniles monstruos (Ickis, Oblina y Krumm) quienes asisten a una escuela para monstruos bajo un vertedero de la ciudad y aprenden a asustar a los humanos...",
+    "portada": "series/sittingducks.jpg",
+    "imagen": "series/realmonsters.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/realmonsters.jpg",
+        "link": "https://www.luisf.com.ar"
+      },
+      {
+        "temporada": "2",
+        "imagen": "series/realmonsters.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "400 Megas" },
+      { "atributo": "Formato", "valor": "MKV" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm2",
+    "iniciopos": 2,
+    "nombre": "Ahh!! asdadsa adasd de verdad",
+    "sinopsis": "La serie se centra en particular en tres juveniles monstruos (Ickis, Oblina y Krumm) quienes asisten a una escuela para monstruos bajo un vertedero de la ciudad y aprenden a asustar a los humanos. Muchos de los episodios se resuelven alrededor de los monstruos que salen a la superficie para realizar los sustos como las asignaciones de la clase. Al parecer, la serie tiene lugar en un basural fuera del área de la ciudad de Nueva York, más probablemente en Nueva Jersey.",
+    "sinopsiscorta": "La serie se centra en particular en tres juveniles monstruos (Ickis, Oblina y Krumm) quienes asisten a una escuela para monstruos bajo un vertedero de la ciudad y aprenden a asustar a los humanos...",
+    "portada": "series/glennmartin.jpg",
+    "imagen": "series/realmonsters.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/realmonsters.jpg",
+        "link": "https://www.luisf.com.ar"
+      },
+      {
+        "temporada": "2",
+        "imagen": "series/realmonsters.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "400 Megas" },
+      { "atributo": "Formato", "valor": "MKV" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm3",
+    "iniciopos": 3,
+    "nombre": "Ahh!! asdadsa adasd de verdad",
+    "sinopsis": "La serie se centra en particular en tres juveniles monstruos (Ickis, Oblina y Krumm) quienes asisten a una escuela para monstruos bajo un vertedero de la ciudad y aprenden a asustar a los humanos. Muchos de los episodios se resuelven alrededor de los monstruos que salen a la superficie para realizar los sustos como las asignaciones de la clase. Al parecer, la serie tiene lugar en un basural fuera del área de la ciudad de Nueva York, más probablemente en Nueva Jersey.",
+    "sinopsiscorta": "La serie se centra en particular en tres juveniles monstruos (Ickis, Oblina y Krumm) quienes asisten a una escuela para monstruos bajo un vertedero de la ciudad y aprenden a asustar a los humanos...",
+    "portada": "series/glennmartin.jpg",
+    "imagen": "series/realmonsters.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/realmonsters.jpg",
+        "link": "https://www.luisf.com.ar"
+      },
+      {
+        "temporada": "2",
+        "imagen": "series/realmonsters.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "400 Megas" },
+      { "atributo": "Formato", "valor": "MKV" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm4",
+    "iniciopos": 4,
+    "nombre": "La serie mas larga de la historia",
+    "sinopsis": "La serie se centra en particular en tres juveniles monstruos (Ickis, Oblina y Krumm) quienes asisten a una escuela para monstruos bajo un vertedero de la ciudad y aprenden a asustar a los humanos. Muchos de los episodios se resuelven alrededor de los monstruos que salen a la superficie para realizar los sustos como las asignaciones de la clase. Al parecer, la serie tiene lugar en un basural fuera del área de la ciudad de Nueva York, más probablemente en Nueva Jersey.",
+    "sinopsiscorta": "La serie se centra en particular en tres juveniles monstruos (Ickis, Oblina y Krumm) quienes asisten a una escuela para monstruos bajo un vertedero de la ciudad y aprenden a asustar a los humanos...",
+    "portada": "series/glennmartin.jpg",
+    "imagen": "series/realmonsters.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/realmonsters.jpg",
+        "link": "https://www.luisf.com.ar"
+      },
+      {
+        "temporada": "2",
+        "imagen": "series/realmonsters.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "400 Megas" },
+      { "atributo": "Formato", "valor": "MKV" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm5",
+    "iniciopos": 5,
+    "nombre": "La serie mas larga de la historia La serie mas larga de la historia",
+    "sinopsis": "La serie se centra en particular en tres juveniles monstruos (Ickis, Oblina y Krumm) quienes asisten a una escuela para monstruos bajo un vertedero de la ciudad y aprenden a asustar a los humanos. Muchos de los episodios se resuelven alrededor de los monstruos que salen a la superficie para realizar los sustos como las asignaciones de la clase. Al parecer, la serie tiene lugar en un basural fuera del área de la ciudad de Nueva York, más probablemente en Nueva Jersey.",
+    "sinopsiscorta": "La serie se centra en particular en tres juveniles monstruos (Ickis, Oblina y Krumm) quienes asisten a una escuela para monstruos bajo un vertedero de la ciudad y aprenden a asustar a los humanos...",
+    "portada": "series/glennmartin.jpg",
+    "imagen": "series/realmonsters.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/realmonsters.jpg",
+        "link": "https://www.luisf.com.ar"
+      },
+      {
+        "temporada": "2",
+        "imagen": "series/realmonsters.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "400 Megas" },
+      { "atributo": "Formato", "valor": "MKV" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm6",
+    "iniciopos": 6,
+    "nombre": "Serie de los dinosaurios",
+    "sinopsis": "La serie sigue a un grupo de dinosaurios que viven en una época contemporánea, haciendo frente a problemas de la vida diaria con un toque cómico.",
+    "sinopsiscorta": "La serie sigue a un grupo de dinosaurios que viven en una época contemporánea, haciendo frente a problemas de la vida diaria...",
+    "portada": "series/dinosaurios.jpg",
+    "imagen": "series/dinosaurios.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/dinosaurios.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "500 Megas" },
+      { "atributo": "Formato", "valor": "MP4" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm7",
+    "iniciopos": 7,
+    "nombre": "La vida de los peces",
+    "sinopsis": "Aventura de un grupo de peces en el océano, enfrentándose a desafíos de la naturaleza y explorando su entorno.",
+    "sinopsiscorta": "Aventura de un grupo de peces en el océano enfrentándose a desafíos naturales...",
+    "portada": "series/peces.jpg",
+    "imagen": "series/peces.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/peces.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "300 Megas" },
+      { "atributo": "Formato", "valor": "MKV" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm8",
+    "iniciopos": 8,
+    "nombre": "Superhéroes en acción",
+    "sinopsis": "Un equipo de superhéroes lucha contra el crimen y la injusticia mientras enfrentan sus propios dilemas personales.",
+    "sinopsiscorta": "Un equipo de superhéroes lucha contra el crimen y enfrenta sus propios dilemas...",
+    "portada": "series/superheroes.jpg",
+    "imagen": "series/superheroes.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/superheroes.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "600 Megas" },
+      { "atributo": "Formato", "valor": "MP4" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm9",
+    "iniciopos": 9,
+    "nombre": "El viaje de los héroes",
+    "sinopsis": "Un grupo de aventureros se embarca en un épico viaje para salvar su reino de un mal antiguo.",
+    "sinopsiscorta": "Un grupo de aventureros lucha contra un mal antiguo para salvar su reino...",
+    "portada": "series/heroes.jpg",
+    "imagen": "series/heroes.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/heroes.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "700 Megas" },
+      { "atributo": "Formato", "valor": "MP4" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm10",
+    "iniciopos": 10,
+    "nombre": "El misterio de las sombras",
+    "sinopsis": "Un joven detective investiga una serie de extraños sucesos ocurridos en su ciudad.",
+    "sinopsiscorta": "Un detective investiga sucesos extraños en su ciudad...",
+    "portada": "series/misterio.jpg",
+    "imagen": "series/misterio.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/misterio.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "550 Megas" },
+      { "atributo": "Formato", "valor": "MKV" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm11",
+    "iniciopos": 11,
+    "nombre": "El regreso del espacio",
+    "sinopsis": "Un equipo de astronautas explora un nuevo planeta, enfrentándose a criaturas alienígenas y misterios del universo.",
+    "sinopsiscorta": "Un equipo de astronautas explora un planeta alienígena y enfrenta criaturas y misterios...",
+    "portada": "series/espacio.jpg",
+    "imagen": "series/espacio.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/espacio.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "650 Megas" },
+      { "atributo": "Formato", "valor": "MKV" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm12",
+    "iniciopos": 12,
+    "nombre": "Ciudades bajo el mar",
+    "sinopsis": "En un futuro donde las ciudades flotan bajo el mar, un grupo de habitantes lucha por sobrevivir a los peligros del océano.",
+    "sinopsiscorta": "Un grupo de habitantes lucha por sobrevivir a los peligros del océano en ciudades submarinas...",
+    "portada": "series/ciudadesbajoelsmar.jpg",
+    "imagen": "series/ciudadesbajoelsmar.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/ciudadesbajoelsmar.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "550 Megas" },
+      { "atributo": "Formato", "valor": "MP4" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm13",
+    "iniciopos": 13,
+    "nombre": "Los cazadores de mitos",
+    "sinopsis": "Un grupo de científicos viaja por el mundo investigando mitos y leyendas populares para comprobar si son reales.",
+    "sinopsiscorta": "Científicos investigan mitos y leyendas en busca de la verdad...",
+    "portada": "series/cazadoresdemitos.jpg",
+    "imagen": "series/cazadoresdemitos.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/cazadoresdemitos.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "400 Megas" },
+      { "atributo": "Formato", "valor": "MKV" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm14",
+    "iniciopos": 14,
+    "nombre": "Guardianes del bosque",
+    "sinopsis": "Un grupo de héroes se une para proteger un bosque mágico de criaturas oscuras y malvadas que intentan destruirlo.",
+    "sinopsiscorta": "Héroes luchan para proteger un bosque mágico de criaturas oscuras...",
+    "portada": "series/guardianesdelbosque.jpg",
+    "imagen": "series/guardianesdelbosque.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/guardianesdelbosque.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "450 Megas" },
+      { "atributo": "Formato", "valor": "MP4" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm15",
+    "iniciopos": 15,
+    "nombre": "El último guerrero",
+    "sinopsis": "Un guerrero solitario lucha contra un imperio tiránico para liberar su tierra natal.",
+    "sinopsiscorta": "Un guerrero lucha para liberar su tierra natal de un imperio tiránico...",
+    "portada": "series/ultimoguerrero.jpg",
+    "imagen": "series/ultimoguerrero.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/ultimoguerrero.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "500 Megas" },
+      { "atributo": "Formato", "valor": "MKV" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm16",
+    "iniciopos": 16,
+    "nombre": "El despertar de la magia",
+    "sinopsis": "Un joven descubre que tiene habilidades mágicas y debe aprender a usarlas para enfrentar una amenaza que pone en peligro el mundo.",
+    "sinopsiscorta": "Un joven descubre sus poderes mágicos y debe enfrentarse a una amenaza...",
+    "portada": "series/despertardelamagia.jpg",
+    "imagen": "series/despertardelamagia.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/despertardelamagia.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "600 Megas" },
+      { "atributo": "Formato", "valor": "MP4" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm17",
+    "iniciopos": 17,
+    "nombre": "El misterio de las estrellas",
+    "sinopsis": "Una joven astrónoma descubre un antiguo secreto en el espacio, mientras lucha por evitar una catástrofe intergaláctica.",
+    "sinopsiscorta": "Una astrónoma descubre un secreto en el espacio que podría cambiar el destino del universo...",
+    "portada": "series/misterioestrellas.jpg",
+    "imagen": "series/misterioestrellas.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/misterioestrellas.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "700 Megas" },
+      { "atributo": "Formato", "valor": "MKV" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm18",
+    "iniciopos": 18,
+    "nombre": "La invasión silente",
+    "sinopsis": "Extrañas señales llegan a la Tierra, y un grupo de científicos lucha por descubrir la verdad detrás de una inminente invasión alienígena.",
+    "sinopsiscorta": "Un grupo de científicos lucha por descubrir la verdad detrás de una invasión alienígena...",
+    "portada": "series/invasionsilente.jpg",
+    "imagen": "series/invasionsilente.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/invasionsilente.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "800 Megas" },
+      { "atributo": "Formato", "valor": "MP4" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm19",
+    "iniciopos": 19,
+    "nombre": "El reino perdido",
+    "sinopsis": "Un grupo de exploradores busca un antiguo reino perdido, enfrentándose a peligros y criaturas míticas en el camino.",
+    "sinopsiscorta": "Exploradores buscan un antiguo reino perdido enfrentando peligros y criaturas míticas...",
+    "portada": "series/reinoperdido.jpg",
+    "imagen": "series/reinoperdido.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/reinoperdido.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "750 Megas" },
+      { "atributo": "Formato", "valor": "MKV" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  },
+  {
+    "id": "arm20",
+    "iniciopos": 20,
+    "nombre": "Sombras del pasado",
+    "sinopsis": "Un detective investiga una serie de asesinatos relacionados con un oscuro misterio de su propio pasado.",
+    "sinopsiscorta": "Un detective investiga asesinatos relacionados con su propio oscuro pasado...",
+    "portada": "series/sombrasdelpasado.jpg",
+    "imagen": "series/sombrasdelpasado.jpg",
+    "temporadas": [
+      {
+        "temporada": "1",
+        "imagen": "series/sombrasdelpasado.jpg",
+        "link": "https://www.luisf.com.ar"
+      }
+    ],
+    "informacionTecnica": [
+      { "atributo": "Tamaño promedio por episodio", "valor": "500 Megas" },
+      { "atributo": "Formato", "valor": "MP4" }
+    ],
+    "contrasena": "LuisF",
+    "comentarios": "Comentarios"
+  }
+]

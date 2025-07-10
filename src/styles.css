@@ -1,0 +1,120 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: #1B1B3A !important;
+  font-family: 'Verdana', sans-serif;
+}
+
+@font-face {
+  font-family: 'First Legion';
+  src: url('/fonts/FirstLegion.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+ngx-spinner .loading-text img {
+  width: 50% !important;
+  height: auto !important;
+}
+
+ngx-spinner .loading-text {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%,-50%) !important;
+  gap: 2rem !important;
+  font-style: italic !important;
+  font-size: 18px !important;
+  letter-spacing: 0.5rem !important;
+  font-family: 'First Legion', Courier, monospace !important;
+}
+
+ngx-spinner .dots::after {
+  content: ' ';
+  position: absolute !important;
+  left: 0 !important;
+  animation: addDots 1s steps(4) infinite !important;
+}
+
+ngx-spinner .dots {
+  position: relative !important;
+}
+
+@keyframes addDots {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+    content: '.';
+  }
+  50% {
+    opacity: 1;
+    content: '..';
+  }
+  75% {
+    opacity: 1;
+    content: '...';
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+/* Tablets en modo landscape */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  ngx-spinner .loading-text img {
+    width: auto !important;
+    height: 60% !important;
+  }
+  ngx-spinner .loading-text {
+    font-size: 14px !important;
+    gap: 1rem !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 820px) and (orientation: portrait) {
+  ngx-spinner .loading-text img {
+    width: 70% !important;
+    height: auto !important; /* Ajuste el tamaño de la imagen para el iPad en portrait */
+  }
+  ngx-spinner .loading-text {
+    font-size: 18px !important; /* Aumenté el tamaño de la fuente para mejor legibilidad */
+    gap: 1.5rem !important;
+  }
+}
+
+/* Móviles en modo landscape */
+@media (min-width: 480px) and (max-width: 768px) and (orientation: landscape)  {
+  ngx-spinner .loading-text img {
+    width: auto !important;
+    height: 60% !important;
+  }
+  ngx-spinner .loading-text {
+    font-size: 16px !important;
+    gap: 1rem !important;
+  }
+}
+
+/* Móviles en modo portrait */
+@media (max-width: 480px) and (orientation: portrait) {
+  ngx-spinner .loading-text img {
+    width: 80% !important;
+    height: auto !important;
+  }
+  ngx-spinner .loading-text {
+    font-size: 16px !important;
+    gap: 1rem !important;
+  }
+}
