@@ -24,5 +24,5 @@ export interface Serie {
   contrasena: string;  // Contraseña
   comentario: string;  // Comentario de la serie
   temporada: Temporada[];  // Relación de temporadas
-  informacionTecnica: InformacionTecnica[];  // Relación de información técnica
+  informacion_tecnica: InformacionTecnica[];  // Relación de información técnica
 }

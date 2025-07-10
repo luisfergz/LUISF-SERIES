@@ -1,7 +1,7 @@
 <!-- Contenido principal -->
 <div class="container-fluid" *ngIf="serie">
   <div class="contenido">
-    <img class="izq" [src]="serie.imagen" [alt]="serie.nombre" (error)="serie.imagen='general/default-image.png'">
+    <!-- <img class="izq" [src]="serie.imagen" [alt]="serie.nombre" (error)="serie.imagen='general/default-image.png'"> -->
     <div class="der">
       <div class="nombre">
         <span>{{ serie.nombre }}</span>
@@ -31,7 +31,7 @@
     <span class="titulo">Información Técnica</span>
     <table class="table table-striped table-bordered">
       <tbody>
-        <tr *ngFor="let info of serie.informacionTecnica">
+        <tr *ngFor="let info of serie.informacion_tecnica">
           <th>{{ info.atributo }}</th>
           <td>{{ info.valor }}</td>
         </tr>

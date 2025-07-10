@@ -49,7 +49,7 @@
   object-fit: cover;
 }
 .der {
-  width: fit-content;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

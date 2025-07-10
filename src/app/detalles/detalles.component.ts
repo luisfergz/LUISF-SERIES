@@ -31,6 +31,7 @@ export class DetallesComponent {
         this.serie = data;
         this.loading = false; // Ocultar spinner cuando los datos se cargan
         this.spinner.hide();
+        console.log('Serie cargada:', this.serie);
       },
       error: (err) => {
         console.error('Error cargando la serie', err);
