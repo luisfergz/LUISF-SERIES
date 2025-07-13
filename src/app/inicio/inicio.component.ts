@@ -26,9 +26,7 @@ export class InicioComponent {
     this.seriesService.obtenerSeriesParaCarrusel().subscribe({
       next: (data: Serie[]) => {
         this.series = data;
-        this.spinner.hide(); // Ocultar el spinner
-        console.log(this.series);
-        console.log(this.series[0].temporadas);
+        this.spinner.hide();
       },
       error: (error) => {
         console.error('Error al cargar las series:', error);

@@ -17,7 +17,7 @@ export class AdminComponent {
   mostrarPassword = false;
   accesoPermitido = false;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService) { }
 
   async ngOnInit() {
     try {
@@ -52,10 +52,6 @@ export class AdminComponent {
 
   alternarPassword(): void {
     this.mostrarPassword = !this.mostrarPassword;
-  }
-
-  agregarSerie() {
-    this.router.navigate(['/agregar-serie']);
   }
 
 }

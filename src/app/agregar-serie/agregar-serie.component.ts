@@ -3,7 +3,6 @@ import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule } fr
 import { CommonModule } from '@angular/common';
 import { SeriesService } from '../services/series.service';
 import { Serie, Temporada, InformacionTecnica } from '../models/serie.model';
-import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-agregar-serie',
@@ -191,11 +190,10 @@ export class AgregarSerieComponent {
       }
     }
 
-    const modalElement = document.getElementById('modalAlerta');
-    if (modalElement) {
-      const modal = new Modal(modalElement);
-      modal.show();
-    }
+    const modalElement = document.getElementById('miModal');
+    const modal = (window as any).bootstrap?.Modal.getOrCreateInstance(modalElement);
+    modal.show();
+
   }
 
 }

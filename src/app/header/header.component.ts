@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SignupComponent } from '../signup/signup.component';
-import { LoginComponent } from '../login/login.component';
 
 declare var bootstrap: any;
 
@@ -46,8 +43,7 @@ export class HeaderComponent {
   ];
 
   constructor(
-    private router: Router,
-    private modalService: NgbModal
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -86,27 +82,27 @@ export class HeaderComponent {
     this.dropdownOpen = false;
   }
 
-  openSignupModal() {
-    this.modalService.open(SignupComponent, {
-      centered: true,
-    });
-  }
+  // openSignupModal() {
+  //   this.modalService.open(SignupComponent, {
+  //     centered: true,
+  //   });
+  // }
 
-  openLoginModal() {
-    const modalRef = this.modalService.open(LoginComponent, {
-      centered: true,
-    });
+  // openLoginModal() {
+  //   const modalRef = this.modalService.open(LoginComponent, {
+  //     centered: true,
+  //   });
 
-    modalRef.result
-      .then((result) => {
-        console.log('Resultado del modal:', result);
-      })
-      .catch((error) => {
-        console.error('Error cerrando el modal:', error);
-      });
+  //   modalRef.result
+  //     .then((result) => {
+  //       console.log('Resultado del modal:', result);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error cerrando el modal:', error);
+  //     });
 
-    this.isLoggedIn = true;
-  }
+  //   this.isLoggedIn = true;
+  // }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event) {

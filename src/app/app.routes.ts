@@ -7,6 +7,7 @@ import { DetallesComponent } from './detalles/detalles.component';
 import { AdminComponent } from './admin/admin.component';
 import { AgregarSerieComponent } from './agregar-serie/agregar-serie.component';
 import { authGuard } from './guards/auth.guard';
+import { GestionarSeriesComponent } from './gestionar-series/gestionar-series.component';
 
 export const routes: Routes = [
   { path: '', component: InicioComponent },
@@ -16,4 +17,5 @@ export const routes: Routes = [
   { path: 'series/:slug', component: DetallesComponent },
   { path: 'admin', component: AdminComponent },
   { path: 'agregar-serie', component: AgregarSerieComponent, canActivate: [authGuard] },
+  { path: 'gestionar-series', component: GestionarSeriesComponent, canActivate: [authGuard] },
 ];
