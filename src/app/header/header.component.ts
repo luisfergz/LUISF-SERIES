@@ -32,12 +32,12 @@ export class HeaderComponent {
       icon: 'fa-solid fa-tv',
       url: '/series'
     },
-    {
-      nombre: 'Admin',
-      exact: false,
-      icon: 'fa-solid fa-user-gear',
-      url: '/admin'
-    }
+    // {
+    //   nombre: 'Admin',
+    //   exact: false,
+    //   icon: 'fa-solid fa-user-gear',
+    //   url: '/admin'
+    // }
     // {
     //   nombre: 'Mis Películas',
     //   url: '/peliculas'
