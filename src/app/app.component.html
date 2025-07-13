@@ -11,12 +11,4 @@
   <app-footer></app-footer>
 </div>
 
-<div *ngIf="accesoPermitido" class="position-fixed bottom-0 end-0 m-4 text-end">
-  <div class="collapse mb-2" id="menuFlotante">
-    <a class="btn btn-sm btn-outline-secondary w-100" routerLink="/admin">Panel de Administrador</a>
-  </div>
-  <button class="btn btn-primary rounded-circle shadow d-flex align-items-center justify-content-center" style="width: 3rem; height: 3rem;" type="button" data-bs-toggle="collapse"
-    data-bs-target="#menuFlotante" aria-expanded="false" aria-controls="menuFlotante">
-    <i class="fa-solid fa-house"></i>
-  </button>
-</div>
+<app-menu-flotante></app-menu-flotante>
