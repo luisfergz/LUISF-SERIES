@@ -1,28 +1,25 @@
 export interface Temporada {
-  id: number;
-  serie_id: string;
-  temporada: string;
-  imagen: string;
-  link: string;
+  temporada: string;  // Ej. "1", "Especial", etc.
+  imagen: string;     // URL de la imagen
+  link: string;       // Enlace de descarga
 }
 
 export interface InformacionTecnica {
-  id: number;
-  serie_id: string;
-  atributo: string;
-  valor: string;
+  atributo: string;  // Ej. "Audio", "Calidad"
+  valor: string;     // Ej. "Español Latino", "1080p"
 }
 
 export interface Serie {
   id: string;  // ID de la serie
-  pos: number;  // Posición en el carrusel
   nombre: string;  // Nombre de la serie
   sinopsis: string;  // Descripción larga
   sinopsiscorta: string;  // Descripción corta
-  portada: string;  // Imagen de portada
-  imagen: string;  // Imagen principal
+  banner: string;  // Imagen de portada
+  portada: string;  // Imagen principal
   contrasena: string;  // Contraseña
   comentario: string;  // Comentario de la serie
-  temporada: Temporada[];  // Relación de temporadas
+  slug: string;  // URL personalizada de la serie
+  temporadas: Temporada[];  // Relación de temporadas
   informacion_tecnica: InformacionTecnica[];  // Relación de información técnica
+  activo?: boolean;  // Indica si la serie está activa (opcional)
 }

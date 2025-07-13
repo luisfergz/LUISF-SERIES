@@ -23,12 +23,12 @@ export class InicioComponent {
 
   ngOnInit(): void {
     this.spinner.show(); // Mostrar el spinner
-    this.seriesService.getSeriesForCarousel().subscribe({
+    this.seriesService.obtenerSeriesParaCarrusel().subscribe({
       next: (data: Serie[]) => {
         this.series = data;
         this.spinner.hide(); // Ocultar el spinner
         console.log(this.series);
-        console.log(this.series[0].temporada);
+        console.log(this.series[0].temporadas);
       },
       error: (error) => {
         console.error('Error al cargar las series:', error);

@@ -13,7 +13,7 @@ export const routes: Routes = [
   { path: 'series', component: SeriesComponent },
   { path: 'peliculas', component: PeliculasComponent },
   { path: 'blog', component: BlogComponent },
-  { path: 'series/:id', component: DetallesComponent },
+  { path: 'series/:slug', component: DetallesComponent },
   { path: 'admin', component: AdminComponent },
   { path: 'agregar-serie', component: AgregarSerieComponent, canActivate: [authGuard] },
 ];

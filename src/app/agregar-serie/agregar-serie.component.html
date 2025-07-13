@@ -1,1 +1,108 @@
-<p>agregar-serie works!</p>
+<div class="container mt-4 text-white">
+  <h2 class="text-center mb-4 fw-bold">Nueva Serie</h2>
+
+  <form [formGroup]="formulario" (ngSubmit)="agregarSerie()">
+    <!-- Datos principales de la serie -->
+    <div class="col-12 col-md-8 m-auto">
+      <img [src]="formulario.get('banner')?.value || '/general/default-image-large.png'"
+        class="img-fluid mx-auto d-block" style="width: 100%; height: auto; object-fit: cover; aspect-ratio: 3/1;"
+        alt="" (error)="bannerError($event)">
+      <div class="col-12 col-md-8 mt-3 mx-auto">
+        <input type="text" class="form-control" id="banner" formControlName="banner" placeholder="URL banner">
+      </div>
+    </div>
+    <div class="row justify-content-center mt-4 mx-auto">
+      <div class="col-12 col-md-4">
+        <input type="text" class="form-control" id="nombre" formControlName="nombre" placeholder="Nombre">
+        <input type="text" class="form-control mt-2" id="sinopsiscorta" formControlName="sinopsiscorta"
+          placeholder="Sinopsis corta">
+        <textarea class="form-control mt-2" id="sinopsis" formControlName="sinopsis" placeholder="Sinopsis larga"
+          style="height: 100px"></textarea>
+        <div class="d-flex align-items-center mt-2 justify-content-center">
+          <span class="me-2 text-grey">series/</span>
+          <input type="text" class="form-control" id="slug" formControlName="slug" placeholder="URL personalizada"
+            [value]="generarSlug(formulario.value.nombre)">
+        </div>
+        <input type="text" class="form-control mt-2" id="portada" formControlName="portada" placeholder="URL portada">
+        <div class="form-check form-switch mt-2">
+          <input class="form-check-input" style="margin-top: .3rem;" type="checkbox" id="activo" formControlName="activo">
+          <label class="form-check-label fw-bold" for="activo">Habilitar serie</label>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <img [src]="formulario.get('portada')?.value || '/general/default-image.png'" (error)="portadaError($event)"
+          class="img-fluid mx-auto d-block" style="width: 190px; height: 280px; object-fit: cover;" alt="">
+      </div>
+    </div>
+
+    <!-- Temporadas -->
+    <div class="col-12 col-md-8 m-auto text-center mt-5" formArrayName="temporadas">
+      <h3 class="fw-bold">Temporadas</h3>
+      <div class="d-flex flex-wrap justify-content-center gap-2 my-3">
+        <div *ngFor="let temp of temporadas.controls; let i = index" [formGroupName]="i" class="rounded shadow-sm p-3 pb-2"
+          style="width: 340px; background-color: rgba(0, 0, 0, 0.2); border: solid 1px rgb(68, 76, 141);">
+          <div class="d-flex justify-content-center gap-3">
+            <div>
+              <input type="text" class="form-control mb-2" formControlName="temporada" placeholder="No. temporada">
+              <input type="text" class="form-control mb-2" formControlName="imagen" placeholder="Portada">
+              <input type="text" class="form-control mb-2" formControlName="link" placeholder="Enlace">
+            </div>
+            <div>
+              <img [src]="temp.get('imagen')?.value || '/general/default-image.png'" class="card-img-top"
+                style="width: 150px; height: 219px; object-fit: cover;" alt="" (error)="portadaError($event)">
+            </div>
+          </div>
+          <button type="button" class="btn btn-danger mt-2" (click)="eliminarTemporada(i)">
+            <i class="fa-solid fa-trash-can"></i> Eliminar
+          </button>
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary" (click)="agregarTemporada()">
+        <i class="fa-solid fa-circle-plus"></i> Agregar temporada
+      </button>
+    </div>
+
+    <!-- Información Técnica -->
+    <div class="col-12 col-md-8 m-auto text-center mt-5" formArrayName="informacion_tecnica">
+      <h3 class="fw-bold">Información Técnica</h3>
+      <div class="d-flex flex-wrap justify-content-center gap-1 my-3">
+        <div *ngFor="let info of informacion_tecnica.controls; let i = index" [formGroupName]="i"
+          class="d-flex justify-content-center align-items-center rounded shadow-sm p-2 gap-2 w-100"
+          style="width: 340px; background-color: rgba(0, 0, 0, 0.2); border: solid 1px rgb(68, 76, 141);">
+          <input class="form-control" id="info-{{i}}-atributo" type="text" formControlName="atributo"
+            placeholder="Atributo">
+          <input class="form-control" id="info-{{i}}-valor" type="text" formControlName="valor" placeholder="Valor">
+          <button type="button" class="btn btn-danger" (click)="eliminarInfoTecnica(i)">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary" (click)="agregarInfoTecnica()">
+        <i class="fa-solid fa-circle-plus"></i> Agregar Info Técnica
+      </button>
+    </div>
+
+    <div class="col-12 col-md-8 m-auto text-center mt-5 mb-3">
+      <button class="btn btn-danger me-2 px-4" (click)="limpiar()">Limpiar</button>
+      <button type="submit" class="btn btn-success px-4">Guardar Serie</button>
+    </div>
+  </form>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalAlerta" tabindex="-1" aria-labelledby="modalAlertaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div id="modalHeader" class="modal-header">
+        <h5 class="modal-title" id="modalAlertaLabel">Mensaje</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p id="modalMensaje" class="mb-0"></p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn" id="modalBoton" data-bs-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>

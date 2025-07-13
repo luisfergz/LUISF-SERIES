@@ -15,8 +15,8 @@
   <div class="temporadas">
     <span class="titulo">Temporadas</span>
     <div class="card-container">
-      <div class="card" *ngFor="let temporada of serie.temporada">
-        <img class="card-img" [src]="temporada.imagen" alt="Temporada {{ temporada.temporada }}" (error)="temporada.imagen='general/default-image.png'">>
+      <div class="card" *ngFor="let temporada of serie.temporadas">
+        <img class="card-img" [src]="temporada.imagen" alt="Temporada {{ temporada.temporada }}" (error)="temporada.imagen='general/default-image.png'">
         <div class="card-content">
           <span class="card-title">Temporada {{ temporada.temporada }}</span>
           <div class="descargas">
@@ -44,4 +44,9 @@
   <!-- <div class="comentarios">
     <span>Comentarios</span>
   </div> -->
+</div>
+
+<div class="container-fluid text-center mt-5" *ngIf="!serie">
+  <h3 class="fw-bold">Serie no encontrada</h3>
+  <p class="lead">Lo sentimos, la serie que buscas no existe o ha sido eliminada.</p>
 </div>

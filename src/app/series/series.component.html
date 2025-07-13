@@ -44,9 +44,9 @@
       <div class="card-body">
         <div>
           <img
-            [src]="serie.imagen"
+            [src]="serie.portada"
             [alt]="serie.nombre"
-            (error)="serie.imagen='general/default-image.png'"
+            (error)="serie.portada='general/default-image.png'"
           />
         </div>
         <div class="content">
@@ -54,7 +54,7 @@
             <h1 class="nombre display-4">{{ serie.nombre }}</h1>
             <p class="sinopsis lead">{{ serie.sinopsiscorta }}</p>
           </div>
-          <a class="ver-mas btn btn-primary" [routerLink]="['/series', serie.id]">VER MÁS</a>
+          <a class="ver-mas btn btn-primary" [routerLink]="['/series', serie.slug]">VER MÁS</a>
         </div>
       </div>
     </div>

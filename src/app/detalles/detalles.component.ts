@@ -25,8 +25,8 @@ export class DetallesComponent {
 
   ngOnInit(): void {
     this.spinner.show(); // Mostrar spinner
-    const id = this.route.snapshot.paramMap.get('id')!;
-    this.seriesService.getSeriesById(id).subscribe({
+    const slug = this.route.snapshot.paramMap.get('slug')!;
+    this.seriesService.obtenerSeriePorSlug(slug).subscribe({
       next: (data) => {
         this.serie = data;
         this.loading = false; // Ocultar spinner cuando los datos se cargan

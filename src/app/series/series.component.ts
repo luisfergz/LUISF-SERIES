@@ -28,7 +28,7 @@ export class SeriesComponent {
 
   ngOnInit(): void {
     this.spinner.show();
-    this.seriesService.getSeries().subscribe({
+    this.seriesService.obtenerSeries().subscribe({
       next: (data) => {
         this.series = data;
         this.seriesFiltradas = data;
