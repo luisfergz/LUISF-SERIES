@@ -33,6 +33,8 @@ export class AdminComponent {
       await this.authService.signIn(this.email, this.password);
       this.accesoPermitido = true;
       this.error = '';
+      // actualizar pagina
+      window.location.reload();
     } catch (err: any) {
       this.error = err.message || 'Error al iniciar sesión';
       this.accesoPermitido = false;

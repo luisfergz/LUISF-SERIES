@@ -2,7 +2,7 @@
   <div>
     <a routerLink="/"><img class="logo" src="general/logo.png" alt="logo"></a>
   </div>
-  <div class="movil">
+  <div *ngIf="menuActive" class="menu-container">
     <div [ngTemplateOutlet]="menuTemplate"></div>
   </div>
   <div class="menu-container">

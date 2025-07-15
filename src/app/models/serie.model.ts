@@ -10,7 +10,7 @@ export interface InformacionTecnica {
 }
 
 export interface Serie {
-  id: string;  // ID de la serie
+  id: number;  // ID de la serie
   nombre: string;  // Nombre de la serie
   sinopsis: string;  // Descripción larga
   sinopsiscorta: string;  // Descripción corta

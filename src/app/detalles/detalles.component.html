@@ -4,15 +4,15 @@
     <!-- <img class="izq" [src]="serie.imagen" [alt]="serie.nombre" (error)="serie.imagen='general/default-image.png'"> -->
     <div class="">
       <div class="nombre">
-        <span>{{ serie.nombre }}</span>
+        <h2 class="fw-bold">{{ serie.nombre }}</h2>
       </div>
-      <div class="sinopsis">
+      <div class="sinopsis mt-3">
         <span class="titulo">Sinopsis</span>
-        <span class="descripcion lead">{{ serie.sinopsis }}</span>
+        <span class="descripcion col-12 col-md-5">{{ serie.sinopsis }}</span>
       </div>
     </div>
   </div>
-  <div class="temporadas">
+  <div class="temporadas mt-3">
     <span class="titulo">Temporadas</span>
     <div class="card-container">
       <div class="card" *ngFor="let temporada of serie.temporadas">

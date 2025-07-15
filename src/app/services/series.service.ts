@@ -89,7 +89,7 @@ export class SeriesService {
   }
 
   // Actualizar una serie
-  actualizarSerie(id: string, cambios: Partial<Serie>) {
+  actualizarSeriePorId(id: number, cambios: Partial<Serie>) {
     return from(
       this.supabase
         .from('serie')
@@ -97,11 +97,30 @@ export class SeriesService {
         .eq('id', id)
         .select()
         .single()
+    ).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
+  actualizarSeriePorSlug(slug: string, cambios: Partial<Serie>) {
+    return from(
+      this.supabase
+        .from('serie')
+        .update(cambios)
+        .eq('slug', slug)
+        .select()
+        .single()
+    ).pipe(
+      catchError((error) => {
+        throw error;
+      })
     );
   }
 
   // Eliminar una serie
-  eliminarSerie(id: string) {
+  eliminarSerie(id: number) {
     return from(
       this.supabase
         .from('serie')

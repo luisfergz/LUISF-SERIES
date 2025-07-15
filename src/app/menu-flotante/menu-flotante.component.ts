@@ -83,4 +83,13 @@ export class MenuFlotanteComponent implements AfterViewInit {
     }
   }
 
+  async cerrarSesion() {
+    try {
+      await this.authService.signOut();
+      window.location.reload();
+    } catch (err: any) {
+      console.error('Error al cerrar sesión:', err.message);
+    }
+  }
+
 }

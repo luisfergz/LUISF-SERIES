@@ -1,0 +1,31 @@
+#buscar {
+    width: 300px;
+}
+
+@media (max-width: 768px) {
+    #buscar {
+        width: 100%;
+    }
+}
+
+.item-serie {
+  position: relative;
+  overflow: hidden;
+}
+
+.overlay-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 160px;
+  height: 236px;
+  background-color: rgba(20, 20, 20, 0.8);
+  opacity: 0;
+  visibility: hidden;
+  transition: all .2s ease-in-out;
+}
+
+.item-serie:hover .overlay-menu {
+  opacity: 1;
+  visibility: visible;
+}

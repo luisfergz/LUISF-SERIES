@@ -190,7 +190,7 @@ export class AgregarSerieComponent {
       }
     }
 
-    const modalElement = document.getElementById('miModal');
+    const modalElement = document.getElementById('modalAlerta');
     const modal = (window as any).bootstrap?.Modal.getOrCreateInstance(modalElement);
     modal.show();
 
