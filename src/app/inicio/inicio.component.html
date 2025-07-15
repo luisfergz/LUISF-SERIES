@@ -14,13 +14,22 @@
       <img [src]="serie.banner" [alt]="serie.nombre" (error)="serie.banner='general/default-image-large.png'">
       <div class="carousel-info">
         <span class="title">{{ serie.nombre }}</span>
-        <div class="temporadas">
+        <div class="temporadas" *ngIf="serie.temporadas !== null">
           <span class="label">Temporadas:</span>
-          <div class="valor-container" *ngIf="serie.temporadas !== null">
+          <div class="valor-container" *ngIf="serie.temporadas.length > 0">
             <ng-container *ngFor="let temp of serie.temporadas; let i = index">
               <span *ngIf="i < 12" class="valor">{{ temp.temporada }}</span>
             </ng-container>
             <span class="valor extra" *ngIf="serie.temporadas.length > 12">...</span>
+          </div>
+        </div>
+        <div class="peliculas" *ngIf="serie.peliculas !== null">
+          <span class="label">Películas:</span>
+          <div class="valor-container" *ngIf="serie.peliculas.length > 0">
+            <ng-container *ngFor="let peli of serie.peliculas; let i = index">
+              <span *ngIf="i < 12" class="valor">{{ peli.pelicula }}</span>
+            </ng-container>
+            <span class="valor extra" *ngIf="serie.peliculas.length > 12">...</span>
           </div>
         </div>
         <a class="descargar" [routerLink]="['/series', serie.slug]">DESCARGA AQUI</a>

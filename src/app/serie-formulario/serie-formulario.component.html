@@ -22,26 +22,26 @@
                     class="text-danger mb-2 mx-1">
                     El nombre es obligatorio.
                 </div>
-                <input type="text" class="form-control mt-2" id="sinopsiscorta" formControlName="sinopsiscorta"
-                    placeholder="Sinopsis corta">
+                <textarea class="form-control mt-2" id="sinopsiscorta" formControlName="sinopsiscorta"
+                    placeholder="Sinopsis corta" style="height: 100px"></textarea>
                 <textarea class="form-control mt-2" id="sinopsis" formControlName="sinopsis"
-                    placeholder="Sinopsis larga" style="height: 100px"></textarea>
+                    placeholder="Sinopsis larga" style="height: 200px"></textarea>
                 <div class="d-flex align-items-center mt-2 justify-content-center">
                     <span class="me-2 text-grey">series/</span>
                     <input type="text" class="form-control" id="slug" formControlName="slug"
                         placeholder="URL personalizada" [value]="generarSlug(formulario.value.nombre)">
                 </div>
-                <input type="text" class="form-control mt-2" id="portada" formControlName="portada"
-                    placeholder="URL portada">
                 <div class="form-check form-switch mt-2">
                     <input class="form-check-input" style="margin-top: .3rem;" type="checkbox" id="activo"
-                        formControlName="activo">
+                    formControlName="activo">
                     <label class="form-check-label fw-bold" for="activo">Habilitar serie</label>
                 </div>
             </div>
             <div class="col-12 col-md-4">
+                <input type="text" class="form-control" id="portada" formControlName="portada"
+                    placeholder="URL portada">
                 <img [src]="formulario.get('portada')?.value || '/general/default-image.png'"
-                    (error)="portadaError($event)" class="img-fluid mx-auto d-block"
+                    (error)="portadaError($event)" class="img-fluid mx-auto d-block mt-2"
                     style="width: 190px; height: 280px; object-fit: cover;" alt="">
             </div>
         </div>
@@ -76,6 +76,36 @@
             </button>
         </div>
 
+        <!-- Peliculas -->
+        <div class="col-12 col-md-10 m-auto text-center mt-5" formArrayName="peliculas">
+            <h3 class="fw-bold">Peliculas</h3>
+            <div class="d-flex flex-wrap justify-content-center gap-2 my-3">
+                <div *ngFor="let peli of peliculas.controls; let i = index" [formGroupName]="i"
+                    class="rounded shadow-sm p-3 pb-2"
+                    style="width: 340px; background-color: rgba(0, 0, 0, 0.2); border: solid 1px rgb(68, 76, 141);">
+                    <div class="d-flex justify-content-center gap-3">
+                        <div>
+                            <input type="text" class="form-control mb-2" formControlName="pelicula"
+                                placeholder="No. pelicula">
+                            <input type="text" class="form-control mb-2" formControlName="imagen" placeholder="Portada">
+                            <input type="text" class="form-control mb-2" formControlName="link" placeholder="Enlace">
+                        </div>
+                        <div>
+                            <img [src]="peli.get('imagen')?.value || '/general/default-image.png'" class="card-img-top"
+                                style="width: 150px; height: 219px; object-fit: cover;" alt=""
+                                (error)="portadaError($event)">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-danger mt-2" (click)="eliminarPelicula(i)">
+                        <i class="fa-solid fa-trash-can"></i> Eliminar
+                    </button>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary" (click)="agregarPelicula()">
+                <i class="fa-solid fa-circle-plus"></i> Agregar pelicula
+            </button>
+        </div>
+
         <!-- Información Técnica -->
         <div class="col-12 col-md-8 m-auto text-center mt-5" formArrayName="informacion_tecnica">
             <h3 class="fw-bold">Información Técnica</h3>
@@ -98,8 +128,8 @@
         </div>
 
         <div class="col-12 col-md-8 m-auto text-center mt-5 mb-4">
-            <button class="btn btn-danger me-2 px-4" (click)="limpiar()">Limpiar</button>
-            <button type="submit" class="btn btn-success px-4">
+            <button class="btn btn-danger me-2 px-5" (click)="limpiar()">Limpiar</button>
+            <button type="submit" class="btn btn-success px-5">
                 {{ modoEdicion ? 'Guardar Cambios' : 'Agregar Serie' }}
             </button>
         </div>

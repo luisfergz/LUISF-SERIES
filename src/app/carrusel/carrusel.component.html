@@ -1,0 +1,74 @@
+<div class="container mt-4 text-white text-center">
+    <h2 class="mb-4 fw-bold">Carrusel de Series</h2>
+
+    <div cdkDropList (cdkDropListDropped)="reordenarCarrusel($event)"
+        class="d-flex align-items-center flex-column rounded gap-2 p-3 mb-4 m-auto"
+        style="width: fit-content; background-color: rgba(0, 0, 0, 0.2); border: solid 1px rgb(68, 76, 141);">
+        <div *ngFor="let carrusel of carruselConSerie; let i = index" cdkDrag
+            class="d-flex align-items-center gap-2 w-100"
+            style="max-width: 440px; background-color: rgba(255,255,255,0.05); border-radius: 6px; padding: 0.5rem;">
+            <div class="rounded bg-primary d-flex align-items-center justify-content-center"
+                style="min-width: 2.2rem; min-height: 2.2rem;">
+                {{ carrusel.posicion }}
+            </div>
+            <img [src]="carrusel.serie.banner" [alt]="carrusel.serie.nombre"
+                (error)="carrusel.serie.banner = 'general/default-image-large.png'" class="img-fluid"
+                style="width: 100%; height: auto; object-fit: cover; aspect-ratio: 3/1;" />
+            <div class="cursor-grab mx-2" cdkDragHandle>
+                <i class="fa-solid fa-grip-vertical fa-2x"></i>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary mb-3" (click)="agregarSerieAlCarrusel()">
+        <i class="fa-solid fa-plus me-2"></i>Agregar Serie al Carrusel
+    </button>
+    <button class="btn btn-success" (click)="guardarOrdenCarrusel()">
+        <i class="fa-solid fa-save me-2"></i>Guardar Orden
+    </button>
+</div>
+
+<!-- Modal para seleccionar series -->
+<div class="modal fade" id="modalAgregarSerie" tabindex="-1" aria-labelledby="modalAgregarSerieLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
+    <div class="modal-content text-dark">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold" id="modalAgregarSerieLabel">Seleccionar series para el carrusel</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4 mb-3" *ngFor="let serie of todasLasSeries">
+            <div class="card h-100" [class.border-primary]="seriesSeleccionadas.has(serie.id)">
+              <img [src]="serie.banner" class="card-img-top" alt="banner" (click)="toggleSeleccionSerie(serie)">
+              <div class="card-body">
+                <h5 class="card-title">{{ serie.nombre }}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" (click)="confirmarAgregarSeries()" data-bs-dismiss="modal">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalAlerta" tabindex="-1" aria-labelledby="modalAlertaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div id="divHeader" class="modal-header px-3 py-2">
+                <h5 class="modal-title" id="modalAlertaLabel">Mensaje</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body text-center p-2 py-3">
+                <p id="modalMensaje" class="mb-0"></p>
+            </div>
+            <div class="modal-footer px-3 py-2">
+                <button type="button" class="btn w-100" id="modalBoton" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>

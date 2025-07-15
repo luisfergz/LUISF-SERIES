@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AgregarSerieComponent } from './agregar-serie.component';
+import { CarruselComponent } from './carrusel.component';
 
-describe('AgregarSerieComponent', () => {
-  let component: AgregarSerieComponent;
-  let fixture: ComponentFixture<AgregarSerieComponent>;
+describe('CarruselComponent', () => {
+  let component: CarruselComponent;
+  let fixture: ComponentFixture<CarruselComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AgregarSerieComponent]
+      imports: [CarruselComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AgregarSerieComponent);
+    fixture = TestBed.createComponent(CarruselComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

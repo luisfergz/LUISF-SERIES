@@ -5,10 +5,10 @@ import { PeliculasComponent } from './peliculas/peliculas.component';
 import { BlogComponent } from './blog/blog.component';
 import { DetallesComponent } from './detalles/detalles.component';
 import { AdminComponent } from './admin/admin.component';
-import { AgregarSerieComponent } from './agregar-serie/agregar-serie.component';
 import { authGuard } from './guards/auth.guard';
 import { GestionarSeriesComponent } from './gestionar-series/gestionar-series.component';
 import { SerieFormularioComponent } from './serie-formulario/serie-formulario.component';
+import { CarruselComponent } from './carrusel/carrusel.component';
 
 export const routes: Routes = [
   { path: '', component: InicioComponent },
@@ -20,4 +20,5 @@ export const routes: Routes = [
   { path: 'agregar-serie', component: SerieFormularioComponent, canActivate: [authGuard] },
   { path: 'editar-serie/:slug', component: SerieFormularioComponent, canActivate: [authGuard] },
   { path: 'gestionar-series', component: GestionarSeriesComponent, canActivate: [authGuard] },
+  { path: 'carrusel', component: CarruselComponent, canActivate: [authGuard] },
 ];

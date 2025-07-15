@@ -4,6 +4,12 @@ export interface Temporada {
   link: string;       // Enlace de descarga
 }
 
+export interface Pelicula {
+  pelicula: string;  // Ej. "1", "Especial", etc.
+  imagen: string;     // URL de la imagen
+  link: string;       // Enlace de descarga
+}
+
 export interface InformacionTecnica {
   atributo: string;  // Ej. "Audio", "Calidad"
   valor: string;     // Ej. "Español Latino", "1080p"
@@ -20,6 +26,17 @@ export interface Serie {
   comentario: string;  // Comentario de la serie
   slug: string;  // URL personalizada de la serie
   temporadas: Temporada[];  // Relación de temporadas
+  peliculas: Pelicula[];  // Relación de temporadas
   informacion_tecnica: InformacionTecnica[];  // Relación de información técnica
   activo?: boolean;  // Indica si la serie está activa (opcional)
+}
+
+export interface Carrusel {
+  serie_id: number;  // ID de la serie
+  posicion: number;  // Posición en el carrusel
+}
+
+export interface CarruselConSerie {
+  serie: Serie;  // Detalles de la serie
+  posicion: number;  // Posición en el carrusel
 }

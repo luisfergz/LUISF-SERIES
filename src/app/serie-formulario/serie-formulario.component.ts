@@ -30,6 +30,7 @@ export class SerieFormularioComponent {
       comentario: [''],
       slug: ['', [Validators.required]],
       temporadas: this.fb.array([]),
+      peliculas: this.fb.array([]),
       informacion_tecnica: this.fb.array([]),
       activo: [true]
     });
@@ -62,6 +63,12 @@ export class SerieFormularioComponent {
             serie.temporadas.forEach((t: any) => this.agregarTemporada(t));
           }
 
+          // Carga peliculas
+          this.peliculas.clear();
+          if (Array.isArray(serie.peliculas)) {
+            serie.peliculas.forEach((p: any) => this.agregarPelicula(p));
+          }
+
           // Carga información técnica
           this.informacion_tecnica.clear();
           if (Array.isArray(serie.informacion_tecnica)) {
@@ -77,6 +84,12 @@ export class SerieFormularioComponent {
         { temporada: '2', imagen: '', link: '' },
       ];
       temporadas.forEach(temp => this.agregarTemporada(temp));
+      const peliculas = [
+        { temporada: '1', imagen: '', link: '' },
+        { temporada: '2', imagen: '', link: '' },
+        { temporada: '2', imagen: '', link: '' },
+      ];
+      peliculas.forEach(peli => this.agregarPelicula(peli));
       const infoTecnica = [
         { atributo: 'Tamaño promedio por episodio', valor: '400 MB' },
         { atributo: 'Formato', valor: 'MKV' },
@@ -98,6 +111,10 @@ export class SerieFormularioComponent {
     return this.formulario.get('temporadas') as FormArray;
   }
 
+  get peliculas() {
+    return this.formulario.get('peliculas') as FormArray;
+  }
+
   get informacion_tecnica() {
     return this.formulario.get('informacion_tecnica') as FormArray;
   }
@@ -112,6 +129,18 @@ export class SerieFormularioComponent {
 
   eliminarTemporada(index: number) {
     this.temporadas.removeAt(index);
+  }
+
+  agregarPelicula(data?: any) {
+    this.peliculas.push(this.fb.group({
+      pelicula: [data?.pelicula || '', Validators.required],
+      imagen: [data?.imagen || ''],
+      link: [data?.link || '']
+    }));
+  }
+
+  eliminarPelicula(index: number) {
+    this.peliculas.removeAt(index);
   }
 
   agregarInfoTecnica(data?: any) {
@@ -129,10 +158,16 @@ export class SerieFormularioComponent {
     this.formulario.markAllAsTouched();
 
     const temporadasValidas = this.validarCamposArray(this.temporadas, ['temporada']);
+    const peliculasValidas = this.validarCamposArray(this.peliculas, ['pelicula']);
     const infoTecnicaValida = this.validarCamposArray(this.informacion_tecnica, ['atributo', 'valor']);
 
     if (!temporadasValidas) {
       this.mostrarModal('Cada temporada debe tener al menos el número de temporada.', 'aviso');
+      return;
+    }
+
+    if (!peliculasValidas) {
+      this.mostrarModal('Cada película debe tener al menos el número de película.', 'aviso');
       return;
     }
 
@@ -159,18 +194,17 @@ export class SerieFormularioComponent {
       comentario: this.formulario.value.comentario,
       slug,
       temporadas: this.temporadas.value,
+      peliculas: this.peliculas.value,
       informacion_tecnica: this.informacion_tecnica.value,
       activo: this.formulario.value.activo ?? true,
     };
 
     if (this.modoEdicion && this.serie_id) {
-      // Editar
       this.seriesService.actualizarSeriePorId(this.serie_id, nuevaSerie).subscribe({
         next: () => this.mostrarModal('Serie actualizada correctamente.', 'exito'),
         error: (err) => this.mostrarModal(`Error al actualizar: ${err.message}`, 'error')
       });
     } else {
-      // Validar duplicados antes de agregar
       Promise.all([
         this.seriesService.existeSerieConNombre(nombreSerie).toPromise(),
         this.seriesService.existeSerieConSlug(slug).toPromise()
@@ -222,10 +256,14 @@ export class SerieFormularioComponent {
       contrasena: '',
       comentario: '',
       slug: '',
+      temporadas: [],
+      peliculas: [],
+      informacion_tecnica: [],
       activo: true
     });
 
     this.temporadas.clear();
+    this.peliculas.clear();
     this.informacion_tecnica.clear();
   }
 

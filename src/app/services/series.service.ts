@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { InformacionTecnica, Serie, Temporada } from '../models/serie.model';
+import { Carrusel, InformacionTecnica, Serie, Temporada } from '../models/serie.model';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../environments/environment';
 
@@ -186,6 +186,30 @@ export class SeriesService {
     );
   }
 
+  obtenerCarrusel(): Observable<Carrusel[]> {
+    return from(
+      this.supabase
+        .from('carrusel')
+        .select('*')
+        .order('posicion', { ascending: true })
+        .then(({ data, error }) => {
+          if (error) throw new Error('Error obteniendo carrusel: ' + error.message);
+          return data as Carrusel[];
+        })
+    ).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
+  guardarCarrusel(carrusel: Carrusel[]) {
+    return from(
+      this.supabase
+        .from('carrusel')
+        .upsert(carrusel, { onConflict: ['serie_id'] }) // actualiza si ya existe la serie
+    );
+  }
 
 
 }
