@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, from, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable, from, of, throwError } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { Carrusel, InformacionTecnica, Serie, Temporada } from '../models/serie.model';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../environments/environment';
@@ -37,14 +37,28 @@ export class SeriesService {
       })
     );
   }
+  obtenerSeriesCompletas(): Observable<Serie[]> {
+    return from(
+      this.supabase
+        .from('serie')
+        .select('*')
+        .then(({ data, error }) => {
+          if (error) throw new Error('Error obteniendo series: ' + error.message);
+          return data as Serie[];
+        })
+    ).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
 
-  obtenerSeriePorId(id: string): Observable<Serie | undefined> {
+  obtenerSeriePorId(id: number): Observable<Serie | undefined> {
     return from(
       this.supabase
         .from('serie')
         .select('*')
         .eq('id', id)
-        .eq('activo', true)
         .single()
         .then(({ data, error }) => {
           if (error) throw new Error('Error obteniendo la serie: ' + error.message);
@@ -76,56 +90,100 @@ export class SeriesService {
     );
   }
 
+  esUsuarioAdmin(): Observable<boolean> {
+    return from(this.supabase.auth.getUser()).pipe(
+      switchMap(({ data: { user } }) => {
+        const userId = user?.id;
+        if (!userId) return of(false);
+        return from(
+          this.supabase
+            .from('perfiles')
+            .select('id')
+            .eq('id', userId)
+            .eq('rol', 'admin')
+        ).pipe(
+          map(({ data }) => {
+            const esAdmin = Array.isArray(data) && data.length > 0;
+            if (data && data.length > 1) console.warn('⚠️ Múltiples perfiles admin encontrados');
+            return esAdmin;
+          })
+        );
+      }),
+      catchError((err) => {
+        console.error('Error al verificar admin:', err);
+        return of(false);
+      })
+    );
+  }
 
-  // Insertar una nueva serie
-  insertarSerie(serie: Omit<Serie, 'id'>) {
-    return from(
-      this.supabase
-        .from('serie')
-        .insert(serie)
-        .select()
-        .single()
+  insertarSerie(serie: Omit<Serie, 'id'>): Observable<any> {
+    return this.esUsuarioAdmin().pipe(
+      switchMap((esAdmin) => {
+        if (!esAdmin) {
+          return throwError(() => new Error('Acceso denegado: solo los administradores pueden insertar series'));
+        }
+        return from(
+          this.supabase
+            .from('serie')
+            .insert(serie)
+            .select()
+            .single()
+        );
+      })
     );
   }
 
   // Actualizar una serie
   actualizarSeriePorId(id: number, cambios: Partial<Serie>) {
-    return from(
-      this.supabase
-        .from('serie')
-        .update(cambios)
-        .eq('id', id)
-        .select()
-        .single()
-    ).pipe(
-      catchError((error) => {
-        throw error;
+    return this.esUsuarioAdmin().pipe(
+      switchMap((esAdmin) => {
+        if (!esAdmin) {
+          return throwError(() => new Error('Acceso denegado: solo los administradores pueden actualizar series'));
+        }
+        return from(
+          this.supabase
+            .from('serie')
+            .update(cambios)
+            .eq('id', id)
+            .select()
+            .single()
+        );
       })
     );
   }
 
   actualizarSeriePorSlug(slug: string, cambios: Partial<Serie>) {
-    return from(
-      this.supabase
-        .from('serie')
-        .update(cambios)
-        .eq('slug', slug)
-        .select()
-        .single()
-    ).pipe(
-      catchError((error) => {
-        throw error;
+    return this.esUsuarioAdmin().pipe(
+      switchMap((esAdmin) => {
+        if (!esAdmin) {
+          return throwError(() => new Error('Acceso denegado: solo los administradores pueden actualizar series'));
+        }
+        return from(
+          this.supabase
+            .from('serie')
+            .update(cambios)
+            .eq('slug', slug)
+            .select()
+            .single()
+        );
       })
     );
   }
 
   // Eliminar una serie
   eliminarSerie(id: number) {
-    return from(
-      this.supabase
-        .from('serie')
-        .delete()
-        .eq('id', id)
+    return this.esUsuarioAdmin().pipe(
+      switchMap((esAdmin) => {
+        if (!esAdmin) {
+          return throwError(() => new Error('Acceso denegado: solo los administradores pueden actualizar series'));
+        }
+        return from(
+          this.supabase
+            .from('serie')
+            .delete()
+            .eq('id', id)
+        );
+      })
     );
   }
 
@@ -203,13 +261,22 @@ export class SeriesService {
     );
   }
 
-  guardarCarrusel(carrusel: Carrusel[]) {
-    return from(
-      this.supabase
-        .from('carrusel')
-        .upsert(carrusel, { onConflict: ['serie_id'] }) // actualiza si ya existe la serie
+  guardarCarrusel(carrusel: Carrusel[]): Observable<any> {
+    return this.esUsuarioAdmin().pipe(
+      switchMap((esAdmin) => {
+        if (!esAdmin) {
+          return throwError(() => new Error('Acceso denegado: solo los administradores pueden actualizar series'));
+        }
+        return from(
+          this.supabase
+            .from('carrusel')  // Asegúrate de que la tabla se llama así
+            .upsert(carrusel, { onConflict: 'serie_id' })  // Actualiza si ya existe
+            .select()  // Para devolver los datos actualizados si lo necesitas
+        );
+      })
     );
   }
+
 
 
 }

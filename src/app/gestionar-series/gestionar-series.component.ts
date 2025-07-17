@@ -4,6 +4,7 @@ import { SeriesService } from '../services/series.service';
 import { Router, RouterModule } from '@angular/router';
 import { Serie } from '../models/serie.model';
 import { FormsModule } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-gestionar-series',
@@ -19,18 +20,29 @@ export class GestionarSeriesComponent {
   series: any[] = [];      // <- Lista original completa
   seriesFiltradas: any[] = [];
 
-  constructor(private seriesService: SeriesService, private router: Router) { }
+  constructor(private seriesService: SeriesService, private router: Router, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-    this.seriesService.obtenerSeries().subscribe({
+    this.spinner.show();
+    this.seriesService.obtenerSeriesCompletas().subscribe({
       next: (data) => {
         this.series = data;
         this.filtrarSeries();
+        this.mostrarContenido();
       },
       error: (err) => {
         console.error('Error obteniendo series:', err);
+        this.mostrarContenido();
       }
     });
+  }
+
+  mostrarContenido() {
+    this.spinner.hide();
+    const gestionarSeries = document.getElementById('gestionar-series');
+    if (gestionarSeries) {
+      gestionarSeries.classList.add('active');
+    }
   }
 
   filtrarSeries() {
@@ -49,21 +61,17 @@ export class GestionarSeriesComponent {
       resultado.sort((a, b) => b.nombre.localeCompare(a.nombre));
     }
 
-    // Ordenar por fecha
-    if (this.filtroFecha === 'recientes' || this.filtroFecha === 'antiguos') {
-      resultado.sort((a, b) => new Date(b.creado_en).getTime() - new Date(a.creado_en).getTime());
+    if (this.filtroFecha === 'recientes') {
+      resultado.sort((a, b) => new Date(b.creado).getTime() - new Date(a.creado).getTime()); // descendente
+    } else if (this.filtroFecha === 'antiguos') {
+      resultado.sort((a, b) => new Date(a.creado).getTime() - new Date(b.creado).getTime()); // ascendente
     }
 
     this.seriesFiltradas = resultado;
   }
 
-
   agregarSerie() {
     this.router.navigate(['/agregar-serie']);
-  }
-
-  editarSerie(serie: Serie) {
-    this.router.navigate(['/editar-serie', serie.id]);
   }
 
   eliminarSerie(id: number) {

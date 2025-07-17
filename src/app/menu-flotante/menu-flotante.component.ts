@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { Collapse } from 'bootstrap';
 import { filter } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
+import { SeriesService } from '../services/series.service';
 
 @Component({
   selector: 'app-menu-flotante',
@@ -25,16 +27,23 @@ export class MenuFlotanteComponent implements AfterViewInit {
   private bsCollapse?: Collapse;
   private menuVisible = false;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private seriesService: SeriesService) { }
 
   async ngOnInit() {
     try {
       const user = await this.authService.getUser();
-      this.accesoPermitido = !!user;
-
-      // Esperar al próximo ciclo para asegurar que menuRef esté disponible
-      setTimeout(() => this.initCollapse(), 0);
-    } catch {
+      const userExists = !!user;
+      if (!userExists) {
+        this.accesoPermitido = false;
+        return;
+      }
+      const esAdmin = await firstValueFrom(this.seriesService.esUsuarioAdmin());
+      this.accesoPermitido = esAdmin;
+      if (esAdmin) {
+        setTimeout(() => this.initCollapse(), 0);
+      }
+    } catch (err) {
+      console.error('Error en ngOnInit:', err);
       this.accesoPermitido = false;
     }
   }

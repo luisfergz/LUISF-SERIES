@@ -20,36 +20,4 @@ export class AppComponent {
   ngOnInit(): void {
     this.spinner.hide();
   }
-
-  mostrarModal(mensaje: string, tipo: 'exito' | 'error' | 'aviso' = 'aviso') {
-    const mensajeElemento = document.getElementById('modalMensaje');
-    const header = document.getElementById('divHeader');
-    const boton = document.getElementById('modalBoton');
-
-    if (mensajeElemento) mensajeElemento.textContent = mensaje;
-
-    // Establecer clases según tipo
-    if (header && boton) {
-      switch (tipo) {
-        case 'exito':
-          header.classList.add('bg-success', 'text-white');
-          boton.classList.add('btn-success');
-          break;
-        case 'error':
-          header.classList.add('bg-danger', 'text-white');
-          boton.classList.add('btn-danger');
-          break;
-        case 'aviso':
-        default:
-          header.classList.add('bg-warning', 'text-dark');
-          boton.classList.add('btn-warning');
-          break;
-      }
-    }
-
-    const modalElement = document.getElementById('modalAlerta');
-    const modal = (window as any).bootstrap?.Modal.getOrCreateInstance(modalElement);
-    modal.show();
-
-  }
 }

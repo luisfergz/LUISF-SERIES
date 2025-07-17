@@ -4,6 +4,7 @@ import { SeriesService } from '../services/series.service';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { Serie } from '../models/serie.model';
 import { CommonModule } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-serie-formulario',
@@ -13,13 +14,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './serie-formulario.component.css'
 })
 export class SerieFormularioComponent {
-  slug: string | null = null;
   modoEdicion: boolean = false;
-  @ViewChild('serieAgregadaModal') modalRef!: ElementRef;
   formulario: FormGroup;
   serie_id: number | null = null;
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder, private seriesService: SeriesService) {
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, private seriesService: SeriesService, private spinner: NgxSpinnerService) {
     this.formulario = this.fb.group({
       nombre: ['', Validators.required],
       sinopsis: [''],
@@ -36,23 +35,25 @@ export class SerieFormularioComponent {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.spinner.show();
+    console.log((await this.seriesService.client.auth.getUser()).data.user?.id);
+
     this.formulario.get('nombre')?.valueChanges.subscribe(nombre => {
       const slug = this.generarSlug(nombre);
       this.formulario.get('slug')?.setValue(slug, { emitEvent: false });
     });
 
-    this.slug = this.route.snapshot.paramMap.get('slug');
-    this.modoEdicion = !!this.slug;
+    this.serie_id = this.route.snapshot.paramMap.get('id') ? parseInt(this.route.snapshot.paramMap.get('id')!) : null;
+    this.modoEdicion = !!this.serie_id;
 
-    if (this.modoEdicion && this.slug) {
-      this.seriesService.obtenerSeriePorSlug(this.slug).subscribe({
+    if (this.modoEdicion && this.serie_id) {
+      this.seriesService.obtenerSeriePorId(this.serie_id).subscribe({
         next: (serie) => {
-          if (!serie || !serie.id) {
+          if (!serie) {
             this.mostrarModal('No se pudo cargar la serie', 'error');
             return;
           }
-          this.serie_id = serie.id;
 
           // Carga los campos básicos
           this.formulario.patchValue(serie);
@@ -74,20 +75,20 @@ export class SerieFormularioComponent {
           if (Array.isArray(serie.informacion_tecnica)) {
             serie.informacion_tecnica.forEach((info: any) => this.agregarInfoTecnica(info));
           }
+          this.mostrarContenido();
         },
-        error: () => this.mostrarModal('Error al cargar la serie', 'error')
+        error: () => {
+          this.mostrarContenido();
+          this.mostrarModal('Error al cargar la serie', 'error')
+        }
       });
     } else {
       const temporadas = [
         { temporada: '1', imagen: '', link: '' },
-        { temporada: '2', imagen: '', link: '' },
-        { temporada: '2', imagen: '', link: '' },
       ];
       temporadas.forEach(temp => this.agregarTemporada(temp));
       const peliculas = [
         { temporada: '1', imagen: '', link: '' },
-        { temporada: '2', imagen: '', link: '' },
-        { temporada: '2', imagen: '', link: '' },
       ];
       peliculas.forEach(peli => this.agregarPelicula(peli));
       const infoTecnica = [
@@ -104,6 +105,15 @@ export class SerieFormularioComponent {
         { atributo: 'Episodios', valor: '52/52' },
       ];
       infoTecnica.forEach(info => this.agregarInfoTecnica(info));
+      this.mostrarContenido();
+    }
+  }
+
+  mostrarContenido() {
+    this.spinner.hide();
+    const serieFormulario = document.getElementById('serie-formulario');
+    if (serieFormulario) {
+      serieFormulario.classList.add('active');
     }
   }
 

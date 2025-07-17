@@ -18,7 +18,7 @@ export const routes: Routes = [
   { path: 'series/:slug', component: DetallesComponent },
   { path: 'admin', component: AdminComponent },
   { path: 'agregar-serie', component: SerieFormularioComponent, canActivate: [authGuard] },
-  { path: 'editar-serie/:slug', component: SerieFormularioComponent, canActivate: [authGuard] },
+  { path: 'editar-serie/:id', component: SerieFormularioComponent, canActivate: [authGuard] },
   { path: 'gestionar-series', component: GestionarSeriesComponent, canActivate: [authGuard] },
   { path: 'carrusel', component: CarruselComponent, canActivate: [authGuard] },
 ];

@@ -1,0 +1,8 @@
+#serie-formulario {
+    opacity: 0;
+}
+
+#serie-formulario.active {
+    opacity: 1;
+    transition: opacity .2s ease-in-out;
+}

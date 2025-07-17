@@ -1,3 +1,12 @@
+#inicio {
+    opacity: 0;
+}
+
+#inicio.active {
+    opacity: 1;
+    transition: opacity .2s ease-in-out;
+}
+
 #carouselInicio {
   height: 340px;
   margin-bottom: 3rem;

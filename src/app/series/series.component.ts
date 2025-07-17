@@ -32,13 +32,21 @@ export class SeriesComponent {
       next: (data) => {
         this.series = data;
         this.seriesFiltradas = data;
-        this.spinner.hide();
+        this.mostrarContenido();
       },
       error: (err) => {
         console.error('Error cargando series', err);
-        this.spinner.hide();
+        this.mostrarContenido();
       },
     });
+  }
+
+  mostrarContenido() {
+    this.spinner.hide();
+    const series = document.getElementById('series');
+    if (series) {
+      series.classList.add('active');
+    }
   }
 
   filtrarSeries(): void {

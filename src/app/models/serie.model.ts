@@ -29,6 +29,7 @@ export interface Serie {
   peliculas: Pelicula[];  // Relación de temporadas
   informacion_tecnica: InformacionTecnica[];  // Relación de información técnica
   activo?: boolean;  // Indica si la serie está activa (opcional)
+  creado?: Date;  // Fecha de creación (opcional)
 }
 
 export interface Carrusel {

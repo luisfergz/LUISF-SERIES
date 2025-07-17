@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-admin',
@@ -17,14 +18,27 @@ export class AdminComponent {
   mostrarPassword = false;
   accesoPermitido = false;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private spinner: NgxSpinnerService) { }
 
   async ngOnInit() {
-    try {
-      const user = await this.authService.getUser();
-      this.accesoPermitido = !!user;
-    } catch (err) {
-      this.accesoPermitido = false;
+    this.spinner.show();
+    this.authService.getUser()
+      .then(user => {
+        this.accesoPermitido = !!user;
+      })
+      .catch(() => {
+        this.accesoPermitido = false;
+      })
+      .finally(() => {
+        this.mostrarContenido();
+      });
+  }
+
+  mostrarContenido() {
+    this.spinner.hide();
+    const admin = document.getElementById('admin');
+    if (admin) {
+      admin.classList.add('active');
     }
   }
 

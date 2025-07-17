@@ -26,12 +26,20 @@ export class InicioComponent {
     this.seriesService.obtenerSeriesParaCarrusel().subscribe({
       next: (data: Serie[]) => {
         this.series = data;
-        this.spinner.hide();
+        this.mostrarContenido();
       },
       error: (error) => {
         console.error('Error al cargar las series:', error);
-        this.spinner.hide(); // Ocultar el spinner
+        this.mostrarContenido();
       }
     });
+  }
+
+  mostrarContenido() {
+    this.spinner.hide();
+    const inicio = document.getElementById('inicio');
+    if (inicio) {
+      inicio.classList.add('active');
+    }
   }
 }

@@ -1,3 +1,12 @@
+#gestionar-series {
+    opacity: 0;
+}
+
+#gestionar-series.active {
+    opacity: 1;
+    transition: opacity .2s ease-in-out;
+}
+
 #buscar {
     width: 300px;
 }

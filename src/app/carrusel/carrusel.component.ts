@@ -4,6 +4,7 @@ import { SeriesService } from '../services/series.service';
 import { Carrusel, CarruselConSerie, Serie } from '../models/serie.model';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-carrusel',
@@ -19,31 +20,43 @@ export class CarruselComponent {
   todasLasSeries: Serie[] = [];
   seriesSeleccionadas = new Set<number>();
 
-  constructor(private seriesService: SeriesService) { }
+  constructor(private seriesService: SeriesService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
+    this.spinner.show();
     this.seriesService.obtenerCarrusel().subscribe({
       next: (data: any[]) => {
         this.carrusel = data;
-        this.carrusel.forEach(serie => this.seriesService.obtenerSeriePorId(serie.serie_id.toString()).subscribe({
+        this.carrusel.forEach(serie => this.seriesService.obtenerSeriePorId(serie.serie_id).subscribe({
           next: (data: Serie | undefined) => {
             if (data) {
               this.carruselConSerie.push({
                 serie: data,
                 posicion: serie.posicion
               });
-              this.carruselConSerie.sort((a, b) => a.posicion - b.posicion); // Ordenar por posición
+              this.carruselConSerie.sort((a, b) => a.posicion - b.posicion);
+              this.mostrarContenido();
             }
           },
           error: (error) => {
             console.error('Error al cargar la serie:', error);
+            this.mostrarContenido();
           }
         }));
       },
       error: (error) => {
         console.error('Error al cargar el carrusel:', error);
+        this.mostrarContenido();
       }
     });
+  }
+
+  mostrarContenido() {
+    this.spinner.hide();
+    const carrusel = document.getElementById('carrusel');
+    if (carrusel) {
+      carrusel.classList.add('active');
+    }
   }
 
   reordenarCarrusel(event: CdkDragDrop<any[]>) {
@@ -92,20 +105,28 @@ export class CarruselComponent {
   }
 
   guardarOrdenCarrusel() {
-    // Convertimos carruselConSerie al formato Carrusel[]
     const datos: Carrusel[] = this.carruselConSerie.map((item, index) => ({
       serie_id: item.serie.id,
       posicion: index + 1
     }));
 
-    // Puedes imprimirlo para debug
     console.log('Guardando carrusel:', datos);
 
-    // Enviar a Supabase (puede ser replace total o por upsert)
     this.seriesService.guardarCarrusel(datos).subscribe({
       next: () => this.mostrarModal('Orden del carrusel guardado con éxito.', 'exito'),
       error: (err) => this.mostrarModal(`Error al guardar carrusel: ${err.message}`, 'error')
     });
+  }
+
+
+  eliminarSerieDelCarrusel(index: number) {
+    this.carruselConSerie.splice(index, 1);
+    this.ordenarCarrusel();
+  }
+
+  ordenarCarrusel() {
+    this.carruselConSerie.sort((a, b) => a.posicion - b.posicion);
+    this.carruselConSerie.forEach((item, i) => item.posicion = i + 1);
   }
 
 

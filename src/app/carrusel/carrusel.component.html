@@ -1,11 +1,12 @@
-<div class="container mt-4 text-white text-center">
-    <h2 class="mb-4 fw-bold">Carrusel de Series</h2>
+<div id="carrusel" class="container mt-4 text-white text-center">
+    <h2 class="mb-3 fw-bold">Carrusel de Series</h2>
+    <h4 class="lead mb-4">Agrega y arrastra las series para cambiar el orden</h4>
 
     <div cdkDropList (cdkDropListDropped)="reordenarCarrusel($event)"
         class="d-flex align-items-center flex-column rounded gap-2 p-3 mb-4 m-auto"
         style="width: fit-content; background-color: rgba(0, 0, 0, 0.2); border: solid 1px rgb(68, 76, 141);">
-        <div *ngFor="let carrusel of carruselConSerie; let i = index" cdkDrag
-            class="d-flex align-items-center gap-2 w-100"
+        <div *ngFor="let carrusel of carruselConSerie; let i = index" cdkDrag cdkDragHandle
+            class="d-flex align-items-center gap-2 w-100 text-white"
             style="max-width: 440px; background-color: rgba(255,255,255,0.05); border-radius: 6px; padding: 0.5rem;">
             <div class="rounded bg-primary d-flex align-items-center justify-content-center"
                 style="min-width: 2.2rem; min-height: 2.2rem;">
@@ -14,9 +15,9 @@
             <img [src]="carrusel.serie.banner" [alt]="carrusel.serie.nombre"
                 (error)="carrusel.serie.banner = 'general/default-image-large.png'" class="img-fluid"
                 style="width: 100%; height: auto; object-fit: cover; aspect-ratio: 3/1;" />
-            <div class="cursor-grab mx-2" cdkDragHandle>
-                <i class="fa-solid fa-grip-vertical fa-2x"></i>
-            </div>
+            <button class="btn btn-danger" (click)="eliminarSerieDelCarrusel(i)">
+                <i class="fa-solid fa-trash-can"></i>
+            </button>
         </div>
     </div>
     <button class="btn btn-primary mb-3" (click)="agregarSerieAlCarrusel()">
