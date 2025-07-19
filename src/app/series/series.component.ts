@@ -17,6 +17,8 @@ export class SeriesComponent {
   series: Serie[] = [];
   seriesFiltradas: Serie[] = [];
   busqueda: string = '';
+  filtroNombre: string = 'az';
+  filtroFecha: string = 'todos';
   vlc: string = 'https://www.videolan.org/vlc';
   tutorial: string = 'https://www.youtube.com/@LuisF-Series';
   loading: boolean = true; // Estado para controlar la carga
@@ -31,7 +33,7 @@ export class SeriesComponent {
     this.seriesService.obtenerSeries().subscribe({
       next: (data) => {
         this.series = data;
-        this.seriesFiltradas = data;
+        this.filtrarSeries();
         this.mostrarContenido();
       },
       error: (err) => {
@@ -49,14 +51,28 @@ export class SeriesComponent {
     }
   }
 
-  filtrarSeries(): void {
-    if (this.busqueda.trim() === '') {
-      this.seriesFiltradas = this.series;
-    } else {
-      const lowerCaseSearch = this.busqueda.toLowerCase();
-      this.seriesFiltradas = this.series.filter((serie) =>
-        serie.nombre.toLowerCase().includes(lowerCaseSearch)
+  filtrarSeries() {
+    let resultado = [...this.series];
+
+    if (this.busqueda?.trim()) {
+      resultado = resultado.filter(serie =>
+        serie.nombre.toLowerCase().includes(this.busqueda.toLowerCase())
       );
     }
+
+    // Ordenar por nombre
+    if (this.filtroNombre === 'az') {
+      resultado.sort((a, b) => a.nombre.localeCompare(b.nombre));
+    } else if (this.filtroNombre === 'za') {
+      resultado.sort((a, b) => b.nombre.localeCompare(a.nombre));
+    }
+
+    if (this.filtroFecha === 'recientes') {
+      resultado.sort((a, b) => new Date(b.creado ?? 0).getTime() - new Date(a.creado ?? 0).getTime()); // descendente
+    } else if (this.filtroFecha === 'antiguos') {
+      resultado.sort((a, b) => new Date(a.creado ?? 0).getTime() - new Date(b.creado ?? 0).getTime()); // ascendente
+    }
+
+    this.seriesFiltradas = resultado;
   }
 }

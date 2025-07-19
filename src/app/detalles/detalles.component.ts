@@ -13,8 +13,7 @@ import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
   styleUrls: ['./detalles.component.css']
 })
 export class DetallesComponent {
-
-  serie: Serie | undefined;
+  serie: Serie | undefined = undefined;
   loading: boolean = true; // Estado de carga
 
   constructor(
@@ -29,15 +28,20 @@ export class DetallesComponent {
     this.seriesService.obtenerSeriePorSlug(slug).subscribe({
       next: (data) => {
         this.serie = data;
-        this.loading = false; // Ocultar spinner cuando los datos se cargan
-        this.spinner.hide();
-        console.log('Serie cargada:', this.serie);
+        this.mostrarContenido();
       },
       error: (err) => {
         console.error('Error cargando la serie', err);
-        this.loading = false; // Ocultar spinner en caso de error
-        this.spinner.hide();
+        this.mostrarContenido();
       },
     });
+  }
+
+  mostrarContenido() {
+    this.spinner.hide();
+    const detalles = document.getElementById('detalles');
+    if (detalles) {
+      detalles.classList.add('active');
+    }
   }
 }

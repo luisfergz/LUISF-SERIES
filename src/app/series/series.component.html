@@ -1,61 +1,55 @@
 <!-- Contenido -->
-<div id="series" class="container-fluid">
-  <div class="info-container">
-    <div class="info-report">
-      <img src="general/stop.png">
+<div id="series" class="container-fluid text-center text-white">
+  <div class="d-flex flex-row flex-wrap flex-lg-nowrap align-items-stretch justify-content-center gap-3 my-4">
+    <div class="d-flex align-items-center gap-2 rounded p-2 fw-bold fs-md-5 text-center"
+      style="box-shadow: 0px 0px 10px 0px rgba(255, 0, 0, 0.6); border: solid .1rem #ff1e1e; color: #ff1e1e; min-width: 300px;">
+      <img style="height: 3.8rem;" src="general/stop.png">
       <span>Favor de reportar enlaces erróneos de series</span>
-      <img src="general/stop.png">
+      <img style="height: 3.8rem;" src="general/stop.png">
     </div>
-    <div class="info-video">
-      <img src="general/vlc.png">
+    <div class="d-flex align-items-center gap-2 rounded p-2 fw-bold fs-md-5 text-center"
+      style="box-shadow: 0px 0px 10px 0px rgba(255, 255, 0, 0.6); border: solid .1rem yellow; color: yellow; min-width: 300px;">
+      <img style="height: 3.7rem;" src="general/vlc.png">
       <span>Se Recomienda Utilizar <a [href]="vlc" target="_blank">VLC</a> para Reproducir las Series</span>
-      <img src="general/vlc.png">
+      <img style="height: 3.7rem;" src="general/vlc.png">
     </div>
-    <div class="info-tutorial">
-      <img src="general/star.gif">
+    <div class="d-flex align-items-center gap-2 rounded p-2 fw-bold fs-md-5 text-center"
+      style="box-shadow: 0px 0px 10px 0px rgba(0, 68, 255, 0.6); border: solid .1rem deepskyblue; color: white; min-width: 300px;">
+      <img style="height: 3.7rem;" src="general/star.gif">
       <span>Como Descargar las Series Tutorial <a [href]="tutorial" target="_blank">aquí</a></span>
-      <img src="general/star.gif">
+      <img style="height: 3.7rem;" src="general/star.gif">
     </div>
   </div>
 
-  <span class="title">Todas tus series favoritas en un mismo lugar.</span>
-  <div class="busqueda">
-    <div class="input-group">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Buscar serie..."
-        maxlength="40"
-        [(ngModel)]="busqueda"
-        (input)="filtrarSeries()"
-      />
-      <button class="limpiar btn" (click)="busqueda = ''; filtrarSeries()" *ngIf="busqueda">
-        <i class="fa-regular fa-circle-xmark"></i>
-      </button>
-    </div>
-    <button class="buscar btn btn-primary" (click)="filtrarSeries()">Buscar</button>
+  <h5 class="mb-3">Todas tus series favoritas en un mismo lugar.</h5>
+  <div class="d-flex flex-wrap justify-content-center align-items-center gap-2">
+      <input id="buscar" type="text" class="form-control w-auto" placeholder="Buscar serie..." [(ngModel)]="busqueda"
+          (input)="filtrarSeries()" />
+      <select class="form-select w-auto" [(ngModel)]="filtroNombre" (change)="filtrarSeries()">
+          <option value="az" selected>A - Z</option>
+          <option value="za">Z - A</option>
+      </select>
+      <select class="form-select w-auto" [(ngModel)]="filtroFecha" (change)="filtrarSeries()">
+          <option value="todos" selected>Cualquier fecha</option>
+          <option value="recientes">Mas recientes</option>
+          <option value="antiguos">Mas antiguos</option>
+      </select>
   </div>
-  <div class="alert alert-warning" role="alert" *ngIf="busqueda && !seriesFiltradas.length">
+  <div class="alert alert-warning mx-auto" role="alert" *ngIf="busqueda && !seriesFiltradas.length" style="width: fit-content;">
     <strong>No hay resultados para la búsqueda "{{ busqueda }}"</strong>
   </div>
 
-  <div class="series-container" *ngIf="seriesFiltradas.length">
-    <div class="card" *ngFor="let serie of seriesFiltradas">
-      <div class="card-body">
-        <div>
-          <img
-            [src]="serie.portada"
-            [alt]="serie.nombre"
-            (error)="serie.portada='general/default-image.png'"
-          />
-        </div>
-        <div class="content">
-          <div class="info">
-            <h1 class="nombre display-4">{{ serie.nombre }}</h1>
-            <p class="sinopsis lead">{{ serie.sinopsiscorta }}</p>
-          </div>
-          <a class="ver-mas btn btn-primary" [routerLink]="['/series', serie.slug]">VER MÁS</a>
-        </div>
+  <div class="d-flex justify-content-center align-items-stretch flex-wrap gap-3 mt-4 mb-4" *ngIf="seriesFiltradas.length">
+    <div class="d-flex justify-content-start flex-wrap flex-column flex-md-row flex-md-nowrap rounded-4 p-3 gap-3" style="width: 570px; background-color: #21174C; border: solid 2px yellow;" *ngFor="let serie of seriesFiltradas">
+      <img class="rounded mx-auto" style="width: 190px; height: 280px; object-fit: cover;"
+        [src]="serie.portada"
+        [alt]="serie.nombre"
+        (error)="serie.portada='general/default-image.png'"
+      />
+      <div class="d-flex flex-fill flex-column align-items-center">
+        <span class="fw-bold fs-4 mb-1" style="color: yellow;">{{ serie.nombre }}</span>
+        <p>{{ serie.sinopsiscorta }}</p>
+        <a class="btn btn-primary mt-auto px-4" style="width: fit-content;" [routerLink]="['/series', serie.slug]">VER MÁS</a>
       </div>
     </div>
   </div>

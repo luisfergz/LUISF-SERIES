@@ -62,9 +62,9 @@ export class GestionarSeriesComponent {
     }
 
     if (this.filtroFecha === 'recientes') {
-      resultado.sort((a, b) => new Date(b.creado).getTime() - new Date(a.creado).getTime()); // descendente
+      resultado.sort((a, b) => new Date(b.creado ?? 0).getTime() - new Date(a.creado ?? 0).getTime()); // descendente
     } else if (this.filtroFecha === 'antiguos') {
-      resultado.sort((a, b) => new Date(a.creado).getTime() - new Date(b.creado).getTime()); // ascendente
+      resultado.sort((a, b) => new Date(a.creado ?? 0).getTime() - new Date(b.creado ?? 0).getTime()); // ascendente
     }
 
     this.seriesFiltradas = resultado;

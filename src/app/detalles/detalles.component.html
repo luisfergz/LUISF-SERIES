@@ -1,52 +1,57 @@
 <!-- Contenido principal -->
-<div class="container-fluid" *ngIf="serie">
-  <div class="mb-3">
-    <!-- <img class="izq" [src]="serie.imagen" [alt]="serie.nombre" (error)="serie.imagen='general/default-image.png'"> -->
-    <div class="">
-      <div class="nombre">
-        <h2 class="fw-bold">{{ serie.nombre }}</h2>
-      </div>
-      <div class="sinopsis mt-3">
-        <span class="titulo">Sinopsis</span>
-        <span class="descripcion col-12 col-md-5">{{ serie.sinopsis }}</span>
-      </div>
-    </div>
-  </div>
-  <div class="temporadas mt-3">
-    <span class="titulo">Temporadas</span>
-    <div class="card-container">
-      <div class="card" *ngFor="let temporada of serie.temporadas">
-        <img class="card-img" [src]="temporada.imagen" alt="Temporada {{ temporada.temporada }}" (error)="temporada.imagen='general/default-image.png'">
-        <div class="card-content">
-          <span class="card-title">Temporada {{ temporada.temporada }}</span>
-          <div class="descargas">
-            <a class="btn btn-dark vip" [href]="temporada.link">DESCARGA VIP</a>
-            <a class="btn btn-primary normal" [href]="temporada.link">DESCARGA NORMAL</a>
+<div id="detalles" class="container-fluid text-white text-center">
+  <div *ngIf="serie">
+    <h2 class="fw-bold mt-2 mt-md-3" style="color: yellow;">{{ serie.nombre }}</h2>
+    <h3 class="fs-4 fw-bold mt-3" style="color: #20CE88">Sinopsis</h3>
+    <span class="col-12 col-md-8 col-lg-7 col-xl-5 mt-2 mx-auto d-block">{{ serie.sinopsis }}</span>
+    <h3 class="fs-4 fw-bold mt-4" style="color: #20CE88">Temporadas</h3>
+    <div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
+      <div class="item overflow-hidden item-link"
+        style="width: 240px; height: 358px; object-fit: cover; border: solid 0.1rem #20CE88; position: relative;"
+        *ngFor="let temporada of serie.temporadas">
+        <img class="item-img img-fluid rounded" style="width: 100%; height: 100%;" [src]="temporada.imagen"
+          alt="Temporada {{ temporada.temporada }}" (error)="temporada.imagen='general/default-image.png'">
+        <div
+          class="d-flex flex-column justify-content-between align-items-center position-absolute top-0 start-0 w-100 h-100 text-white">
+          <span class="item-title text-center text-white fw-bold w-100 py-1"
+            style="background-color: rgb(255, 0, 0, 0.8);">Temporada {{ temporada.temporada }}</span>
+          <div class="d-flex align-items-center flex-column gap-1 mt-auto">
+            <a class="btn btn-dark btn-sm fw-bold px-4 py-2 mb-3"
+              style="background-color: rgb(20, 20, 20); border: solid 0.1rem yellow; color: yellow; font-size: 1rem; letter-spacing: 0.08rem; width: fit-content;"
+              [href]="temporada.link" target="_blank">
+              <i class="fa-solid fa-download"></i> DESCARGAR
+            </a>
+            <!-- <a class="btn btn-primary btn-sm"
+            style="background-color: rgb(50, 76, 138); border-color: rgb(31, 51, 99); font-weight: 600; font-size: .78rem; width: fit-content;"
+            [href]="temporada.link">DESCARGA NORMAL</a> -->
           </div>
         </div>
       </div>
     </div>
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto mt-5 p-4 pt-3"
+      style="border: solid 0.1rem #09F2FE; background-color: #090E36;">
+      <span class="fs-4 fw-bold mb-3 d-block" style="color: #20CE88">Información Técnica</span>
+      <table class="table table-striped table-bordered m-0" style="border: solid 0.1rem lightslategray;">
+        <tbody>
+          <tr *ngFor="let info of serie.informacion_tecnica">
+            <th class="text-light" style="padding: 0.6rem 1rem;">{{ info.atributo }}</th>
+            <td class="text-light" style="padding: 0.6rem 1rem;">{{ info.valor }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto p-3 fw-bold rounded-4 mx-auto mt-3 mb-4"
+      style="border: solid 0.1rem #09F2FE; background-color: #090E36;">
+      <span class="fs-4" style="color: #20CE88">Contraseña: <span class="fs-4 text-white">{{ serie.contrasena
+          }}</span></span>
+    </div>
+    <!-- <div class="comentarios">
+      <span>Comentarios</span>
+    </div> -->
   </div>
-  <div class="infotecnica">
-    <span class="titulo">Información Técnica</span>
-    <table class="table table-striped table-bordered">
-      <tbody>
-        <tr *ngFor="let info of serie.informacion_tecnica">
-          <th>{{ info.atributo }}</th>
-          <td>{{ info.valor }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="contrasena">
-    <span class="titulo">Contraseña:</span><span class="pass">{{ serie.contrasena }}</span>
-  </div>
-  <!-- <div class="comentarios">
-    <span>Comentarios</span>
-  </div> -->
-</div>
 
-<div class="container-fluid text-center mt-5" *ngIf="!serie">
-  <h3 class="fw-bold">Serie no encontrada</h3>
-  <p class="lead">Lo sentimos, la serie que buscas no existe o ha sido eliminada.</p>
+  <div class="container-fluid text-center mt-5" *ngIf="!serie">
+    <h3 class="fw-bold">Serie no encontrada</h3>
+    <p class="lead">Lo sentimos, la serie que buscas no existe o ha sido eliminada.</p>
+  </div>
 </div>
