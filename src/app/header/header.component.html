@@ -1,7 +1,25 @@
 <header>
-  <div>
-    <a routerLink="/"><img class="logo" src="general/logo.png" alt="logo"></a>
+  <a routerLink="/" class="d-none d-md-block"><img src="general/logo.png" alt="logo"></a>
+  <div class="d-flex container-fluid text-white justify-content-center align-items-center py-2"
+    style="background-color: #21174C;">
+    <div class="col"><a class="nav-link fs-5 fw-bold" routerLink="/">Luis✪F Series</a></div>
+    <ul class="col nav justify-content-center gap-3 d-none d-md-flex">
+      <li class="nav-item">
+        <a class="nav-link active fw-light" href="#">
+          <i class="fa-solid fa-home"></i> Inicio
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link fw-light" href="#">
+          <i class="fa-solid fa-tv"></i> Series
+        </a>
+      </li>
+    </ul>
+    <div class="col"></div>
   </div>
+</header>
+
+<ng-template #menuTemplate>
   <div *ngIf="menuActive" class="menu-container">
     <div [ngTemplateOutlet]="menuTemplate"></div>
   </div>
@@ -19,7 +37,7 @@
     <!-- <div class="user-icon" (click)="toggleDropdown()">
       <img src="general/user-default.jpg" alt="menu">
     </div> -->
-    
+
 
     <div class="desktop w-100">
       <div [ngTemplateOutlet]="menuTemplate"></div>
@@ -42,15 +60,11 @@
 
       <div *ngIf="isLoggedIn" [ngTemplateOutlet]="loggedInTemplate"></div>
     </div> -->
-    
-  </div>
-</header>
 
-<ng-template #menuTemplate>
+  </div>
   <nav class="nav menu-bar" [class.active]="menuActive">
-    <a *ngFor="let item of menu" routerLinkActive="active"
-        [routerLinkActiveOptions]="{exact: item.exact}"
-        [routerLink]="item.url"><i [class]="item.icon"></i> {{ item.nombre }}</a>
+    <a *ngFor="let item of menu" routerLinkActive="active" [routerLinkActiveOptions]="{exact: item.exact}"
+      [routerLink]="item.url"><i [class]="item.icon"></i> {{ item.nombre }}</a>
   </nav>
 </ng-template>
 
