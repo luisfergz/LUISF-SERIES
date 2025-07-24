@@ -18,7 +18,7 @@ export class HeaderComponent {
   dropdownOpen = false; // Estado del menú desplegable
 
   accountActive: boolean = false;
-  menuActive: boolean = false;
+  menuAbierto: boolean = false;
   menu: any[] = [
     {
       nombre: 'Inicio',
@@ -60,13 +60,12 @@ export class HeaderComponent {
     });
   }
 
-  toggleMenu() {
-    this.menuActive = !this.menuActive;
-    this.closeAccount()
+  alternarMenu() {
+    this.menuAbierto = !this.menuAbierto;
   }
 
   closeMenu() {
-    this.menuActive = false;
+    this.menuAbierto = false;
   }
 
   toggleAccount() {

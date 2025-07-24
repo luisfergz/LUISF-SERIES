@@ -10,11 +10,14 @@
   color: #FFD700;
 }
 
+#menu-icon {
+  color: white;
+  transform: rotate(0deg);
+  transition: all 0.2s ease-in-out;
+}
+#menu-icon.active { color: red; transform: rotate(180deg); }
 #menu-movil {
   transform: translateY(-100%);
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
-
-#menu-movil.active {
-  transform: translateY(0);
-}
+#menu-movil.active { transform: translateY(0); }

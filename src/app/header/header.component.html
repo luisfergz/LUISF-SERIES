@@ -2,18 +2,25 @@
   <a routerLink="/" class="d-none d-md-block"><img class="w-100" src="general/logo.png" alt="logo"></a>
   <div class="d-flex container-fluid text-white justify-content-center align-items-center py-2"
     style="background-color: #21174C;">
-    <button class="col-2 col-md-4 navbar-toggler d-flex d-md-none fs-2" type="button" (click)="toggleMenu()">
-      <i class="fa" [class.fa-bars]="!menuActive" [class.fa-times]="menuActive"></i>
+    <button class="col-2 col-md-4 navbar-toggler d-flex d-md-none fs-1 px-2 px-md-0 py-1 py-md-0" type="button"
+      (click)="alternarMenu()">
+      <i id="menu-icon" [ngClass]="{ 'active': menuAbierto }" class="fa" [class.fa-bars]="!menuAbierto" [class.fa-times]="menuAbierto"></i>
     </button>
-    <div class="col-8 col-md-4"><a class="nav-link fs-5 fw-bold text-center text-md-start" routerLink="/">Luis✪F Series</a></div>
+    <div class="col-8 col-md-4"><a class="nav-link fs-5 fw-bold text-center text-md-start" routerLink="/">Luis✪F
+        Series</a></div>
     <ul class="col-4 nav justify-content-center gap-3 d-none d-md-flex">
       <li class="nav-item">
-        <a class="nav-link active fw-light fs-5" href="/">
+        <a class="nav-link fw-light fs-5"
+          routerLink="/"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">
           <i class="fa-solid fa-home"></i> Inicio
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link fw-light fs-5" href="series">
+        <a class="nav-link fw-light fs-5"
+          routerLink="/series"
+          routerLinkActive="active">
           <i class="fa-solid fa-tv"></i> Series
         </a>
       </li>
@@ -21,80 +28,23 @@
     <div class="col-2 col-md-4"></div>
   </div>
 </header>
-<div id="menu-movil" class="position-absolute w-100 d-fill d-flex d-md-none" style="z-index: 10; background-color: #21174C;" [ngClass]="{ 'active': menuActive }">
+<div id="menu-movil" class="position-absolute w-100 d-fill shadow-sm pb-2" style="z-index: 10; background-color: #21174C;"
+  [ngClass]="{ 'active': menuAbierto }">
   <ul class="nav justify-content-center gap-3 flex-column opacity-100 p-3">
     <li class="nav-item">
-      <a class="nav-link active fw-light fs-5" href="/">
+      <a class="nav-link active fw-light" style="font-size: 1.1rem;"
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
         <i class="fa-solid fa-home"></i> Inicio
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link fw-light fs-5" href="series">
+      <a class="nav-link fw-light" style="font-size: 1.1rem;"
+        routerLink="/series"
+        routerLinkActive="active">
         <i class="fa-solid fa-tv"></i> Series
       </a>
     </li>
   </ul>
 </div>
-
-<ng-template #menuTemplate>
-  <div *ngIf="menuActive" class="menu-container">
-    <div [ngTemplateOutlet]="menuTemplate"></div>
-  </div>
-  <div class="menu-container">
-    <a class="menu-icon" [class.active]="menuActive" (click)="toggleMenu()">
-      <i class="fa" [class.fa-bars]="!menuActive" [class.fa-times]="menuActive"></i>
-    </a>
-
-    <div class="title">
-      <a routerLink="/">Luis✪F Series</a>
-    </div>
-
-    <div class="p-3"></div>
-
-    <!-- <div class="user-icon" (click)="toggleDropdown()">
-      <img src="general/user-default.jpg" alt="menu">
-    </div> -->
-
-
-    <div class="desktop w-100">
-      <div [ngTemplateOutlet]="menuTemplate"></div>
-    </div>
-
-    <!-- <div class="actions">
-      <ng-container *ngIf="!isLoggedIn">
-        <a class="login btn btn-outline-primary" (click)="openLoginModal()">
-          Iniciar sesión
-        </a>
-        <a class="singup btn btn-primary" (click)="openSignupModal()">
-          Registrarse
-        </a>
-      </ng-container>
-
-      <div *ngIf="isLoggedIn" class="user-profile" (click)="toggleDropdown()">
-        <img [src]="userProfilePicture" class="profile-picture" alt="Foto de perfil de {{ userName }}">
-        <span class="username ms-2">{{ userName }}</span>
-      </div>
-
-      <div *ngIf="isLoggedIn" [ngTemplateOutlet]="loggedInTemplate"></div>
-    </div> -->
-
-  </div>
-  <nav class="nav menu-bar" [class.active]="menuActive">
-    <a *ngFor="let item of menu" routerLinkActive="active" [routerLinkActiveOptions]="{exact: item.exact}"
-      [routerLink]="item.url"><i [class]="item.icon"></i> {{ item.nombre }}</a>
-  </nav>
-</ng-template>
-
-<ng-template #loggedInTemplate>
-  <div class="dropdown-menu" *ngIf="dropdownOpen">
-    <a class="dropdown-item" (click)="logout()">
-      <i class="fa-solid fa-user me-2"></i>Perfil
-    </a>
-    <a class="dropdown-item" (click)="logout()">
-      <i class="fa-solid fa-gear me-2"></i>Configuración
-    </a>
-    <a class="dropdown-item" (click)="logout()">
-      <i class="fa-solid fa-right-from-bracket me-2"></i>Cerrar Sesión
-    </a>
-  </div>
-</ng-template>
