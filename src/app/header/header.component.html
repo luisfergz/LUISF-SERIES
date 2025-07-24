@@ -1,23 +1,40 @@
-<header>
-  <a routerLink="/" class="d-none d-md-block"><img src="general/logo.png" alt="logo"></a>
+<header style="z-index: 11; position: relative;">
+  <a routerLink="/" class="d-none d-md-block"><img class="w-100" src="general/logo.png" alt="logo"></a>
   <div class="d-flex container-fluid text-white justify-content-center align-items-center py-2"
     style="background-color: #21174C;">
-    <div class="col"><a class="nav-link fs-5 fw-bold" routerLink="/">Luis✪F Series</a></div>
-    <ul class="col nav justify-content-center gap-3 d-none d-md-flex">
+    <button class="col-2 col-md-4 navbar-toggler d-flex d-md-none fs-2" type="button" (click)="toggleMenu()">
+      <i class="fa" [class.fa-bars]="!menuActive" [class.fa-times]="menuActive"></i>
+    </button>
+    <div class="col-8 col-md-4"><a class="nav-link fs-5 fw-bold text-center text-md-start" routerLink="/">Luis✪F Series</a></div>
+    <ul class="col-4 nav justify-content-center gap-3 d-none d-md-flex">
       <li class="nav-item">
-        <a class="nav-link active fw-light" href="#">
+        <a class="nav-link active fw-light fs-5" href="#">
           <i class="fa-solid fa-home"></i> Inicio
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link fw-light" href="#">
+        <a class="nav-link fw-light fs-5" href="#">
           <i class="fa-solid fa-tv"></i> Series
         </a>
       </li>
     </ul>
-    <div class="col"></div>
+    <div class="col-2 col-md-4"></div>
   </div>
 </header>
+<div id="menu-movil" class="position-absolute w-100 d-fill d-flex d-md-none" style="z-index: 10; background-color: #21174C;" [ngClass]="{ 'active': menuActive }">
+  <ul class="nav justify-content-center gap-3 flex-column opacity-100 p-3">
+    <li class="nav-item">
+      <a class="nav-link active fw-light fs-5" href="#">
+        <i class="fa-solid fa-home"></i> Inicio
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link fw-light fs-5" href="#">
+        <i class="fa-solid fa-tv"></i> Series
+      </a>
+    </li>
+  </ul>
+</div>
 
 <ng-template #menuTemplate>
   <div *ngIf="menuActive" class="menu-container">
