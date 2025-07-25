@@ -2,9 +2,9 @@
   <a routerLink="/" class="d-none d-md-block"><img class="w-100" src="general/logo.png" alt="logo"></a>
   <div class="d-flex container-fluid text-white justify-content-center align-items-center py-2"
     style="background-color: #21174C;">
-    <button class="col-2 col-md-4 navbar-toggler d-flex d-md-none fs-1 px-2 px-md-0 py-1 py-md-0" type="button"
+    <button class="col-2 col-md-4 navbar-toggler d-flex d-md-none fs-1 px-1 px-md-0 py-1 py-md-0" type="button"
       (click)="alternarMenu()">
-      <i id="menu-icon" class="fa fa-bars"></i>
+      <i class="fa fa-bars"></i>
     </button>
     <div class="col-8 col-md-4"><a class="nav-link fs-5 fw-bold text-center text-md-start" routerLink="/">Luis✪F
         Series</a></div>
@@ -25,15 +25,18 @@
         </a>
       </li>
     </ul>
-    <div class="col-2 col-md-4"></div>
+    <button class="col-2 col-md-4 navbar-toggler d-flex d-md-none fs-1 px-1 px-md-0 py-1 py-md-0" type="button"
+      (click)="alternarMenu()">
+      <i class="fa fa-user-circle ms-auto"></i>
+    </button>
   </div>
 </header>
 <div id="menu-movil" class="position-absolute top-0 w-100 h-100 d-flex" style="z-index: 10;"
   [ngClass]="{ 'active': menuAbierto }">
-  <div style="width: inherit; background-color: #21174C;">
+  <div style="background-color: #21174C;">
     <ul class="nav justify-content-center gap-3 flex-column opacity-100 p-3">
       <li class="nav-item">
-        <a class="nav-link active fw-light" style="font-size: 1.1rem;"
+        <a class="nav-link active fw-light" style="width: max-content; font-size: 1.1rem;"
           routerLink="/"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }">
@@ -41,7 +44,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link fw-light" style="font-size: 1.1rem;"
+        <a class="nav-link fw-light" style="width: max-content; font-size: 1.1rem;"
           routerLink="/series"
           routerLinkActive="active">
           <i class="fa-solid fa-tv"></i> Series

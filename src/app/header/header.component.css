@@ -1,26 +1,11 @@
 .nav a {
   color: white;
   letter-spacing: 0.1rem;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
-.nav a:hover {
-  color: #FFD700;
-}
-.nav a.active {
-  color: #FFD700;
-}
-
-#menu-icon {
-  color: white;
-  transform: rotate(0deg);
-  transition: all 0.2s ease-in-out;
-}
-#menu-icon.active { color: red; transform: rotate(180deg); }
-#menu-movil {
-  transform: translateX(-100%);
-  transition: all 0.2s ease-in-out;
-}
+.nav a:hover { color: #FFD700; }
+.nav a.active { color: #FFD700; }
+#menu-movil { transform: translateX(-100%); transition: all 0.3s ease-in-out; }
 #menu-movil.active { transform: translateX(0); }
-
-#menu-bg { opacity: 0; transition: opacity 0.2s ease-in-out; }
+#menu-bg { opacity: 0; transition: all 0.3s ease-in-out; }
 #menu-bg.active { opacity: 1; }
