@@ -19,6 +19,7 @@ export class HeaderComponent {
 
   accountActive: boolean = false;
   menuAbierto: boolean = false;
+  cuentaAbierto: boolean = false;
   menu: any[] = [
     {
       nombre: 'Inicio',
@@ -62,6 +63,18 @@ export class HeaderComponent {
 
   alternarMenu() {
     this.menuAbierto = !this.menuAbierto;
+    document.body.style.overflow = this.menuAbierto ? 'hidden' : '';
+    if (this.cuentaAbierto) {
+      this.alternarCuenta();
+    }
+  }
+
+  alternarCuenta() {
+    this.cuentaAbierto = !this.cuentaAbierto;
+    document.body.style.overflow = this.cuentaAbierto ? 'hidden' : '';
+    if (this.menuAbierto) {
+      this.alternarMenu();
+    }
   }
 
   closeMenu() {

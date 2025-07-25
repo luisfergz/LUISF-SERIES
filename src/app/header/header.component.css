@@ -7,5 +7,7 @@
 .nav a.active { color: #FFD700; }
 #menu-movil { transform: translateX(-100%); transition: all 0.3s ease-in-out; }
 #menu-movil.active { transform: translateX(0); }
+#menu-account { transform: translateX(100%); transition: all 0.3s ease-in-out; }
+#menu-account.active { transform: translateX(0); }
 #menu-bg { opacity: 0; transition: all 0.3s ease-in-out; }
 #menu-bg.active { opacity: 1; }
