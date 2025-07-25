@@ -17,7 +17,10 @@
 }
 #menu-icon.active { color: red; transform: rotate(180deg); }
 #menu-movil {
-  transform: translateY(-100%);
+  transform: translateX(-100%);
   transition: all 0.2s ease-in-out;
 }
-#menu-movil.active { transform: translateY(0); }
+#menu-movil.active { transform: translateX(0); }
+
+#menu-bg { opacity: 0; transition: opacity 0.2s ease-in-out; }
+#menu-bg.active { opacity: 1; }

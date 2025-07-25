@@ -1,16 +1,16 @@
-<header style="z-index: 11; position: relative;">
+<header>
   <a routerLink="/" class="d-none d-md-block"><img class="w-100" src="general/logo.png" alt="logo"></a>
   <div class="d-flex container-fluid text-white justify-content-center align-items-center py-2"
     style="background-color: #21174C;">
     <button class="col-2 col-md-4 navbar-toggler d-flex d-md-none fs-1 px-2 px-md-0 py-1 py-md-0" type="button"
       (click)="alternarMenu()">
-      <i id="menu-icon" [ngClass]="{ 'active': menuAbierto }" class="fa" [class.fa-bars]="!menuAbierto" [class.fa-times]="menuAbierto"></i>
+      <i id="menu-icon" class="fa fa-bars"></i>
     </button>
     <div class="col-8 col-md-4"><a class="nav-link fs-5 fw-bold text-center text-md-start" routerLink="/">Luis✪F
         Series</a></div>
     <ul class="col-4 nav justify-content-center gap-3 d-none d-md-flex">
       <li class="nav-item">
-        <a class="nav-link fw-light fs-5"
+        <a class="nav-link fw-light" style="font-size: 1.2rem;"
           routerLink="/"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }">
@@ -18,7 +18,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link fw-light fs-5"
+        <a class="nav-link fw-light" style="font-size: 1.2rem;"
           routerLink="/series"
           routerLinkActive="active">
           <i class="fa-solid fa-tv"></i> Series
@@ -28,23 +28,26 @@
     <div class="col-2 col-md-4"></div>
   </div>
 </header>
-<div id="menu-movil" class="position-absolute w-100 d-fill shadow-sm pb-2" style="z-index: 10; background-color: #21174C;"
+<div id="menu-movil" class="position-absolute top-0 w-100 h-100 d-flex" style="z-index: 10;"
   [ngClass]="{ 'active': menuAbierto }">
-  <ul class="nav justify-content-center gap-3 flex-column opacity-100 p-3">
-    <li class="nav-item">
-      <a class="nav-link active fw-light" style="font-size: 1.1rem;"
-        routerLink="/"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }">
-        <i class="fa-solid fa-home"></i> Inicio
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link fw-light" style="font-size: 1.1rem;"
-        routerLink="/series"
-        routerLinkActive="active">
-        <i class="fa-solid fa-tv"></i> Series
-      </a>
-    </li>
-  </ul>
+  <div style="width: inherit; background-color: #21174C;">
+    <ul class="nav justify-content-center gap-3 flex-column opacity-100 p-3">
+      <li class="nav-item">
+        <a class="nav-link active fw-light" style="font-size: 1.1rem;"
+          routerLink="/"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">
+          <i class="fa-solid fa-home"></i> Inicio
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link fw-light" style="font-size: 1.1rem;"
+          routerLink="/series"
+          routerLinkActive="active">
+          <i class="fa-solid fa-tv"></i> Series
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div id="menu-bg" [ngClass]="{ 'active': menuAbierto }" class="w-100 bg-dark opacity-25" (click)="alternarMenu()"></div>
 </div>

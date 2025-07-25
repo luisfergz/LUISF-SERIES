@@ -28,14 +28,14 @@
         </div>
       </div>
     </div>
-    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto mt-5 p-4 pt-3"
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto mt-5 p-2 p-md-4 pt-3"
       style="border: solid 0.1rem #09F2FE; background-color: #090E36;">
       <span class="fs-4 fw-bold mb-3 d-block" style="color: #20CE88">Información Técnica</span>
       <table class="table table-striped table-bordered m-0" style="border: solid 0.1rem lightslategray;">
         <tbody>
           <tr *ngFor="let info of serie.informacion_tecnica">
-            <th class="text-light" style="padding: 0.6rem 1rem;">{{ info.atributo }}</th>
-            <td class="text-light" style="padding: 0.6rem 1rem;">{{ info.valor }}</td>
+            <th class="text-light" style="font-size: 0.9rem;">{{ info.atributo }}</th>
+            <td class="text-light" style="font-size: 0.9rem;">{{ info.valor }}</td>
           </tr>
         </tbody>
       </table>
