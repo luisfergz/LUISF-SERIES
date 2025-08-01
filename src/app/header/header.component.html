@@ -25,7 +25,7 @@
         </a>
       </li>
     </ul>
-    <button class="col-2 col-md-4 navbar-toggler d-flex d-md-none fs-1 px-1 px-md-0 py-1 py-md-0" type="button"
+    <button class="col-2 col-md-4 navbar-toggler d-flex fs-1 px-1 px-md-0 py-1 py-md-0" type="button"
       (click)="alternarCuenta()">
       <i class="fa fa-user-circle ms-auto"></i>
     </button>
@@ -75,5 +75,5 @@
       </li>
     </ul>
   </div>
-  <div id="menu-bg" [ngClass]="{ 'active': menuAbierto }" class="w-100 bg-dark opacity-25" (click)="alternarCuenta()"></div>
+  <div id="menu-bg" [ngClass]="{ 'active': cuentaAbierto }" class="w-100 bg-dark opacity-25" (click)="alternarCuenta()"></div>
 </div>
