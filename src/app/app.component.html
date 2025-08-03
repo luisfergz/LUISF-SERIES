@@ -3,12 +3,10 @@
   <span style="color: white;">Cargando<span class="dots"></span></span>
 </ngx-spinner>
 
-<div class="d-flex w-100 h-100 flex-column justify-content-between">
-  <div>
-    <app-header></app-header>
-    <router-outlet></router-outlet>
-  </div>
-  <app-footer></app-footer>
+<div class="d-flex h-100 flex-column">
+  <app-header></app-header>
+  <router-outlet></router-outlet>
+  <app-footer class="mt-auto"></app-footer>
 </div>
 
 <app-menu-flotante></app-menu-flotante>

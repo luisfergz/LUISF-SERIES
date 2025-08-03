@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 declare var bootstrap: any;
 
@@ -17,48 +18,24 @@ export class HeaderComponent {
   userName = 'Jose Angel Guzman Zavalet'; // 25 chars Cambiar al nombre del usuario autenticado
   dropdownOpen = false; // Estado del menú desplegable
 
-  accountActive: boolean = false;
   menuAbierto: boolean = false;
   cuentaAbierto: boolean = false;
-  menu: any[] = [
-    {
-      nombre: 'Inicio',
-      exact: true,
-      icon: 'fa fa-home',
-      url: '/'
-    },
-    {
-      nombre: 'Series',
-      exact: false,
-      icon: 'fa-solid fa-tv',
-      url: '/series'
-    },
-    // {
-    //   nombre: 'Admin',
-    //   exact: false,
-    //   icon: 'fa-solid fa-user-gear',
-    //   url: '/admin'
-    // }
-    // {
-    //   nombre: 'Mis Películas',
-    //   url: '/peliculas'
-    // },
-    // {
-    //   nombre: 'Blog',
-    //   url: '/blog'
-    // }
-  ];
+
+  sesionIniciada: boolean = false;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
-  ngOnInit() {
-    this.router.events.subscribe(() => {
-      this.closeMenu();
-      this.closeAccount()
-      this.dropdownOpen = false;
-    });
+  async ngOnInit() {
+    this.authService.getUser()
+      .then(user => {
+        this.sesionIniciada = !!user;
+      })
+      .catch(() => {
+        this.sesionIniciada = false;
+      });
   }
 
   alternarMenu() {
@@ -81,15 +58,6 @@ export class HeaderComponent {
     this.menuAbierto = false;
   }
 
-  toggleAccount() {
-    this.accountActive = !this.accountActive;
-    this.closeMenu();
-  }
-
-  closeAccount() {
-    this.accountActive = false;
-  }
-
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen; // Alternar el estado del dropdown
   }
@@ -98,6 +66,15 @@ export class HeaderComponent {
     // Lógica para cerrar sesión
     this.isLoggedIn = false;
     this.dropdownOpen = false;
+  }
+
+  async cerrarSesion() {
+    try {
+      await this.authService.signOut();
+      window.location.reload();
+    } catch (err: any) {
+      console.error('Error al cerrar sesión:', err.message);
+    }
   }
 
   // openSignupModal() {

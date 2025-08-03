@@ -35,8 +35,44 @@
     </div>
   </div>
 </header>
-<div id="cuenta" class="position-absolute w-100 h-100 d-flex" style="z-index: 10; background-color: #21174C;">
-
+<div id="menu" class="position-absolute w-100 h-100 top-0 overflow-hidden d-flex" style="z-index: 10;"
+    [ngClass]="{ 'active': menuAbierto }">
+  <div class="w-100 h-100 position-absolute" style="background-color: rgba(0, 0, 0, 0.5);" (click)="alternarMenu()"></div>
+  <div id="menu-contenido" class="d-flex w-auto h-100 me-auto py-2" style="background-color: #21174C;" [ngClass]="{ 'active': menuAbierto }">
+    <!-- cerrar boton -->
+    <button class="btn btn-danger position-absolute end-0 px-2 py-1 d-flex align-items-center" type="button" (click)="alternarMenu()" style="transform: translateX(140%) translateY(13%);">
+      <i class="fa fa-times fs-4"></i>
+    </button>
+    <div class="d-flex flex-column">
+      <a class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-3" role="button" routerLink="/" (click)="alternarCuenta()">
+        <i class="fa-solid fa-home me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Inicio</span><i class="fa-solid fa-angle-right ms-3"></i>
+      </a>
+      <a class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-3" role="button" routerLink="/series" (click)="alternarCuenta()">
+        <i class="fa-solid fa-tv me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Series</span><i class="fa-solid fa-angle-right ms-3"></i>
+      </a>
+    </div>
+  </div>
+</div>
+<div id="cuenta" class="position-absolute w-100 h-100 top-0 overflow-hidden d-flex" style="z-index: 10;"
+    [ngClass]="{ 'active': cuentaAbierto }">
+  <div class="w-100 h-100 position-absolute" style="background-color: rgba(0, 0, 0, 0.5);" (click)="alternarCuenta()"></div>
+  <div id="cuenta-contenido" class="d-flex w-auto h-100 ms-auto py-2" style="background-color: #21174C;" [ngClass]="{ 'active': cuentaAbierto }">
+    <!-- cerrar boton -->
+    <button class="btn btn-danger position-absolute px-2 py-1 d-flex align-items-center" type="button" (click)="alternarCuenta()" style="transform: translateX(-140%) translateY(13%);">
+      <i class="fa fa-times fs-4"></i>
+    </button>
+    <div class="d-flex flex-column">
+      <a *ngIf="!sesionIniciada" class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-3" role="button" routerLink="/admin" (click)="alternarCuenta()">
+        <i class="fa fa-user-circle me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Iniciar Sesión</span><i class="fa-solid fa-angle-right ms-3"></i>
+      </a>
+      <a *ngIf="!sesionIniciada" class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-3" role="button" (click)="alternarCuenta()">
+        <i class="fa fa-user-circle me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Crear Cuenta</span><i class="fa-solid fa-angle-right ms-3"></i>
+      </a>
+      <button *ngIf="sesionIniciada" class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-3" type="button" (click)="cerrarSesion()">
+        <i class="fa fa-sign-out-alt me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Cerrar Sesión</span><i class="fa-solid fa-angle-right ms-3"></i>
+      </button>
+    </div>
+  </div>
 </div>
 <!-- <div id="menu-movil" class="position-absolute w-100 h-100 d-flex" style="z-index: 10;"
   [ngClass]="{ 'active': menuAbierto }">

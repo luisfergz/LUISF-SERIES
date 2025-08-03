@@ -7,7 +7,16 @@
 .nav a.active { color: #FFD700; }
 #menu-movil { transform: translateX(-100%); transition: all 0.3s ease-in-out; }
 #menu-movil.active { transform: translateX(0); }
-#menu-account { transform: translateX(100%); transition: all 0.3s ease-in-out; }
-#menu-account.active { transform: translateX(0); }
+
+#menu { visibility: hidden; opacity: 0; transition: all 0.3s ease-in-out; }
+#menu.active { visibility: visible; opacity: 1; }
+#menu-contenido { transform: translateX(-100%); transition: all 0.3s ease-in-out; }
+#menu-contenido.active { transform: translateX(0); }
+
+#cuenta { visibility: hidden; opacity: 0; transition: all 0.3s ease-in-out; }
+#cuenta.active { visibility: visible; opacity: 1; }
+#cuenta-contenido { transform: translateX(100%); transition: all 0.3s ease-in-out; }
+#cuenta-contenido.active { transform: translateX(0); }
+
 #menu-bg { opacity: 0; transition: all 0.3s ease-in-out; }
 #menu-bg.active { opacity: 1; }
