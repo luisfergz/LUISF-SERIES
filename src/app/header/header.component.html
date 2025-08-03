@@ -8,72 +8,75 @@
     </button>
     <div class="col-8 col-md-4"><a class="nav-link fs-5 fw-bold text-center text-md-start" routerLink="/">Luis✪F
         Series</a></div>
-    <ul class="col-4 nav justify-content-center gap-3 d-none d-md-flex">
+    <ul class="col-4 col-md-4 nav justify-content-center gap-3 d-none d-md-flex">
       <li class="nav-item">
-        <a class="nav-link fw-light" style="font-size: 1.2rem;"
-          routerLink="/"
-          routerLinkActive="active"
+        <a class="nav-link fw-light" style="font-size: 1.2rem;" routerLink="/" routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }">
           <i class="fa-solid fa-home"></i> Inicio
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link fw-light" style="font-size: 1.2rem;"
-          routerLink="/series"
-          routerLinkActive="active">
+        <a class="nav-link fw-light" style="font-size: 1.2rem;" routerLink="/series" routerLinkActive="active">
           <i class="fa-solid fa-tv"></i> Series
         </a>
       </li>
     </ul>
-    <button class="col-2 col-md-4 navbar-toggler d-flex fs-1 px-1 px-md-0 py-1 py-md-0" type="button"
-      (click)="alternarCuenta()">
-      <i class="fa fa-user-circle ms-auto"></i>
-    </button>
+    <div class="col-2 col-md-4 text-end">
+      <a class="d-none d-md-inline btn btn-outline-primary border-0 text-white me-1" type="button" routerLink="/login" routerLinkActive="active">
+        Iniciar Sesión
+      </a>
+      <a class="d-none d-md-inline btn btn-primary border-0 text-white me-1" type="button" routerLink="/login" routerLinkActive="active">
+        Crear Cuenta
+      </a>
+      <button class="navbar-toggler d-inline d-md-none fs-1 px-1 px-md-0 py-1 py-md-0" type="button"
+        (click)="alternarCuenta()">
+        <i class="fa fa-user-circle ms-auto"></i>
+      </button>
+    </div>
   </div>
 </header>
-<div id="menu-movil" class="position-absolute w-100 h-100 d-flex" style="z-index: 10;"
+<div id="cuenta" class="position-absolute w-100 h-100 d-flex" style="z-index: 10; background-color: #21174C;">
+
+</div>
+<!-- <div id="menu-movil" class="position-absolute w-100 h-100 d-flex" style="z-index: 10;"
   [ngClass]="{ 'active': menuAbierto }">
   <div style="background-color: #21174C;">
     <ul class="nav justify-content-center gap-3 flex-column opacity-100 p-3">
       <li class="nav-item">
-        <a class="nav-link active fw-light" style="width: max-content; font-size: 1.1rem;"
-          routerLink="/"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link active fw-light" style="width: max-content; font-size: 1.1rem;" routerLink="/"
+          routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <i class="fa-solid fa-home"></i> Inicio
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link fw-light" style="width: max-content; font-size: 1.1rem;"
-          routerLink="/series"
+        <a class="nav-link fw-light" style="width: max-content; font-size: 1.1rem;" routerLink="/series"
           routerLinkActive="active">
           <i class="fa-solid fa-tv"></i> Series
         </a>
       </li>
     </ul>
   </div>
-  <div id="menu-bg" [ngClass]="{ 'active': menuAbierto }" class="w-100 bg-dark opacity-25" (click)="alternarMenu()"></div>
+  <div id="menu-bg" [ngClass]="{ 'active': menuAbierto }" class="w-100 bg-dark opacity-25" (click)="alternarMenu()">
+  </div>
 </div>
 <div id="menu-account" class="position-absolute w-100 h-100 d-flex flex-row-reverse" style="z-index: 10;"
   [ngClass]="{ 'active': cuentaAbierto }">
   <div style="background-color: #21174C;">
     <ul class="nav justify-content-center gap-3 flex-column opacity-100 p-3">
       <li class="nav-item">
-        <a class="nav-link active fw-light" style="width: max-content; font-size: 1.1rem;"
-          routerLink="/"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link active fw-light" style="width: max-content; font-size: 1.1rem;" routerLink="/"
+          routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <i class="fa-solid fa-home"></i> Inicio
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link fw-light" style="width: max-content; font-size: 1.1rem;"
-          routerLink="/series"
+        <a class="nav-link fw-light" style="width: max-content; font-size: 1.1rem;" routerLink="/series"
           routerLinkActive="active">
-          <i class="fa-solid fa-tv"></i> Series
+          <i class="fa-solid fa-tv"></i> Cerrar Sesión
         </a>
       </li>
     </ul>
   </div>
-  <div id="menu-bg" [ngClass]="{ 'active': cuentaAbierto }" class="w-100 bg-dark opacity-25" (click)="alternarCuenta()"></div>
-</div>
+  <div id="menu-bg" [ngClass]="{ 'active': menuAbierto }" class="w-100 bg-dark opacity-25" (click)="alternarCuenta()">
+  </div>
+</div> -->
