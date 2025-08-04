@@ -22,12 +22,41 @@
       </li>
     </ul>
     <div class="col-2 col-md-4 text-end">
-      <a class="d-none d-md-inline btn btn-outline-primary border-0 text-white me-1" type="button" routerLink="/login" routerLinkActive="active">
-        Iniciar Sesión
+      <a *ngIf="!sesionIniciada" class="d-none d-md-inline btn btn-outline-primary border-0 text-white me-1" type="button" routerLink="/login">
+        Iniciar sesión
       </a>
-      <a class="d-none d-md-inline btn btn-primary border-0 text-white me-1" type="button" routerLink="/login" routerLinkActive="active">
-        Crear Cuenta
+      <a *ngIf="!sesionIniciada" class="d-none d-md-inline btn btn-primary border-0 text-white me-1" type="button" routerLink="/signup">
+        Crear cuenta
       </a>
+      <div *ngIf="sesionIniciada" class="d-none d-md-flex justify-content-end position-relative" #menuWrapper>
+        <button class="btn btn-link text-decoration-none p-0 d-flex align-items-center text-white"
+          type="button"
+          (click)="alternarDropdownCuenta($event)"
+          style="font-size: 1.04rem;">
+          <img class="rounded-circle" src="general/user-default.jpg" alt="user" style="width: 2rem; height: 2rem;">
+          <span class="ms-2">{{ email }}</span>
+          <i class="fa-solid ms-2" [ngClass]="dropdownCuenta ? 'fa-caret-up' : 'fa-caret-down'"></i>
+        </button>
+        <div *ngIf="dropdownCuenta"
+          class="position-absolute end-0 top-100 mt-3 border border-success rounded shadow-sm p-2 gap-1 d-flex flex-column"
+          style="background-color: #1B1B3A; z-index: 1000;">
+          <a class="btn btn-outline-primary border-0 text-start text-white" routerLink="perfil" (click)="alternarDropdownCuenta($event)">
+            <i class="fa-solid fa-user-gear me-2"></i> Perfil
+          </a>
+          <a *ngIf="esAdmin" class="btn btn-outline-primary border-0 text-start text-white" routerLink="agregar-serie" (click)="alternarDropdownCuenta($event)">
+            <i class="fa-solid fa-plus me-2"></i> Agregar Serie
+          </a>
+          <a *ngIf="esAdmin" class="btn btn-outline-primary border-0 text-start text-white" routerLink="gestionar-series" (click)="alternarDropdownCuenta($event)">
+            <i class="fa-solid fa-pen-to-square me-2"></i> Editar Serie
+          </a>
+          <a *ngIf="esAdmin" class="btn btn-outline-primary border-0 text-start text-white" routerLink="carrusel" (click)="alternarDropdownCuenta($event)">
+            <i class="fa-solid fa-rectangle-list me-2"></i> Carrusel
+          </a>
+          <a class="btn btn-outline-danger border-0 text-start text-white" (click)="cerrarSesion()">
+            <i class="fa-solid fa-right-from-bracket me-2"></i> Cerrar Sesión
+          </a>
+        </div>
+      </div>
       <button class="navbar-toggler d-inline d-md-none fs-1 px-1 px-md-0 py-1 py-md-0" type="button"
         (click)="alternarCuenta()">
         <i class="fa fa-user-circle ms-auto"></i>
@@ -74,45 +103,3 @@
     </div>
   </div>
 </div>
-<!-- <div id="menu-movil" class="position-absolute w-100 h-100 d-flex" style="z-index: 10;"
-  [ngClass]="{ 'active': menuAbierto }">
-  <div style="background-color: #21174C;">
-    <ul class="nav justify-content-center gap-3 flex-column opacity-100 p-3">
-      <li class="nav-item">
-        <a class="nav-link active fw-light" style="width: max-content; font-size: 1.1rem;" routerLink="/"
-          routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fa-solid fa-home"></i> Inicio
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link fw-light" style="width: max-content; font-size: 1.1rem;" routerLink="/series"
-          routerLinkActive="active">
-          <i class="fa-solid fa-tv"></i> Series
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="menu-bg" [ngClass]="{ 'active': menuAbierto }" class="w-100 bg-dark opacity-25" (click)="alternarMenu()">
-  </div>
-</div>
-<div id="menu-account" class="position-absolute w-100 h-100 d-flex flex-row-reverse" style="z-index: 10;"
-  [ngClass]="{ 'active': cuentaAbierto }">
-  <div style="background-color: #21174C;">
-    <ul class="nav justify-content-center gap-3 flex-column opacity-100 p-3">
-      <li class="nav-item">
-        <a class="nav-link active fw-light" style="width: max-content; font-size: 1.1rem;" routerLink="/"
-          routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fa-solid fa-home"></i> Inicio
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link fw-light" style="width: max-content; font-size: 1.1rem;" routerLink="/series"
-          routerLinkActive="active">
-          <i class="fa-solid fa-tv"></i> Cerrar Sesión
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="menu-bg" [ngClass]="{ 'active': menuAbierto }" class="w-100 bg-dark opacity-25" (click)="alternarCuenta()">
-  </div>
-</div> -->

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-
-declare var bootstrap: any;
+import { SeriesService } from '../services/series.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -16,26 +16,39 @@ export class HeaderComponent {
   isLoggedIn = true; // Cambiar a true si el usuario está autenticado
   userProfilePicture = 'general/user-default.jpg'; // Ruta por defecto o cargada dinámicamente
   userName = 'Jose Angel Guzman Zavalet'; // 25 chars Cambiar al nombre del usuario autenticado
-  dropdownOpen = false; // Estado del menú desplegable
+  dropdownCuenta = false; // Estado del menú desplegable
+  email = '';
+  @ViewChild('menuWrapper') menuWrapper!: ElementRef;
 
   menuAbierto: boolean = false;
   cuentaAbierto: boolean = false;
 
   sesionIniciada: boolean = false;
 
+  esAdmin = false;
+
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private seriesService: SeriesService
   ) {}
 
-  async ngOnInit() {
-    this.authService.getUser()
-      .then(user => {
-        this.sesionIniciada = !!user;
-      })
-      .catch(() => {
-        this.sesionIniciada = false;
-      });
+  ngOnInit() {
+    this.authService.user$.subscribe(async user => {
+      this.sesionIniciada = !!user;
+      this.email = user?.email?.split('@')[0] ?? '';
+
+      if (user) {
+        try {
+          this.esAdmin = await firstValueFrom(this.seriesService.esUsuarioAdmin());
+        } catch (err) {
+          console.error('Error al verificar admin:', err);
+          this.esAdmin = false;
+        }
+      } else {
+        this.esAdmin = false;
+      }
+    });
   }
 
   alternarMenu() {
@@ -54,18 +67,16 @@ export class HeaderComponent {
     }
   }
 
-  closeMenu() {
-    this.menuAbierto = false;
+  alternarDropdownCuenta(event: MouseEvent) {
+    event.stopPropagation(); // evita que se cierre al hacer clic en el botón
+    this.dropdownCuenta = !this.dropdownCuenta;
   }
 
-  toggleDropdown() {
-    this.dropdownOpen = !this.dropdownOpen; // Alternar el estado del dropdown
-  }
-
-  logout() {
-    // Lógica para cerrar sesión
-    this.isLoggedIn = false;
-    this.dropdownOpen = false;
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    if (!this.menuWrapper?.nativeElement.contains(event.target)) {
+      this.dropdownCuenta = false;
+    }
   }
 
   async cerrarSesion() {
@@ -74,38 +85,6 @@ export class HeaderComponent {
       window.location.reload();
     } catch (err: any) {
       console.error('Error al cerrar sesión:', err.message);
-    }
-  }
-
-  // openSignupModal() {
-  //   this.modalService.open(SignupComponent, {
-  //     centered: true,
-  //   });
-  // }
-
-  // openLoginModal() {
-  //   const modalRef = this.modalService.open(LoginComponent, {
-  //     centered: true,
-  //   });
-
-  //   modalRef.result
-  //     .then((result) => {
-  //       console.log('Resultado del modal:', result);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error cerrando el modal:', error);
-  //     });
-
-  //   this.isLoggedIn = true;
-  // }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: Event) {
-    const target = event.target as HTMLElement;
-
-    // Cerrar el dropdown si el clic no es dentro del menú o perfil
-    if (!target.closest('.user-profile') && !target.closest('.dropdown-menu')) {
-      this.dropdownOpen = false;
     }
   }
 }

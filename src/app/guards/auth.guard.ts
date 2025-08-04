@@ -2,21 +2,41 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { SeriesService } from '../services/series.service';
 import { firstValueFrom } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 export const authGuard: CanActivateFn = async () => {
+  const router = inject(Router);
+  const seriesService = inject(SeriesService);
+  const authService = inject(AuthService);
+
+  try {
+    const user = await authService.getUser();
+    if (!user) {
+      router.navigate(['/login']);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error('Error en authGuard:', error);
+    router.navigate(['/login']);
+    return false;
+  }
+};
+
+export const adminGuard: CanActivateFn = async () => {
   const router = inject(Router);
   const seriesService = inject(SeriesService);
 
   try {
     const esAdmin = await firstValueFrom(seriesService.esUsuarioAdmin());
     if (!esAdmin) {
-      router.navigate(['/admin']);
+      router.navigate(['/login']);
       return false;
     }
     return true;
   } catch (error) {
-    console.error('Error en authGuard:', error);
-    router.navigate(['/admin']);
+    console.error('Error en adminGuard:', error);
+    router.navigate(['/login']);
     return false;
   }
 };

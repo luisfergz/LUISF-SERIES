@@ -22,16 +22,10 @@ export class AdminComponent {
 
   async ngOnInit() {
     this.spinner.show();
-    this.authService.getUser()
-      .then(user => {
-        this.accesoPermitido = !!user;
-      })
-      .catch(() => {
-        this.accesoPermitido = false;
-      })
-      .finally(() => {
-        this.mostrarContenido();
-      });
+    this.authService.user$.subscribe(user => {
+      this.accesoPermitido = !!user;
+      this.mostrarContenido();
+    });
   }
 
   mostrarContenido() {

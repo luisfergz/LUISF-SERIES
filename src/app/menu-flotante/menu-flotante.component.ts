@@ -3,14 +3,14 @@ import {
   ElementRef,
   HostListener,
   ViewChild,
-  AfterViewInit
+  AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { Collapse } from 'bootstrap';
-import { filter } from 'rxjs/operators';
-import { firstValueFrom } from 'rxjs';
+import { filter, Subscription, firstValueFrom } from 'rxjs';
 import { SeriesService } from '../services/series.service';
 
 @Component({
@@ -20,79 +20,72 @@ import { SeriesService } from '../services/series.service';
   templateUrl: './menu-flotante.component.html',
   styleUrl: './menu-flotante.component.css'
 })
-export class MenuFlotanteComponent implements AfterViewInit {
+export class MenuFlotanteComponent implements AfterViewInit, OnDestroy {
   accesoPermitido = false;
   @ViewChild('menuRef') menuRef!: ElementRef;
   @ViewChild('toggleBtn') toggleBtn!: ElementRef;
   private bsCollapse?: Collapse;
   private menuVisible = false;
+  private navSub?: Subscription;
 
-  constructor(private authService: AuthService, private router: Router, private seriesService: SeriesService) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private seriesService: SeriesService
+  ) {}
 
   async ngOnInit() {
     try {
       const user = await this.authService.getUser();
-      const userExists = !!user;
-      if (!userExists) {
-        this.accesoPermitido = false;
-        return;
-      }
-      const esAdmin = await firstValueFrom(this.seriesService.esUsuarioAdmin());
-      this.accesoPermitido = esAdmin;
-      if (esAdmin) {
-        setTimeout(() => this.initCollapse(), 0);
-      }
+      if (!user) return;
+
+      this.accesoPermitido = await firstValueFrom(this.seriesService.esUsuarioAdmin());
+
     } catch (err) {
       console.error('Error en ngOnInit:', err);
-      this.accesoPermitido = false;
     }
   }
 
   ngAfterViewInit(): void {
-    // Si ya tienes acceso, intenta inicializar por seguridad
-    if (this.accesoPermitido) {
-      this.initCollapse();
-    }
+    if (this.accesoPermitido) this.initCollapse();
   }
 
-  toggleMenu() {
+  ngOnDestroy(): void {
+    this.navSub?.unsubscribe();
+  }
+
+  toggleMenu(): void {
     if (!this.bsCollapse) return;
-    if (this.menuVisible) {
-      this.bsCollapse.hide();
-    } else {
-      this.bsCollapse.show();
-    }
+    this.menuVisible ? this.bsCollapse.hide() : this.bsCollapse.show();
     this.menuVisible = !this.menuVisible;
   }
 
   private initCollapse(): void {
-    if (this.menuRef?.nativeElement && !this.bsCollapse) {
-      this.bsCollapse = new Collapse(this.menuRef.nativeElement, {
-        toggle: false
-      });
+    if (!this.menuRef?.nativeElement || this.bsCollapse) return;
 
-      this.router.events
-        .pipe(filter(event => event instanceof NavigationEnd))
-        .subscribe(() => {
-          this.bsCollapse?.hide();
-          this.menuVisible = false;
-        });
-    }
+    this.bsCollapse = new Collapse(this.menuRef.nativeElement, { toggle: false });
+
+    this.navSub = this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.bsCollapse?.hide();
+        this.menuVisible = false;
+      });
   }
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    const clickedInsideMenu = this.menuRef?.nativeElement.contains(target);
-    const clickedToggleBtn = this.toggleBtn?.nativeElement.contains(target);
-
-    if (!clickedInsideMenu && !clickedToggleBtn) {
+    if (
+      !this.menuRef?.nativeElement.contains(target) &&
+      !this.toggleBtn?.nativeElement.contains(target)
+    ) {
       this.bsCollapse?.hide();
       this.menuVisible = false;
     }
   }
 
-  async cerrarSesion() {
+  async cerrarSesion(): Promise<void> {
     try {
       await this.authService.signOut();
       window.location.reload();
@@ -100,5 +93,4 @@ export class MenuFlotanteComponent implements AfterViewInit {
       console.error('Error al cerrar sesión:', err.message);
     }
   }
-
 }
