@@ -119,33 +119,73 @@ export class SeriesService {
     );
   }
 
-  obtenerAvatarUrl(): Promise<string | null> {
-    return this.supabase.auth.getUser()
-      .then(({ data, error }) => {
-        if (error || !data?.user) throw new Error('No hay sesión');
-        const userId = data.user.id;
+  async obtenerAvatarUrl(): Promise<string | null> {
+    const { data: userData, error: userError } = await this.supabase.auth.getUser();
+    if (userError || !userData?.user) return null;
 
-        return this.supabase
-          .from('perfiles')
-          .select('avatar')
-          .eq('id', userId)
-          .single();
-      })
-      .then(({ data, error }) => {
-        if (error || !data?.avatar) throw new Error('No se encontró avatar');
-        
-        const { publicUrl } = this.supabase
-          .storage
-          .from('avatars')
-          .getPublicUrl(data.avatar).data;
+    const userId = userData.user.id;
 
-        return publicUrl || null;
-      })
-      .catch(err => {
-        console.warn('No se pudo recuperar el avatar:', err.message);
-        return null;
-      });
+    const { data: archivos, error: listError } = await this.supabase
+      .storage
+      .from('avatars')
+      .list(userId);
+
+    if (listError || !archivos || archivos.length === 0) return null;
+
+    // Buscar el archivo llamado avatar con cualquier extensión
+    const archivo = archivos.find(f => /^avatar\.[a-zA-Z0-9]+$/.test(f.name));
+    if (!archivo) return null;
+
+    const fullPath = `${userId}/${archivo.name}`;
+
+    // Obtener la URL pública
+    const { data } = this.supabase.storage
+      .from('avatars')
+      .getPublicUrl(fullPath);
+
+    // Agrega timestamp para evitar caché
+    return data?.publicUrl ? `${data.publicUrl}?t=${Date.now()}` : null;
   }
+
+  async cambiarAvatar(file: File): Promise<void> {
+    const { data: userData, error: userError } = await this.supabase.auth.getUser();
+    if (userError || !userData?.user) throw new Error('No hay sesión activa');
+
+    const userId = userData.user.id;
+    const extension = file.name.split('.').pop()?.toLowerCase();
+    if (!extension) throw new Error('Formato de archivo no válido');
+
+    const filePath = `${userId}/avatar.${extension}`;
+
+    // Eliminar todos los archivos previos en la carpeta del usuario
+    const { data: archivos, error: listError } = await this.supabase
+      .storage
+      .from('avatars')
+      .list(userId);
+
+    if (listError) throw new Error('Error al listar archivos existentes');
+
+    if (archivos && archivos.length > 0) {
+      const archivosAEliminar = archivos.map(a => `${userId}/${a.name}`);
+      const { error: deleteError } = await this.supabase
+        .storage
+        .from('avatars')
+        .remove(archivosAEliminar);
+
+      if (deleteError) throw new Error('Error al eliminar archivos antiguos');
+    }
+
+    // Subir el nuevo avatar
+    const { error: uploadError } = await this.supabase.storage
+      .from('avatars')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: true
+      });
+
+    if (uploadError) throw new Error('Error al subir el avatar');
+  }
+
 
   insertarSerie(serie: Omit<Serie, 'id'>): Observable<any> {
     return this.esUsuarioAdmin().pipe(

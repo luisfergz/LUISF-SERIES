@@ -1,23 +1,35 @@
-<div class="container-fluid text-center my-5 text-white">
-    <h3 class="fw-bold mb-5">Perfil</h3>
+<div *ngIf="mensaje" class="text-center bg-success text-white p-2">
+    <span><i class="fa fa-check-circle me-2"></i>{{ mensaje }}</span>
+</div>
+<div class="container-fluid text-center my-4 text-white">
+    <h3 class="fw-bold mb-3">Perfil</h3>
     <div class="justify-content-center mx-auto col-12 col-md-5 col-xl-4">
-        <div class="mx-auto" style="width: 10rem; height: 10rem;">
-            <img class="rounded-circle img-fluid" src="general/user-default.jpg" alt="user" >
+        <div id="camera-container" class="mx-auto rounded-circle overflow-hidden"
+            style="width: 10rem; height: 10rem; cursor: pointer;" (click)="cambiarAvatar()">
+            <img class="rounded-circle" style="width: 10rem; height: 10rem;" [src]="avatar || 'general/user-default.jpg'" alt="user">
+            <div id="camera-btn" class="border-0 w-100 text-light fs-4 py-1"
+                style="background-color: rgba(0, 0, 0, 0.8); transform: translateY(-100%);">
+                <i class="fa-solid fa-camera"></i>
+            </div>
+            <input #fileInput type="file" accept="image/*" (change)="seleccionarAvatar($event)" hidden>
         </div>
-        <div class="table-responsive mt-3">
+        <span class="text-danger d-block mt-2" *ngIf="error">{{ error }}</span>
+
+        <div class="table-responsive mt-4">
             <table class="table table-striped table-bordered m-0 rounded">
                 <tbody>
                     <tr>
-                        <th class="text-start" style="font-weight: 500;">Correo electrónico</th>
-                        <td class="text-start" style="font-weight: 500;">{{ email }}</td>
+                        <th class="text-start p-3" style="font-weight: normal;">Nombre de usuario</th>
+                        <td class="text-start p-3" style="font-weight: normal;">{{ usuario }}</td>
                     </tr>
                     <tr>
-                        <th class="text-start" style="font-weight: 500;">Nombre</th>
-                        <td class="text-start" style="font-weight: 500;">{{ usuario }}</td>
+                        <th class="text-start p-3" style="font-weight: normal;">Correo electrónico</th>
+                        <td class="text-start p-3" style="font-weight: normal;">{{ email }}</td>
                     </tr>
                     <tr>
-                        <th class="text-start" style="font-weight: 500;">Contraseña</th>
-                        <td class="text-start" style="font-weight: 500;"><button class="btn btn-primary">Actualizar contraseña</button></td>
+                        <th class="text-start p-3" style="font-weight: normal;">Contraseña</th>
+                        <td class="text-start p-3" style="font-weight: normal;"><button
+                                class="btn btn-primary">Actualizar contraseña</button></td>
                     </tr>
                 </tbody>
             </table>

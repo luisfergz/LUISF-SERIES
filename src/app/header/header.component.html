@@ -33,7 +33,7 @@
           type="button"
           (click)="alternarDropdownCuenta($event)"
           style="font-size: 1.04rem;">
-          <img class="rounded-circle" [src]="avatar" alt="user" style="width: 2rem; height: 2rem;">
+          <img class="rounded-circle" [src]="avatar || 'general/user-default.jpg'" alt="user" style="width: 2rem; height: 2rem;">
           <span class="ms-2">{{ email }}</span>
           <i class="fa-solid ms-2" [ngClass]="dropdownCuenta ? 'fa-caret-up' : 'fa-caret-down'"></i>
         </button>
@@ -59,7 +59,7 @@
       </div>
       <img class="rounded-circle ms-2 d-inherit d-md-none" alt="user"
         style="width: 2rem; height: 2rem; cursor: pointer;"
-        (click)="alternarCuenta()" [src]="avatar" />
+        (click)="alternarCuenta()" [src]="avatar || 'general/user-default.jpg'" />
     </div>
   </div>
 </header>

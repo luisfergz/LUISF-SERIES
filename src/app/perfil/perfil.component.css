@@ -1,0 +1,2 @@
+#camera-btn { opacity: 0; }
+#camera-container:hover #camera-btn { opacity: 0.8; }
