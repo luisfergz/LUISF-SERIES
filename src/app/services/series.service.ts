@@ -92,28 +92,59 @@ export class SeriesService {
 
   esUsuarioAdmin(): Observable<boolean> {
     return from(this.supabase.auth.getUser()).pipe(
-      switchMap(({ data: { user } }) => {
-        const userId = user?.id;
-        if (!userId) return of(false);
+      switchMap(({ data, error }) => {
+        if (error || !data?.user) return of(false);
+        const userId = data.user.id;
+
         return from(
           this.supabase
             .from('perfiles')
             .select('id')
             .eq('id', userId)
             .eq('rol', 'admin')
+            .limit(1)
+            .maybeSingle()
         ).pipe(
-          map(({ data }) => {
-            const esAdmin = Array.isArray(data) && data.length > 0;
-            if (data && data.length > 1) console.warn('⚠️ Múltiples perfiles admin encontrados');
-            return esAdmin;
+          map(({ data }) => !!data),
+          catchError(err => {
+            console.error('Error al verificar admin:', err);
+            return of(false);
           })
         );
       }),
-      catchError((err) => {
-        console.error('Error al verificar admin:', err);
+      catchError(err => {
+        console.error('Error al obtener usuario:', err);
         return of(false);
       })
     );
+  }
+
+  obtenerAvatarUrl(): Promise<string | null> {
+    return this.supabase.auth.getUser()
+      .then(({ data, error }) => {
+        if (error || !data?.user) throw new Error('No hay sesión');
+        const userId = data.user.id;
+
+        return this.supabase
+          .from('perfiles')
+          .select('avatar')
+          .eq('id', userId)
+          .single();
+      })
+      .then(({ data, error }) => {
+        if (error || !data?.avatar) throw new Error('No se encontró avatar');
+        
+        const { publicUrl } = this.supabase
+          .storage
+          .from('avatars')
+          .getPublicUrl(data.avatar).data;
+
+        return publicUrl || null;
+      })
+      .catch(err => {
+        console.warn('No se pudo recuperar el avatar:', err.message);
+        return null;
+      });
   }
 
   insertarSerie(serie: Omit<Serie, 'id'>): Observable<any> {

@@ -14,6 +14,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class PerfilComponent {
   email = '';
+  usuario = '';
 
   constructor(private authService: AuthService) {}
 

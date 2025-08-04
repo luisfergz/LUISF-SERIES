@@ -13,10 +13,8 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  isLoggedIn = true; // Cambiar a true si el usuario está autenticado
-  userProfilePicture = 'general/user-default.jpg'; // Ruta por defecto o cargada dinámicamente
-  userName = 'Jose Angel Guzman Zavalet'; // 25 chars Cambiar al nombre del usuario autenticado
-  dropdownCuenta = false; // Estado del menú desplegable
+  avatar: string | null = null;
+  dropdownCuenta = false;
   email = '';
   @ViewChild('menuWrapper') menuWrapper!: ElementRef;
 
@@ -48,6 +46,8 @@ export class HeaderComponent {
       } else {
         this.esAdmin = false;
       }
+      const url = await this.seriesService.obtenerAvatarUrl();
+      this.avatar = url || 'general/user-default.jpg';
     });
   }
 

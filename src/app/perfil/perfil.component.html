@@ -1,14 +1,26 @@
 <div class="container-fluid text-center my-5 text-white">
-    <h3 class="fw-bold mb-5">Iniciar sesión</h3>
-    <div class="justify-content-center mx-auto col-12 col-md-4 col-xl-3">
-        <div class="row">
-            <div class="col-6">
-                Correo electrónico
-            </div>
-            <div class="col-6">
-                {{ email }}
-            </div>
+    <h3 class="fw-bold mb-5">Perfil</h3>
+    <div class="justify-content-center mx-auto col-12 col-md-5 col-xl-4">
+        <div class="mx-auto" style="width: 10rem; height: 10rem;">
+            <img class="rounded-circle img-fluid" src="general/user-default.jpg" alt="user" >
         </div>
-        <button class="btn btn-primary">Actualizar contraseña</button>
+        <div class="table-responsive mt-3">
+            <table class="table table-striped table-bordered m-0 rounded">
+                <tbody>
+                    <tr>
+                        <th class="text-start" style="font-weight: 500;">Correo electrónico</th>
+                        <td class="text-start" style="font-weight: 500;">{{ email }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-start" style="font-weight: 500;">Nombre</th>
+                        <td class="text-start" style="font-weight: 500;">{{ usuario }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-start" style="font-weight: 500;">Contraseña</th>
+                        <td class="text-start" style="font-weight: 500;"><button class="btn btn-primary">Actualizar contraseña</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

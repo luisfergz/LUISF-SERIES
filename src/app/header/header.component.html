@@ -16,16 +16,16 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link fw-light" style="font-size: 1.2rem;" routerLink="/series" routerLinkActive="active">
+        <a class="nav-link fw-light" style="font-size: 1.2rem;" routerLink="series" routerLinkActive="active">
           <i class="fa-solid fa-tv"></i> Series
         </a>
       </li>
     </ul>
     <div class="col-2 col-md-4 text-end">
-      <a *ngIf="!sesionIniciada" class="d-none d-md-inline btn btn-outline-primary border-0 text-white me-1" type="button" routerLink="/login">
+      <a *ngIf="!sesionIniciada" class="d-none d-md-inline btn btn-outline-primary border-0 text-white me-1" type="button" routerLink="login">
         Iniciar sesión
       </a>
-      <a *ngIf="!sesionIniciada" class="d-none d-md-inline btn btn-primary border-0 text-white me-1" type="button" routerLink="/signup">
+      <a *ngIf="!sesionIniciada" class="d-none d-md-inline btn btn-primary border-0 text-white me-1" type="button" routerLink="signup">
         Crear cuenta
       </a>
       <div *ngIf="sesionIniciada" class="d-none d-md-flex justify-content-end position-relative" #menuWrapper>
@@ -33,7 +33,7 @@
           type="button"
           (click)="alternarDropdownCuenta($event)"
           style="font-size: 1.04rem;">
-          <img class="rounded-circle" src="general/user-default.jpg" alt="user" style="width: 2rem; height: 2rem;">
+          <img class="rounded-circle" [src]="avatar" alt="user" style="width: 2rem; height: 2rem;">
           <span class="ms-2">{{ email }}</span>
           <i class="fa-solid ms-2" [ngClass]="dropdownCuenta ? 'fa-caret-up' : 'fa-caret-down'"></i>
         </button>
@@ -53,14 +53,13 @@
             <i class="fa-solid fa-rectangle-list me-2"></i> Carrusel
           </a>
           <a class="btn btn-outline-danger border-0 text-start text-white" (click)="cerrarSesion()">
-            <i class="fa-solid fa-right-from-bracket me-2"></i> Cerrar Sesión
+            <i class="fa fa-sign-out-alt me-2"></i> Cerrar Sesión
           </a>
         </div>
       </div>
-      <button class="navbar-toggler d-inline d-md-none fs-1 px-1 px-md-0 py-1 py-md-0" type="button"
-        (click)="alternarCuenta()">
-        <i class="fa fa-user-circle ms-auto"></i>
-      </button>
+      <img class="rounded-circle ms-2 d-inherit d-md-none" alt="user"
+        style="width: 2rem; height: 2rem; cursor: pointer;"
+        (click)="alternarCuenta()" [src]="avatar" />
     </div>
   </div>
 </header>
@@ -73,11 +72,13 @@
       <i class="fa fa-times fs-4"></i>
     </button>
     <div class="d-flex flex-column">
-      <a class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-3" role="button" routerLink="/" (click)="alternarCuenta()">
-        <i class="fa-solid fa-home me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Inicio</span><i class="fa-solid fa-angle-right ms-3"></i>
+      <a class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-4"
+        role="button" routerLink="/" (click)="alternarCuenta()">
+        <i class="fa-solid fa-home me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Inicio</span>
       </a>
-      <a class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-3" role="button" routerLink="/series" (click)="alternarCuenta()">
-        <i class="fa-solid fa-tv me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Series</span><i class="fa-solid fa-angle-right ms-3"></i>
+      <a class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-4"
+        role="button" routerLink="series" (click)="alternarCuenta()">
+        <i class="fa-solid fa-tv me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Series</span>
       </a>
     </div>
   </div>
@@ -91,14 +92,35 @@
       <i class="fa fa-times fs-4"></i>
     </button>
     <div class="d-flex flex-column">
-      <a *ngIf="!sesionIniciada" class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-3" role="button" routerLink="/admin" (click)="alternarCuenta()">
-        <i class="fa fa-user-circle me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Iniciar Sesión</span><i class="fa-solid fa-angle-right ms-3"></i>
+      <span *ngIf="sesionIniciada" class="text-white px-4 mt-2">{{ email }}</span>
+      <hr class="text-white" />
+      <a *ngIf="!sesionIniciada" class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-4"
+        role="button" routerLink="login" (click)="alternarCuenta()">
+        <i class="fa fa-user-circle me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Iniciar Sesión</span>
       </a>
-      <a *ngIf="!sesionIniciada" class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-3" role="button" (click)="alternarCuenta()">
-        <i class="fa fa-user-circle me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Crear Cuenta</span><i class="fa-solid fa-angle-right ms-3"></i>
+      <a *ngIf="!sesionIniciada" class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-4"
+        role="button" routerLink="signup" (click)="alternarCuenta()">
+        <i class="fa fa-user-circle me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Crear Cuenta</span>
       </a>
-      <button *ngIf="sesionIniciada" class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-3" type="button" (click)="cerrarSesion()">
-        <i class="fa fa-sign-out-alt me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Cerrar Sesión</span><i class="fa-solid fa-angle-right ms-3"></i>
+      <a *ngIf="sesionIniciada" class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-4"
+        role="button" routerLink="perfil" (click)="alternarCuenta()">
+        <i class="fa-solid fa-user-gear me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Perfil</span>
+      </a>
+      <a *ngIf="esAdmin" class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-4"
+        role="button" routerLink="agregar-serie" (click)="alternarCuenta()">
+        <i class="fa-solid fa-plus me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Agregar Serie</span>
+      </a>
+      <a *ngIf="esAdmin" class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-4"
+        role="button" routerLink="gestionar-series" (click)="alternarCuenta()">
+        <i class="fa-solid fa-pen-to-square me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Editar Serie</span>
+      </a>
+      <a *ngIf="esAdmin" class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-4"
+        role="button" routerLink="carrusel" (click)="alternarCuenta()">
+        <i class="fa-solid fa-rectangle-list me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Carrusel</span>
+      </a>
+      <button *ngIf="sesionIniciada" class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-4"
+        type="button" (click)="cerrarSesion()">
+        <i class="fa fa-sign-out-alt me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Cerrar Sesión</span>
       </button>
     </div>
   </div>
