@@ -15,6 +15,21 @@ export interface InformacionTecnica {
   valor: string;     // Ej. "Español Latino", "1080p"
 }
 
+export interface Comentario {
+  id: number;
+  serie_id: number;
+  autor_id: string | null;
+  contenido: string;
+  fecha: string;
+  respuesta_a?: number | null;
+  respuestas?: Comentario[]; // Para anidar respuestas en UI
+  perfiles?: {
+    usuario: string;
+    avatar: string;
+    avatarUrl: string;
+  };
+}
+
 export interface Serie {
   id: number;  // ID de la serie
   nombre: string;  // Nombre de la serie
@@ -23,7 +38,6 @@ export interface Serie {
   banner: string;  // Imagen de portada
   portada: string;  // Imagen principal
   contrasena: string;  // Contraseña
-  comentario: string;  // Comentario de la serie
   slug: string;  // URL personalizada de la serie
   temporadas: Temporada[];  // Relación de temporadas
   peliculas: Pelicula[];  // Relación de temporadas

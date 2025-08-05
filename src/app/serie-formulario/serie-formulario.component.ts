@@ -26,12 +26,11 @@ export class SerieFormularioComponent {
       banner: [''],
       portada: [''],
       contrasena: [''],
-      comentario: [''],
       slug: ['', [Validators.required]],
       temporadas: this.fb.array([]),
       peliculas: this.fb.array([]),
       informacion_tecnica: this.fb.array([]),
-      activo: [true]
+      activo: [true],
     });
   }
 
@@ -201,7 +200,6 @@ export class SerieFormularioComponent {
       banner: this.formulario.value.banner,
       portada: this.formulario.value.portada,
       contrasena: this.formulario.value.contrasena,
-      comentario: this.formulario.value.comentario,
       slug,
       temporadas: this.temporadas.value,
       peliculas: this.peliculas.value,

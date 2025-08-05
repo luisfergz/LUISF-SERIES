@@ -45,8 +45,43 @@
       <span class="fs-4" style="color: #20CE88">Contraseña: <span class="fs-4 text-white">{{ serie.contrasena
           }}</span></span>
     </div>
+
     <div class="comentarios">
-      <span>Comentarios</span>
+      
+      <!-- Sección para agregar un nuevo comentario -->
+      <div class="mb-4">
+        <h5>Agregar un comentario</h5>
+        <textarea
+          class="form-control"
+          [(ngModel)]="nuevoComentario"
+          rows="3"
+          placeholder="Escribe tu comentario aquí..."
+        ></textarea>
+        <button class="btn btn-primary mt-2" (click)="agregarComentario()">Comentar</button>
+      </div>
+
+      <!-- Comentarios raíz -->
+      <div *ngFor="let comentario of comentariosRaiz">
+        <ng-container *ngTemplateOutlet="renderComentario; context: { $implicit: comentario }"></ng-container>
+      </div>
+
+      <ng-template #renderComentario let-comentario>
+        <div class="comentario mb-2">
+          <p><strong>{{ comentario.perfiles?.usuario || 'Anónimo' }}</strong>: {{ comentario.contenido }}</p>
+          <button *ngIf="comentario.respuestas?.length"
+                  class="btn btn-sm btn-outline-secondary"
+                  (click)="toggleRespuestas(comentario.id)">
+            {{ comentariosConRespuestasVisibles.has(comentario.id) ? 'Ocultar respuestas' : 'Ver ' + comentario.respuestas.length + ' respuesta(s)' }}
+          </button>
+
+          <div *ngIf="comentariosConRespuestasVisibles.has(comentario.id)" class="ms-4">
+            <ng-container *ngFor="let resp of comentario.respuestas">
+              <ng-container *ngTemplateOutlet="renderComentario; context: { $implicit: resp }"></ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </ng-template>
+
     </div>
   </div>
 

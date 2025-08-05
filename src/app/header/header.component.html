@@ -34,7 +34,8 @@
           (click)="alternarDropdownCuenta($event)"
           style="font-size: 1.04rem;">
           <img class="rounded-circle" [src]="avatar || 'general/user-default.jpg'" alt="user" style="width: 2rem; height: 2rem;">
-          <span class="ms-2">{{ email }}</span>
+          <span *ngIf="usuario" class="ms-2 text-white">{{ usuario }}</span>
+          <span *ngIf="!usuario" class="ms-2 text-white opacity-50">Sin nombre de usuario</span>
           <i class="fa-solid ms-2" [ngClass]="dropdownCuenta ? 'fa-caret-up' : 'fa-caret-down'"></i>
         </button>
         <div *ngIf="dropdownCuenta"
@@ -94,8 +95,8 @@
     <div class="d-flex flex-column">
       <div *ngIf="sesionIniciada" class="ps-3 pe-4 mt-2 d-flex align-items-center">
         <img class="rounded-circle me-2" [src]="avatar || 'general/user-default.jpg'" alt="user" style="width: 2rem; height: 2rem;">
-        <span *ngIf="sesionIniciada && usuario" class="text-white">{{ usuario }}</span>
-        <span *ngIf="sesionIniciada && !usuario" class="text-white opacity-50">Sin nombre de usuario</span>
+        <span *ngIf="usuario" class="text-white">{{ usuario }}</span>
+        <span *ngIf="!usuario" class="text-white opacity-50">Sin nombre de usuario</span>
       </div>
       <hr *ngIf="sesionIniciada" class="text-white" />
       <a *ngIf="!sesionIniciada" class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-4"

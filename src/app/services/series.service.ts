@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, from, of, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { Carrusel, InformacionTecnica, Serie, Temporada } from '../models/serie.model';
+import { Carrusel, Comentario, InformacionTecnica, Serie, Temporada } from '../models/serie.model';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../environments/environment';
 
@@ -160,70 +160,159 @@ export class SeriesService {
   }
 
   async obtenerAvatarUrl(): Promise<string | null> {
+    // Obtener usuario actual
     const { data: userData, error: userError } = await this.supabase.auth.getUser();
     if (userError || !userData?.user) return null;
 
     const userId = userData.user.id;
 
-    const { data: archivos, error: listError } = await this.supabase
-      .storage
-      .from('avatars')
-      .list(userId);
+    // Leer ruta avatar desde tabla perfiles
+    const { data: perfil, error: perfilError } = await this.supabase
+      .from('perfiles')
+      .select('avatar')
+      .eq('id', userId)
+      .single();
 
-    if (listError || !archivos || archivos.length === 0) return null;
+    if (perfilError || !perfil?.avatar) return null;
 
-    // Buscar el archivo llamado avatar con cualquier extensión
-    const archivo = archivos.find(f => /^avatar\.[a-zA-Z0-9]+$/.test(f.name));
-    if (!archivo) return null;
-
-    const fullPath = `${userId}/${archivo.name}`;
-
-    // Obtener la URL pública
+    // Obtener URL pública del storage usando la ruta guardada en perfiles.avatar
     const { data } = this.supabase.storage
       .from('avatars')
-      .getPublicUrl(fullPath);
+      .getPublicUrl(perfil.avatar);
 
-    // Agrega timestamp para evitar caché
+    // Si quieres evitar cache con timestamp:
     return data?.publicUrl ? `${data.publicUrl}?t=${Date.now()}` : null;
   }
 
   async cambiarAvatar(file: File): Promise<void> {
-    const { data: userData, error: userError } = await this.supabase.auth.getUser();
-    if (userError || !userData?.user) throw new Error('No hay sesión activa');
+    try {
+      const { data: userData, error: userError } = await this.supabase.auth.getUser();
+      if (userError || !userData?.user) throw new Error('No hay sesión activa');
 
-    const userId = userData.user.id;
-    const extension = file.name.split('.').pop()?.toLowerCase();
-    if (!extension) throw new Error('Formato de archivo no válido');
+      const userId = userData.user.id;
+      const extension = file.name.split('.').pop()?.toLowerCase();
+      if (!extension) throw new Error('Formato de archivo no válido');
 
-    const filePath = `${userId}/avatar.${extension}`;
+      const filePath = `${userId}/avatar.${extension}`;
 
-    // Eliminar todos los archivos previos en la carpeta del usuario
-    const { data: archivos, error: listError } = await this.supabase
-      .storage
-      .from('avatars')
-      .list(userId);
+      // Eliminar archivos antiguos
+      const { data: archivos, error: listError } = await this.supabase.storage.from('avatars').list(userId);
+      if (listError) throw new Error('Error al listar archivos existentes');
 
-    if (listError) throw new Error('Error al listar archivos existentes');
+      if (archivos && archivos.length > 0) {
+        const archivosAEliminar = archivos.map(a => `${userId}/${a.name}`);
+        const { error: deleteError } = await this.supabase.storage.from('avatars').remove(archivosAEliminar);
+        if (deleteError) throw new Error('Error al eliminar archivos antiguos');
+      }
 
-    if (archivos && archivos.length > 0) {
-      const archivosAEliminar = archivos.map(a => `${userId}/${a.name}`);
-      const { error: deleteError } = await this.supabase
-        .storage
-        .from('avatars')
-        .remove(archivosAEliminar);
-
-      if (deleteError) throw new Error('Error al eliminar archivos antiguos');
-    }
-
-    // Subir el nuevo avatar
-    const { error: uploadError } = await this.supabase.storage
-      .from('avatars')
-      .upload(filePath, file, {
-        cacheControl: '3600',
-        upsert: true
+      // Subir nuevo avatar
+      const { error: uploadError } = await this.supabase.storage.from('avatars').upload(filePath, file, {
+        cacheControl: '3600'
       });
+      if (uploadError) throw new Error('Error al subir el avatar');
 
-    if (uploadError) throw new Error('Error al subir el avatar');
+      // **Actualizar tabla perfiles con la ruta del avatar**
+      const { error: updateError } = await this.supabase
+        .from('perfiles')
+        .update({ avatar: filePath })
+        .eq('id', userId);
+
+      if (updateError) throw new Error('Error al actualizar avatar en perfiles');
+
+    } catch (error) {
+      console.error('Error en cambiarAvatar:', error);
+      throw error;
+    }
+  }
+
+  async obtenerComentariosPorSerie(serieId: number): Promise<Comentario[]> {
+    const { data, error } = await this.supabase
+      .from('comentario')
+      .select(`
+        id,
+        serie_id,
+        autor_id,
+        contenido,
+        fecha,
+        respuesta_a,
+        perfiles (
+          usuario,
+          avatar
+        )
+      `)
+      .eq('serie_id', serieId)
+      .order('fecha', { ascending: true });
+
+    if (error || !data) {
+      console.error('Error al obtener comentarios:', error);
+      return [];
+    }
+    console.log('comentarios:', data);
+
+    // Agregar URL pública avatar
+    const comentariosConAvatares = data.map((comentario: any) => {
+      let avatarUrl = 'general/user-default.jpg';
+
+      if (comentario.perfiles?.avatar) {
+        const { data: avatarData } = this.supabase.storage
+          .from('avatars')
+          .getPublicUrl(comentario.perfiles.avatar);
+        if (avatarData?.publicUrl) avatarUrl = avatarData.publicUrl;
+      }
+
+      return {
+        ...comentario,
+        perfiles: {
+          usuario: comentario.perfiles?.usuario || 'Anónimo',
+          avatarUrl,
+        },
+        respuestas: [], // Inicializa respuestas aquí para evitar undefined
+      };
+    });
+
+    // // Construir árbol de comentarios
+    // const comentarioMap = new Map<number, Comentario>();
+    // comentariosConAvatares.forEach((comentario: Comentario) => {
+    //   comentarioMap.set(comentario.id, comentario);
+    // });
+
+    // const comentariosRaiz: Comentario[] = [];
+
+    // comentariosConAvatares.forEach((comentario: Comentario) => {
+    //   if (comentario.respuesta_a != null) {
+    //     const padre = comentarioMap.get(comentario.respuesta_a);
+    //     if (padre) {
+    //       padre.respuestas?.push(comentario);
+    //     } else {
+    //       // Si no se encuentra el padre, opcionalmente agregar a raíz o ignorar
+    //       comentariosRaiz.push(comentario);
+    //     }
+    //   } else {
+    //     comentariosRaiz.push(comentario);
+    //   }
+    // });
+
+    return comentariosConAvatares;
+  }
+
+
+  async agregarComentario(comentario: {
+    serie_id: number;
+    contenido: string;
+    respuesta_a: number | null;
+  }): Promise<void> {
+    const { data: userData, error: userError } = await this.supabase.auth.getUser();
+    if (userError || !userData?.user) throw new Error('No autenticado');
+
+    const { error } = await this.supabase.from('comentario').insert({
+      serie_id: comentario.serie_id,
+      contenido: comentario.contenido,
+      respuesta_a: comentario.respuesta_a,
+      autor_id: userData.user.id,
+      fecha: new Date().toISOString(),
+    });
+
+    if (error) throw error;
   }
 
   insertarSerie(serie: Omit<Serie, 'id'>): Observable<any> {

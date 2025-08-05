@@ -90,6 +90,9 @@ export class PerfilComponent {
     try {
       await this.seriesService.cambiarAvatar(file);
       this.mensaje = 'Avatar actualizado correctamente';
+      
+      const url = await this.seriesService.obtenerAvatarUrl();
+      this.avatar = url || 'general/user-default.jpg';
     } catch (e: any) {
       this.errorAvatar = e.message || 'Error al cambiar el avatar';
     } finally {
