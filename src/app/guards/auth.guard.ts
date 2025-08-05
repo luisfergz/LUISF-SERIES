@@ -23,6 +23,23 @@ export const authGuard: CanActivateFn = async () => {
   }
 };
 
+export const noAuthGuard: CanActivateFn = async () => {
+  const router = inject(Router);
+  const seriesService = inject(SeriesService);
+  const authService = inject(AuthService);
+
+  try {
+    const user = await authService.getUser();
+    if (user) {
+      router.navigate(['/']);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    return true;
+  }
+};
+
 export const adminGuard: CanActivateFn = async () => {
   const router = inject(Router);
   const seriesService = inject(SeriesService);

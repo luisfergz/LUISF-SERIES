@@ -33,6 +33,26 @@ export class AuthService {
     }
   }
 
+  async cambiarContrasena(nuevaContrasena: string): Promise<void> {
+    const { data: userData, error: userError } = await this.supabaseService.client.auth.getUser();
+    if (userError || !userData?.user) throw new Error('No hay sesión activa');
+
+    const { error: updateError } = await this.supabaseService.client.auth.updateUser({
+      password: nuevaContrasena
+    });
+
+    if (updateError) throw new Error(this.traducirError(updateError.message));
+  }
+
+  async enviarCorreoRecuperacion(email: string): Promise<void> {
+    const { error } = await this.supabaseService.client.auth.resetPasswordForEmail(email, {
+      redirectTo: 'https://luis-f-series-return.netlify.app/actualizar-password' // URL donde el usuario será redirigido
+    });
+    if (error) {
+      throw new Error(this.traducirError(error.message));
+    }
+  }
+
   async signIn(email: string, password: string) {
     const { data, error } = await this.supabaseService.client.auth.signInWithPassword({ email, password });
     if (error) throw new Error(this.traducirError(error.message));

@@ -1,2 +1,6 @@
 #camera-btn { opacity: 0; }
 #camera-container:hover #camera-btn { opacity: 0.8; }
+
+@media (max-width: 768px) {
+    #camera-btn { opacity: 0.8; }
+}

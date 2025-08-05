@@ -119,6 +119,46 @@ export class SeriesService {
     );
   }
 
+  async obtenerNombreUsuario(): Promise<string | null> {
+    const { data: userData, error: userError } = await this.supabase.auth.getUser();
+    if (userError || !userData?.user) return null;
+
+    const userId = userData.user.id;
+
+    const { data, error } = await this.supabase
+      .from('perfiles')
+      .select('usuario')
+      .eq('id', userId)
+      .single();
+
+    if (error || !data?.usuario) return null;
+    return data.usuario;
+  }
+
+  async guardarNombreUsuario(nombre: string): Promise<void> {
+    const { data: userData, error: userError } = await this.supabase.auth.getUser();
+    if (userError || !userData?.user) throw new Error('No hay sesión activa');
+
+    const userId = userData.user.id;
+
+    // Verificar si el nombre ya existe (en otro perfil)
+    const { data: existentes, error: consultaError } = await this.supabase
+      .from('perfiles')
+      .select('id')
+      .eq('usuario', nombre)
+      .neq('id', userId); // evitar conflicto consigo mismo
+
+    if (consultaError) throw new Error('Error al verificar nombre de usuario');
+    if (existentes.length > 0) throw new Error('El nombre de usuario ya está en uso');
+
+    // Guardar o actualizar el nombre
+    const { error: updateError } = await this.supabase
+      .from('perfiles')
+      .upsert({ id: userId, usuario: nombre });
+
+    if (updateError) throw new Error('Error al guardar el nombre de usuario');
+  }
+
   async obtenerAvatarUrl(): Promise<string | null> {
     const { data: userData, error: userError } = await this.supabase.auth.getUser();
     if (userError || !userData?.user) return null;
@@ -185,7 +225,6 @@ export class SeriesService {
 
     if (uploadError) throw new Error('Error al subir el avatar');
   }
-
 
   insertarSerie(serie: Omit<Serie, 'id'>): Observable<any> {
     return this.esUsuarioAdmin().pipe(

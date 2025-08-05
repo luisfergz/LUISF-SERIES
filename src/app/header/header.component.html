@@ -92,8 +92,12 @@
       <i class="fa fa-times fs-4"></i>
     </button>
     <div class="d-flex flex-column">
-      <span *ngIf="sesionIniciada" class="text-white px-4 mt-2">{{ email }}</span>
-      <hr class="text-white" />
+      <div *ngIf="sesionIniciada" class="ps-3 pe-4 mt-2 d-flex align-items-center">
+        <img class="rounded-circle me-2" [src]="avatar || 'general/user-default.jpg'" alt="user" style="width: 2rem; height: 2rem;">
+        <span *ngIf="sesionIniciada && usuario" class="text-white">{{ usuario }}</span>
+        <span *ngIf="sesionIniciada && !usuario" class="text-white opacity-50">Sin nombre de usuario</span>
+      </div>
+      <hr *ngIf="sesionIniciada" class="text-white" />
       <a *ngIf="!sesionIniciada" class="btn btn-outline-primary border-0 rounded-0 text-white text-start d-flex align-items-center justify-content-center px-4"
         role="button" routerLink="login" (click)="alternarCuenta()">
         <i class="fa fa-user-circle me-3"></i><span class="me-auto" style="padding-bottom: .15rem;">Iniciar Sesión</span>

@@ -16,6 +16,7 @@ export class HeaderComponent {
   avatar: string | null = null;
   dropdownCuenta = false;
   email = '';
+  usuario: string | null = null;
   @ViewChild('menuWrapper') menuWrapper!: ElementRef;
 
   menuAbierto: boolean = false;
@@ -35,6 +36,8 @@ export class HeaderComponent {
     this.authService.user$.subscribe(async user => {
       this.sesionIniciada = !!user;
       this.email = user?.email?.split('@')[0] ?? '';
+
+      this.usuario = await this.seriesService.obtenerNombreUsuario();
 
       if (user) {
         try {
