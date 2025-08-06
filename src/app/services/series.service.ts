@@ -315,6 +315,35 @@ export class SeriesService {
     if (error) throw error;
   }
 
+  async verificarOCrearPerfil(): Promise<void> {
+    const { data: userData, error: userError } = await this.supabase.auth.getUser();
+    if (userError || !userData?.user) throw new Error('No hay sesión activa');
+
+    const user = userData.user;
+    const userId = user.id;
+
+    // 1. Verificar si ya existe el perfil
+    const { data: perfil, error: perfilError } = await this.supabase
+      .from('perfiles')
+      .select('id')
+      .eq('id', userId)
+      .maybeSingle();
+
+    if (perfilError) throw new Error('Error al verificar el perfil');
+
+    // 2. Si no existe, crear uno
+    if (!perfil) {
+      const { error: insertError } = await this.supabase
+        .from('perfiles')
+        .insert({
+          id: userId,
+          rol: 'usuario'
+        });
+
+      if (insertError) throw new Error('Error al crear el perfil');
+    }
+  }
+
   insertarSerie(serie: Omit<Serie, 'id'>): Observable<any> {
     return this.esUsuarioAdmin().pipe(
       switchMap((esAdmin) => {

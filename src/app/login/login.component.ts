@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
+import { SeriesService } from '../services/series.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,7 @@ export class LoginComponent {
   recuerdame = false;
   mostrarPassword = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private seriesService: SeriesService) {}
   
   ngOnInit(): void {
     const recordado = localStorage.getItem('loginRecordado');
@@ -52,6 +53,7 @@ export class LoginComponent {
         localStorage.removeItem('loginRecordado');
       }
       await this.authService.signIn(this.email, this.password);
+      await this.seriesService.verificarOCrearPerfil();
       this.router.navigate(['/']);
     } catch (e: any) {
       this.error = e.message;
