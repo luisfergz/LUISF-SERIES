@@ -46,18 +46,24 @@
           }}</span></span>
     </div>
 
-    <div class="comentarios">
-      
-      <!-- Sección para agregar un nuevo comentario -->
-      <div class="mb-4">
-        <h5>Agregar un comentario</h5>
-        <textarea
-          class="form-control"
-          [(ngModel)]="nuevoComentario"
-          rows="3"
-          placeholder="Escribe tu comentario aquí..."
-        ></textarea>
-        <button class="btn btn-primary mt-2" (click)="agregarComentario()">Comentar</button>
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto mt-5">
+      <span class="fs-4 fw-bold mb-3 d-block" style="color: #20CE88">Comentarios</span>
+      <div class="d-flex gap-2">
+        <img class="rounded-circle" [src]="avatar || 'general/user-default.jpg'" alt="user"
+          style="width: 2rem; height: 2rem;">
+        <div class="text-end w-100">
+          <textarea class="form-control w-100" [(ngModel)]="nuevoComentario" rows="3"
+            placeholder="Escribe tu comentario aquí..."></textarea>
+          <button class="btn btn-primary mt-2" (click)="agregarComentario()">Comentar</button>
+        </div>
+      </div>
+
+      <div class="mt-4 mb-3 d-flex">
+        <span class="fs-5" style="color: #20CE88">Comentarios ({{ comentariosRaiz.length }})</span>
+        <select class="form-select ms-auto w-auto">
+          <option value="masreciente">Más reciente</option>
+          <option value="antiguo">Más antiguo</option>
+        </select>
       </div>
 
       <!-- Comentarios raíz -->
@@ -66,18 +72,28 @@
       </div>
 
       <ng-template #renderComentario let-comentario>
-        <div class="comentario mb-2">
-          <p><strong>{{ comentario.perfiles?.usuario || 'Anónimo' }}</strong>: {{ comentario.contenido }}</p>
-          <button *ngIf="comentario.respuestas?.length"
-                  class="btn btn-sm btn-outline-secondary"
-                  (click)="toggleRespuestas(comentario.id)">
-            {{ comentariosConRespuestasVisibles.has(comentario.id) ? 'Ocultar respuestas' : 'Ver ' + comentario.respuestas.length + ' respuesta(s)' }}
-          </button>
+        <div class="d-flex">
+          <img class="rounded-circle me-2" [src]="comentario.perfiles?.avatarUrl || 'general/user-default.jpg'"
+            alt="user" style="width: 2rem; height: 2rem;">
+          <div>
+            <div class="d-flex">
+              <span class="text-white fw-bold me-2">{{ comentario.perfiles?.usuario || 'Anónimo' }}</span>
+              <span class="text-white opacity-50">{{ comentario.fecha | date: 'short' }}</span>
+            </div>
+            <p class="text-white text-start mt-1 mb-2">{{ comentario.contenido }}</p>
+            <div class="w-100 text-start">
+              <button *ngIf="comentario.respuestas?.length" class="btn btn-sm btn-outline-secondary mb-2"
+                (click)="toggleRespuestas(comentario.id)">
+                {{ comentariosConRespuestasVisibles.has(comentario.id) ? 'Ocultar respuestas' : 'Ver ' +
+                comentario.respuestas.length + ' respuesta(s)' }}
+              </button>
 
-          <div *ngIf="comentariosConRespuestasVisibles.has(comentario.id)" class="ms-4">
-            <ng-container *ngFor="let resp of comentario.respuestas">
-              <ng-container *ngTemplateOutlet="renderComentario; context: { $implicit: resp }"></ng-container>
-            </ng-container>
+              <div *ngIf="comentariosConRespuestasVisibles.has(comentario.id)" class="">
+                <ng-container *ngFor="let resp of comentario.respuestas">
+                  <ng-container *ngTemplateOutlet="renderComentario; context: { $implicit: resp }"></ng-container>
+                </ng-container>
+              </div>
+            </div>
           </div>
         </div>
       </ng-template>

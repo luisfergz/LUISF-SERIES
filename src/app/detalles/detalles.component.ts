@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Comentario, Serie } from '../models/serie.model';
 import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-detalles',
@@ -17,6 +18,8 @@ export class DetallesComponent {
   serie: Serie | undefined = undefined;
   comentariosRaiz: Comentario[] = [];
   nuevoComentario: string = '';
+  avatar: string | null = null;
+  error: string | null = null;
 
   comentarioMostrandoRespuesta: number | null = null;
   respuestaContenido: string = '';
@@ -26,7 +29,8 @@ export class DetallesComponent {
   constructor(
     private route: ActivatedRoute,
     private seriesService: SeriesService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +41,9 @@ export class DetallesComponent {
         this.serie = data;
         if (data?.id) {
           await this.cargarComentarios();
-          console.log('comentarios', this.comentariosRaiz);
+
+          const url = await this.seriesService.obtenerAvatarUrl();
+          this.avatar = url || 'general/user-default.jpg';
         }
         this.mostrarContenido();
       },
@@ -57,9 +63,7 @@ export class DetallesComponent {
   async cargarComentarios(): Promise<void> {
     if (!this.serie) return;
     const comentarios = await this.seriesService.obtenerComentariosPorSerie(this.serie.id);
-    console.log('Comentarios planos:', comentarios);
     this.comentariosRaiz = this.construirArbolComentarios(comentarios);
-    console.log('Comentarios arbol:', this.comentariosRaiz);
   }
 
   construirArbolComentarios(comentarios: Comentario[]): Comentario[] {
@@ -92,6 +96,14 @@ export class DetallesComponent {
 
   async agregarComentario() {
     if (!this.nuevoComentario.trim() || !this.serie) return;
+
+    const user = await this.authService.getUser();
+    if (!user) {
+        window.location.href = '/login';
+        return;
+      }
+
+    this.error = null;
 
     try {
       await this.seriesService.agregarComentario({
