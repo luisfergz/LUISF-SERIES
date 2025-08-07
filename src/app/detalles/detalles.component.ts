@@ -21,10 +21,14 @@ export class DetallesComponent {
   avatar: string | null = null;
   error: string | null = null;
 
+  comentarioAResponder: Comentario | null = null;
+  usuarioActualId: string | null = null;
+
   comentarioMostrandoRespuesta: number | null = null;
   respuestaContenido: string = '';
 
   comentariosConRespuestasVisibles = new Set<number>();
+  ordenFecha: 'reciente' | 'antiguo' = 'reciente';
 
   constructor(
     private route: ActivatedRoute,
@@ -33,7 +37,7 @@ export class DetallesComponent {
     private authService: AuthService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.spinner.show();
     const slug = this.route.snapshot.paramMap.get('slug')!;
     this.seriesService.obtenerSeriePorSlug(slug).subscribe({
@@ -52,6 +56,8 @@ export class DetallesComponent {
         this.mostrarContenido();
       },
     });
+    const user = await this.authService.getUser();
+    this.usuarioActualId = user?.id ?? null;
   }
 
   mostrarContenido() {
@@ -64,6 +70,7 @@ export class DetallesComponent {
     if (!this.serie) return;
     const comentarios = await this.seriesService.obtenerComentariosPorSerie(this.serie.id);
     this.comentariosRaiz = this.construirArbolComentarios(comentarios);
+    this.ordenarComentarios();
   }
 
   construirArbolComentarios(comentarios: Comentario[]): Comentario[] {
@@ -119,13 +126,35 @@ export class DetallesComponent {
     }
   }
 
-  mostrarFormularioRespuesta(id: number) {
-    this.comentarioMostrandoRespuesta = id;
-    this.respuestaContenido = '';
+  fechaRelativa(fecha: string): string {
+    return this.tiempoDesde(fecha);
   }
 
-  cancelarRespuesta() {
-    this.comentarioMostrandoRespuesta = null;
+  tiempoDesde(fechaISO: string): string {
+    const fecha = new Date(fechaISO);
+    const ahora = new Date();
+    const segundos = Math.floor((ahora.getTime() - fecha.getTime()) / 1000);
+
+    const unidades = [
+      { nombre: 'año(s)',   segundos: 31536000 },
+      { nombre: 'mes(es)',  segundos: 2592000 },
+      { nombre: 'semana(s)',segundos: 604800 },
+      { nombre: 'día(s)',   segundos: 86400 },
+      { nombre: 'hora(s)',  segundos: 3600 },
+      { nombre: 'minuto(s)',segundos: 60 },
+      { nombre: 'segundo(s)',segundos: 1 }
+    ];
+
+    for (const unidad of unidades) {
+      const cantidad = Math.floor(segundos / unidad.segundos);
+      if (cantidad >= 1) return `${cantidad} ${unidad.nombre}`;
+    }
+
+    return 'justo ahora';
+  }
+
+  mostrarFormularioRespuesta(id: number) {
+    this.comentarioMostrandoRespuesta = id;
     this.respuestaContenido = '';
   }
 
@@ -159,6 +188,96 @@ export class DetallesComponent {
       await this.cargarComentarios();
     } catch (err) {
       console.error('Error al responder comentario:', err);
+    }
+  }
+
+  async toggleLike(comentario: Comentario) {
+    try {
+      if (comentario.liked_by_user) {
+        await this.seriesService.quitarLike(comentario.id);
+      } else {
+        await this.seriesService.darLike(comentario.id);
+      }
+
+      // Refrescar likes
+      const { count, likedByUser } = await this.seriesService.obtenerLikesComentario(comentario.id);
+      comentario.likes_count = count;
+      comentario.liked_by_user = likedByUser;
+    } catch (error) {
+      console.error('Error al dar/retirar like', error);
+    }
+  }
+
+  responderA(comentario: Comentario) {
+    this.comentarioAResponder = comentario;
+    this.nuevoComentario = '';
+    setTimeout(() => {
+      const input = document.querySelector('#inputResponder') as HTMLTextAreaElement;
+      if (input) input.focus();
+    }, 0);
+  }
+
+  async enviarRespuesta() {
+    if (!this.nuevoComentario.trim() || !this.comentarioAResponder || !this.serie) return;
+
+    try {
+      await this.seriesService.agregarComentario({
+        serie_id: this.serie.id,
+        contenido: this.nuevoComentario.trim(),
+        respuesta_a: this.comentarioAResponder.id
+      });
+
+      this.nuevoComentario = '';
+      this.comentarioAResponder = null;
+      await this.cargarComentarios();
+    } catch (error) {
+      console.error('Error al responder comentario:', error);
+    }
+  }
+
+  cancelarRespuesta() {
+    this.nuevoComentario = '';
+    this.comentarioAResponder = null;
+    this.comentarioMostrandoRespuesta = null;
+    this.respuestaContenido = '';
+  }
+
+  editarComentario(comentario: any) {
+    comentario.editando = true;
+    comentario.contenidoEditado = comentario.contenido;
+  }
+
+  async guardarEdicion(comentario: any) {
+    const nuevoContenido = comentario.contenidoEditado.trim();
+    if (!nuevoContenido) return;
+
+    const exito = await this.seriesService.editarComentario(comentario.id, nuevoContenido);
+    if (exito) {
+      comentario.contenido = nuevoContenido;
+    }
+    comentario.editando = false;
+  }
+
+  cancelarEdicion(comentario: any) {
+    comentario.editando = false;
+    comentario.contenidoEditado = comentario.contenido; // Restaurar original
+  }
+
+  async borrarComentario(id: number) {
+    const confirmar = confirm('¿Estás seguro de que quieres eliminar este comentario?');
+    if (confirmar) {
+      const exito = await this.seriesService.borrarComentario(id);
+      if (exito) {
+        await this.cargarComentarios();
+      }
+    }
+  }
+
+  ordenarComentarios() {
+    if (this.ordenFecha === 'reciente') {
+      this.comentariosRaiz.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+    } else {
+      this.comentariosRaiz.sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime());
     }
   }
 }

@@ -225,7 +225,58 @@ export class SeriesService {
     }
   }
 
+  // async obtenerComentariosPorSerie(serieId: number): Promise<Comentario[]> {
+  //   const { data, error } = await this.supabase
+  //     .from('comentario')
+  //     .select(`
+  //       id,
+  //       serie_id,
+  //       autor_id,
+  //       contenido,
+  //       fecha,
+  //       respuesta_a,
+  //       perfiles (
+  //         usuario,
+  //         avatar
+  //       )
+  //     `)
+  //     .eq('serie_id', serieId)
+  //     .order('fecha', { ascending: true });
+
+  //   if (error || !data) {
+  //     console.error('Error al obtener comentarios:', error);
+  //     return [];
+  //   }
+
+  //   // Agregar URL pública avatar
+  //   const comentariosConAvatares = data.map((comentario: any) => {
+  //     let avatarUrl = 'general/user-default.jpg';
+
+  //     if (comentario.perfiles?.avatar) {
+  //       const { data: avatarData } = this.supabase.storage
+  //         .from('avatars')
+  //         .getPublicUrl(comentario.perfiles.avatar);
+  //       if (avatarData?.publicUrl) avatarUrl = avatarData.publicUrl;
+  //     }
+
+  //     return {
+  //       ...comentario,
+  //       perfiles: {
+  //         usuario: comentario.perfiles?.usuario || 'Anónimo',
+  //         avatarUrl,
+  //       },
+  //       respuestas: [], // Inicializa respuestas aquí para evitar undefined
+  //     };
+  //   });
+
+  //   return comentariosConAvatares;
+  // }
+
   async obtenerComentariosPorSerie(serieId: number): Promise<Comentario[]> {
+    // Obtener el ID del usuario actual
+    const user = (await this.supabase.auth.getUser()).data.user;
+    const userId = user?.id;
+
     const { data, error } = await this.supabase
       .from('comentario')
       .select(`
@@ -238,6 +289,9 @@ export class SeriesService {
         perfiles (
           usuario,
           avatar
+        ),
+        comentario_likes (
+          usuario_id
         )
       `)
       .eq('serie_id', serieId)
@@ -247,12 +301,11 @@ export class SeriesService {
       console.error('Error al obtener comentarios:', error);
       return [];
     }
-    console.log('comentarios:', data);
 
-    // Agregar URL pública avatar
+    // Procesar cada comentario
     const comentariosConAvatares = data.map((comentario: any) => {
+      // Avatar
       let avatarUrl = 'general/user-default.jpg';
-
       if (comentario.perfiles?.avatar) {
         const { data: avatarData } = this.supabase.storage
           .from('avatars')
@@ -260,37 +313,23 @@ export class SeriesService {
         if (avatarData?.publicUrl) avatarUrl = avatarData.publicUrl;
       }
 
+      // Likes
+      const likes = comentario.comentario_likes || [];
+      const likes_count = likes.length;
+      const liked_by_user = likes.some((like: any) => like.usuario_id === userId);
+
       return {
         ...comentario,
         perfiles: {
           usuario: comentario.perfiles?.usuario || 'Anónimo',
           avatarUrl,
         },
-        respuestas: [], // Inicializa respuestas aquí para evitar undefined
+        respuestas: [],
+        likes_count,
+        liked_by_user,
+        editando: false
       };
     });
-
-    // // Construir árbol de comentarios
-    // const comentarioMap = new Map<number, Comentario>();
-    // comentariosConAvatares.forEach((comentario: Comentario) => {
-    //   comentarioMap.set(comentario.id, comentario);
-    // });
-
-    // const comentariosRaiz: Comentario[] = [];
-
-    // comentariosConAvatares.forEach((comentario: Comentario) => {
-    //   if (comentario.respuesta_a != null) {
-    //     const padre = comentarioMap.get(comentario.respuesta_a);
-    //     if (padre) {
-    //       padre.respuestas?.push(comentario);
-    //     } else {
-    //       // Si no se encuentra el padre, opcionalmente agregar a raíz o ignorar
-    //       comentariosRaiz.push(comentario);
-    //     }
-    //   } else {
-    //     comentariosRaiz.push(comentario);
-    //   }
-    // });
 
     return comentariosConAvatares;
   }
@@ -314,6 +353,53 @@ export class SeriesService {
 
     if (error) throw error;
   }
+
+  // Obtener likes por comentario (contar y verificar si el usuario dio like)
+  async obtenerLikesComentario(comentarioId: number): Promise<{ count: number, likedByUser: boolean }> {
+    const user = await this.supabase.auth.getUser();
+    const userId = user.data?.user?.id;
+    if (!userId) return { count: 0, likedByUser: false };
+
+    const { count } = await this.supabase
+      .from('comentario_likes')
+      .select('*', { count: 'exact', head: true })
+      .eq('comentario_id', comentarioId);
+
+    const { data: likeData } = await this.supabase
+      .from('comentario_likes')
+      .select('id')
+      .eq('comentario_id', comentarioId)
+      .eq('usuario_id', userId)
+      .maybeSingle();
+
+    return {
+      count: count ?? 0,
+      likedByUser: !!likeData
+    };
+  }
+
+  async darLike(comentarioId: number) {
+    const user = await this.supabase.auth.getUser();
+    const userId = user.data?.user?.id;
+    if (!userId) throw new Error('No autenticado');
+
+    return this.supabase
+      .from('comentario_likes')
+      .insert({ comentario_id: comentarioId, usuario_id: userId });
+  }
+
+  async quitarLike(comentarioId: number) {
+    const user = await this.supabase.auth.getUser();
+    const userId = user.data?.user?.id;
+    if (!userId) throw new Error('No autenticado');
+
+    return this.supabase
+      .from('comentario_likes')
+      .delete()
+      .eq('comentario_id', comentarioId)
+      .eq('usuario_id', userId);
+  }
+
 
   async verificarOCrearPerfil(): Promise<void> {
     const { data: userData, error: userError } = await this.supabase.auth.getUser();
@@ -342,6 +428,44 @@ export class SeriesService {
 
       if (insertError) throw new Error('Error al crear el perfil');
     }
+  }
+
+  async editarComentario(comentarioId: number, nuevoContenido: string): Promise<boolean> {
+    const { error } = await this.supabase
+      .from('comentario')
+      .update({ contenido: nuevoContenido, fecha: new Date().toISOString() }) // Puedes actualizar también la fecha
+      .eq('id', comentarioId);
+
+    if (error) {
+      console.error('Error al editar comentario:', error);
+      return false;
+    }
+    return true;
+  }
+
+  async borrarComentario(comentarioId: number): Promise<boolean> {
+    const { error } = await this.supabase
+      .from('comentario')
+      .delete()
+      .eq('id', comentarioId);
+
+    if (error) {
+      console.error('Error al borrar comentario:', error);
+      return false;
+    }
+    return true;
+  }
+
+  async esAutorComentario(comentarioId: number, usuarioId: string): Promise<boolean> {
+    const { data, error } = await this.supabase
+      .from('comentario')
+      .select('autor_id')
+      .eq('id', comentarioId)
+      .single();
+
+    if (error || !data) return false;
+
+    return data.autor_id === usuarioId;
   }
 
   insertarSerie(serie: Omit<Serie, 'id'>): Observable<any> {

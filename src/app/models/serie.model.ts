@@ -28,6 +28,9 @@ export interface Comentario {
     avatar: string;
     avatarUrl: string;
   };
+  likes_count?: number;
+  liked_by_user?: boolean;
+  editando?: boolean;
 }
 
 export interface Serie {
