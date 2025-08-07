@@ -2,7 +2,7 @@
     <h2 class="text-white fw-bold mt-4">Gestionar Series</h2>
     <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mt-4">
         <input id="buscar" type="text" class="form-control" placeholder="Buscar serie..." [(ngModel)]="busqueda"
-            (input)="filtrarSeries()" />
+            (ngModelChange)="filtrarSeries()" />
         <select class="form-select w-auto" [(ngModel)]="filtroNombre" (change)="filtrarSeries()">
             <option value="az" selected>A - Z</option>
             <option value="za">Z - A</option>
@@ -29,7 +29,7 @@
             </div>
 
             <!-- Imagen -->
-            <img [src]="serie.portada" [alt]="serie.nombre" (error)="serie.portada='general/default-image.png'"
+            <img [src]="serie.portada || 'general/default-image.png'" [alt]="serie.nombre"
                 class="img-fluid mx-auto" style="width: 160px; height: 236px; object-fit: cover;" />
 
             <!-- Nombre -->

@@ -1,2 +1,4 @@
 #series { opacity: 0; }
 #series.active { opacity: 1; transition: opacity .2s ease-in-out; }
+.ver-mas { background: repeat padding-box border-box 0% 0%/auto auto scroll linear-gradient(180deg, #243391 0%, rgba(87, 29, 127, 0) 100%), #571D7F; }
+.ver-mas:hover { background: repeat padding-box border-box 0% 0%/auto auto scroll linear-gradient(180deg, #20CE88 0%, rgba(87, 29, 127, 0) 100%), #571D7F; }

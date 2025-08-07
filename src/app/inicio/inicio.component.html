@@ -7,7 +7,7 @@
     </div>
     <div class="carousel-inner">
       <div *ngFor="let serie of series; let i = index" class="carousel-item" [class.active]="i === 0">
-        <img [src]="serie.banner" [alt]="serie.nombre" (error)="serie.banner='general/default-image-large.png'">
+        <img [src]="serie.banner || 'general/default-image-large.png'" [alt]="serie.nombre">
         <div class="carousel-info">
           <span class="title">{{ serie.nombre }}</span>
           <div class="temporadas" *ngIf="serie.temporadas !== null">

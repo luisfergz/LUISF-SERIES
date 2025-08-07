@@ -45,6 +45,7 @@ export interface Serie {
   temporadas: Temporada[];  // Relación de temporadas
   peliculas: Pelicula[];  // Relación de temporadas
   informacion_tecnica: InformacionTecnica[];  // Relación de información técnica
+  pelicula_informacion_tecnica: InformacionTecnica[];  // Relación de información técnica
   activo?: boolean;  // Indica si la serie está activa (opcional)
   creado?: Date;  // Fecha de creación (opcional)
 }

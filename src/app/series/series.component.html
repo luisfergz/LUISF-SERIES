@@ -24,7 +24,7 @@
   <h5 class="mb-3">Todas tus series favoritas en un mismo lugar.</h5>
   <div class="d-flex flex-wrap justify-content-center align-items-center gap-2">
       <input id="buscar" type="text" class="form-control w-auto" placeholder="Buscar serie..." [(ngModel)]="busqueda"
-          (input)="filtrarSeries()" />
+          (ngModelChange)="filtrarSeries()" />
       <select class="form-select w-auto" [(ngModel)]="filtroNombre" (change)="filtrarSeries()">
           <option value="az" selected>A - Z</option>
           <option value="za">Z - A</option>
@@ -42,14 +42,13 @@
   <div class="d-flex justify-content-center align-items-stretch flex-wrap gap-3 mt-4 mb-4" *ngIf="seriesFiltradas.length">
     <div class="d-flex justify-content-start flex-wrap flex-column flex-md-row flex-md-nowrap rounded-4 p-3 gap-3" style="width: 570px; background-color: #21174C; border: solid 2px yellow;" *ngFor="let serie of seriesFiltradas">
       <img class="rounded mx-auto" style="width: 190px; height: 280px; object-fit: cover;"
-        [src]="serie.portada"
+        [src]="serie.portada || 'general/default-image.png'"
         [alt]="serie.nombre"
-        (error)="serie.portada='general/default-image.png'"
       />
       <div class="d-flex flex-fill flex-column align-items-center">
         <span class="fw-bold fs-4 mb-1" style="color: yellow;">{{ serie.nombre }}</span>
         <p>{{ serie.sinopsiscorta }}</p>
-        <a class="btn btn-primary mt-auto px-4" style="width: fit-content;" [routerLink]="['/series', serie.slug]">VER MÁS</a>
+        <a class="ver-mas btn btn-primary mt-auto px-4 border-0 rounded-4" style="width: fit-content; text-shadow: 2.16px 2.08px 0 #f0310bbb; font-weight: 600;" [routerLink]="['/series', serie.slug]">VER MÁS</a>
       </div>
     </div>
   </div>

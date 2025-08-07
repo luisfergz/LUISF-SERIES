@@ -30,6 +30,7 @@ export class SerieFormularioComponent {
       temporadas: this.fb.array([]),
       peliculas: this.fb.array([]),
       informacion_tecnica: this.fb.array([]),
+      pelicula_informacion_tecnica: this.fb.array([]),
       activo: [true],
     });
   }
@@ -74,6 +75,13 @@ export class SerieFormularioComponent {
           if (Array.isArray(serie.informacion_tecnica)) {
             serie.informacion_tecnica.forEach((info: any) => this.agregarInfoTecnica(info));
           }
+
+          // Carga pelicula información técnica
+          this.pelicula_informacion_tecnica.clear();
+          if (Array.isArray(serie.pelicula_informacion_tecnica)) {
+            serie.pelicula_informacion_tecnica.forEach((info: any) => this.agregarPeliculaInfoTecnica(info));
+          }
+
           this.mostrarContenido();
         },
         error: () => {
@@ -86,10 +94,12 @@ export class SerieFormularioComponent {
         { temporada: '1', imagen: '', link: '' },
       ];
       temporadas.forEach(temp => this.agregarTemporada(temp));
+
       const peliculas = [
         { temporada: '1', imagen: '', link: '' },
       ];
       peliculas.forEach(peli => this.agregarPelicula(peli));
+
       const infoTecnica = [
         { atributo: 'Tamaño promedio por episodio', valor: '400 MB' },
         { atributo: 'Formato', valor: 'MKV' },
@@ -104,6 +114,22 @@ export class SerieFormularioComponent {
         { atributo: 'Episodios', valor: '52/52' },
       ];
       infoTecnica.forEach(info => this.agregarInfoTecnica(info));
+
+      const peliculaInfoTecnica = [
+        { atributo: 'Tamaño promedio por episodio', valor: '400 MB' },
+        { atributo: 'Formato', valor: 'MKV' },
+        { atributo: 'Calidad', valor: 'WEB-DL' },
+        { atributo: 'Codec', valor: 'x264' },
+        { atributo: 'Vídeo Bit Rate Promedio', valor: '2400 Kbps' },
+        { atributo: 'Audio principal', valor: 'Español Latino AAC 2.0 (93.4 Kb/s)' },
+        { atributo: 'Resolución', valor: '1280 x 720' },
+        { atributo: 'Subtítulos', valor: 'Ninguno' },
+        { atributo: 'Duración', valor: '24 min por episodio aproximadamente' },
+        { atributo: 'Temporadas', valor: '4' },
+        { atributo: 'Episodios', valor: '52/52' },
+      ];
+      peliculaInfoTecnica.forEach(info => this.agregarPeliculaInfoTecnica(info));
+
       this.mostrarContenido();
     }
   }
@@ -126,6 +152,10 @@ export class SerieFormularioComponent {
 
   get informacion_tecnica() {
     return this.formulario.get('informacion_tecnica') as FormArray;
+  }
+
+  get pelicula_informacion_tecnica() {
+    return this.formulario.get('pelicula_informacion_tecnica') as FormArray;
   }
 
   agregarTemporada(data?: any) {
@@ -163,6 +193,17 @@ export class SerieFormularioComponent {
     this.informacion_tecnica.removeAt(index);
   }
 
+  agregarPeliculaInfoTecnica(data?: any) {
+    this.pelicula_informacion_tecnica.push(this.fb.group({
+      atributo: [data?.atributo || '', Validators.required],
+      valor: [data?.valor || '', Validators.required]
+    }));
+  }
+
+  eliminarPeliculaInfoTecnica(index: number) {
+    this.pelicula_informacion_tecnica.removeAt(index);
+  }
+
   guardarSerie() {
     this.formulario.markAllAsTouched();
 
@@ -176,7 +217,7 @@ export class SerieFormularioComponent {
     }
 
     if (!peliculasValidas) {
-      this.mostrarModal('Cada película debe tener al menos el número de película.', 'aviso');
+      this.mostrarModal('Cada película debe tener al menos el nombre de la película.', 'aviso');
       return;
     }
 
@@ -204,6 +245,7 @@ export class SerieFormularioComponent {
       temporadas: this.temporadas.value,
       peliculas: this.peliculas.value,
       informacion_tecnica: this.informacion_tecnica.value,
+      pelicula_informacion_tecnica: this.pelicula_informacion_tecnica.value,
       activo: this.formulario.value.activo ?? true,
     };
 
@@ -267,14 +309,15 @@ export class SerieFormularioComponent {
       temporadas: [],
       peliculas: [],
       informacion_tecnica: [],
+      pelicula_informacion_tecnica: [],
       activo: true
     });
 
     this.temporadas.clear();
     this.peliculas.clear();
     this.informacion_tecnica.clear();
+    this.pelicula_informacion_tecnica.clear();
   }
-
 
   bannerError(event: Event) {
     const imgElement = event.target as HTMLImageElement;
@@ -326,6 +369,5 @@ export class SerieFormularioComponent {
       });
     });
   }
-
 
 }

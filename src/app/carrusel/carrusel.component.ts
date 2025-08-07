@@ -5,11 +5,13 @@ import { Carrusel, CarruselConSerie, Serie } from '../models/serie.model';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { F } from '@angular/cdk/keycodes';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-carrusel',
   standalone: true,
-  imports: [CommonModule, DragDropModule],
+  imports: [CommonModule, DragDropModule, FormsModule],
   templateUrl: './carrusel.component.html',
   styleUrl: './carrusel.component.css'
 })

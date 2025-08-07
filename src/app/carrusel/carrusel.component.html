@@ -12,8 +12,8 @@
                 style="min-width: 2.2rem; min-height: 2.2rem;">
                 {{ carrusel.posicion }}
             </div>
-            <img [src]="carrusel.serie.banner" [alt]="carrusel.serie.nombre"
-                (error)="carrusel.serie.banner = 'general/default-image-large.png'" class="img-fluid"
+            <img [src]="carrusel.serie.banner || 'general/default-image-large.png'" [alt]="carrusel.serie.nombre"
+                class="img-fluid"
                 style="width: 100%; height: auto; object-fit: cover; aspect-ratio: 3/1;" />
             <button class="btn btn-danger" (click)="eliminarSerieDelCarrusel(i)">
                 <i class="fa-solid fa-trash-can"></i>
@@ -40,7 +40,9 @@
         <div class="row">
           <div class="col-md-4 mb-3" *ngFor="let serie of todasLasSeries">
             <div class="card h-100" [class.border-primary]="seriesSeleccionadas.has(serie.id)">
-              <img [src]="serie.banner" class="card-img-top" alt="banner" (click)="toggleSeleccionSerie(serie)">
+              <button type="button" class="p-0 border-0 bg-transparent w-100" (click)="toggleSeleccionSerie(serie)">
+                <img [src]="serie.banner || 'general/default-image-large.png'" class="card-img-top" alt="banner">
+              </button>
               <div class="card-body">
                 <h5 class="card-title">{{ serie.nombre }}</h5>
               </div>

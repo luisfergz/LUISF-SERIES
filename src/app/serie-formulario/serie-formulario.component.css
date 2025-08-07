@@ -6,3 +6,23 @@
     opacity: 1;
     transition: opacity .2s ease-in-out;
 }
+
+input {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+textarea {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+input:focus, textarea:focus {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+input::placeholder, textarea::placeholder {
+    color: white;
+    opacity: 0.7;
+}

@@ -4,50 +4,93 @@
     <h2 class="fw-bold mt-2 mt-md-3" style="color: yellow;">{{ serie.nombre }}</h2>
     <h3 class="fs-4 fw-bold mt-3" style="color: #20CE88">Sinopsis</h3>
     <span class="col-12 col-md-8 col-lg-7 col-xl-5 mt-2 mx-auto d-block">{{ serie.sinopsis }}</span>
-    
-    <h3 class="fs-4 fw-bold mt-4" style="color: #20CE88">Temporadas</h3>
-    <div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
-      <div class="item overflow-hidden item-link"
-        style="width: 240px; height: 358px; object-fit: cover; border: solid 0.1rem #20CE88; position: relative;"
-        *ngFor="let temporada of serie.temporadas">
-        <img class="item-img img-fluid rounded" style="width: 100%; height: 100%;" [src]="temporada.imagen || 'general/default-image.png'"
-          alt="Temporada {{ temporada.temporada }}" (error)="temporada.imagen='general/default-image.png'">
-        <div
-          class="d-flex flex-column justify-content-between align-items-center position-absolute top-0 start-0 w-100 h-100 text-white">
-          <span class="item-title text-center text-white fw-bold w-100 py-1"
-            style="background-color: rgb(255, 0, 0, 0.8);">Temporada {{ temporada.temporada }}</span>
-          <div class="d-flex align-items-center flex-column gap-1 mt-auto">
-            <a class="btn btn-dark btn-sm fw-bold px-4 py-2 mb-3"
-              style="background-color: rgb(20, 20, 20); border: solid 0.1rem yellow; color: yellow; font-size: 1rem; letter-spacing: 0.08rem; width: fit-content;"
-              [href]="temporada.link" target="_blank">
-              <i class="fa-solid fa-download"></i> DESCARGAR
-            </a>
-            <!-- <a class="btn btn-primary btn-sm"
-            style="background-color: rgb(50, 76, 138); border-color: rgb(31, 51, 99); font-weight: 600; font-size: .78rem; width: fit-content;"
-            [href]="temporada.link">DESCARGA NORMAL</a> -->
+
+    <div *ngIf="serie.temporadas?.length" class="text-center mt-4">
+      <h3 class="fs-4 fw-bold" style="color: #20CE88">Temporadas</h3>
+      <div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
+        <div class="item overflow-hidden item-link"
+          style="width: 240px; height: 358px; object-fit: cover; border: solid 0.1rem #20CE88; position: relative;"
+          *ngFor="let temporada of serie.temporadas">
+          <img class="item-img img-fluid rounded" style="width: 100%; height: 100%;"
+            [src]="temporada.imagen || 'general/default-image.png'" alt="Temporada {{ temporada.temporada }}">
+          <div
+            class="d-flex flex-column justify-content-between align-items-center position-absolute top-0 start-0 w-100 h-100 text-white">
+            <span class="item-title text-center text-white fw-bold w-100 py-1"
+              style="background-color: rgb(255, 0, 0, 0.8);">Temporada {{ temporada.temporada }}</span>
+            <div class="d-flex align-items-center flex-column gap-1 mt-auto">
+              <a class="btn btn-dark btn-sm fw-bold px-4 py-2 mb-3"
+                style="background-color: rgb(20, 20, 20); border: solid 0.1rem yellow; color: yellow; font-size: 1rem; letter-spacing: 0.08rem; width: fit-content;"
+                [href]="temporada.link" target="_blank">
+                <i class="fa-solid fa-download"></i> DESCARGAR
+              </a>
+              <!-- <a class="btn btn-primary btn-sm"
+          style="background-color: rgb(50, 76, 138); border-color: rgb(31, 51, 99); font-weight: 600; font-size: .78rem; width: fit-content;"
+          [href]="temporada.link">DESCARGA NORMAL</a> -->
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto mt-5 p-2 p-md-4 pt-3"
-      style="border: solid 0.1rem #09F2FE; background-color: #090E36;">
-      <span class="fs-4 fw-bold mb-3 d-block" style="color: #20CE88">Información Técnica</span>
-      <table class="table table-striped table-bordered m-0" style="border: solid 0.1rem lightslategray;">
-        <tbody>
-          <tr *ngFor="let info of serie.informacion_tecnica">
-            <th class="text-light" style="font-size: 0.9rem;">{{ info.atributo }}</th>
-            <td class="text-light" style="font-size: 0.9rem;">{{ info.valor }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto p-3 fw-bold rounded-4 mx-auto mt-3 mb-4"
-      style="border: solid 0.1rem #09F2FE; background-color: #090E36;">
-      <span class="fs-4" style="color: #20CE88">Contraseña: <span class="fs-4 text-white">{{ serie.contrasena
-          }}</span></span>
+
+    <div *ngIf="serie.peliculas?.length" class="text-center mt-4">
+      <h3 class="fs-4 fw-bold" style="color: #20CE88">Peliculas</h3>
+      <div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
+        <div class="item overflow-hidden item-link"
+          style="width: 240px; height: 358px; object-fit: cover; border: solid 0.1rem #20CE88; position: relative;"
+          *ngFor="let pelicula of serie.peliculas">
+          <img class="item-img img-fluid rounded" style="width: 100%; height: 100%;"
+            [src]="pelicula.imagen || 'general/default-image.png'" alt="Pelicula {{ pelicula.pelicula }}">
+          <div
+            class="d-flex flex-column justify-content-between align-items-center position-absolute top-0 start-0 w-100 h-100 text-white">
+            <span class="item-title text-center text-white fw-bold w-100 py-1"
+              style="background-color: rgb(255, 0, 0, 0.8);">{{ pelicula.pelicula }}</span>
+            <div class="d-flex align-items-center flex-column gap-1 mt-auto">
+              <a class="btn btn-dark btn-sm fw-bold px-4 py-2 mb-3"
+                style="background-color: rgb(20, 20, 20); border: solid 0.1rem yellow; color: yellow; font-size: 1rem; letter-spacing: 0.08rem; width: fit-content;"
+                [href]="pelicula.link" target="_blank">
+                <i class="fa-solid fa-download"></i> DESCARGAR
+              </a>
+              <!-- <a class="btn btn-primary btn-sm"
+          style="background-color: rgb(50, 76, 138); border-color: rgb(31, 51, 99); font-weight: 600; font-size: .78rem; width: fit-content;"
+          [href]="temporada.link">DESCARGA NORMAL</a> -->
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto mt-5 mb-3">
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto mt-5 p-2 p-md-4 pt-3 d-flex flex-column gap-4"
+      style="border: solid 0.1rem #09F2FE; background-color: #090E36;">
+      <div *ngIf="serie.temporadas?.length" class="text-center">
+        <span class="fs-4 fw-bold mb-3 d-block" style="color: #20CE88">Temporadas | Información Técnica</span>
+        <table class="table table-striped table-bordered m-0" style="border: solid 0.1rem lightslategray;">
+          <tbody>
+            <tr *ngFor="let info of serie.informacion_tecnica">
+              <th class="text-light" style="font-size: 0.9rem;">{{ info.atributo }}</th>
+              <td class="text-light" style="font-size: 0.9rem;">{{ info.valor }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="serie.peliculas?.length" class="text-center">
+        <span class="fs-4 fw-bold mb-3 d-block" style="color: #20CE88">Peliculas | Información Técnica</span>
+        <table class="table table-striped table-bordered m-0" style="border: solid 0.1rem lightslategray;">
+          <tbody>
+            <tr *ngFor="let info of serie.pelicula_informacion_tecnica">
+              <th class="text-light" style="font-size: 0.9rem;">{{ info.atributo }}</th>
+              <td class="text-light" style="font-size: 0.9rem;">{{ info.valor }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto p-3 fw-bold rounded-4 mx-auto mt-3 mb-4"
+      style="border: solid 0.1rem #09F2FE; background-color: #090E36;">
+      <span class="fs-4" style="color: #20CE88">Contraseña: <span class="fs-4 text-white">LuisF</span></span>
+    </div>
+
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto mt-5 mb-4">
       <span class="fs-4 fw-bold mb-3 d-block" style="color: #20CE88">Comentarios</span>
       <div class="d-flex gap-2">
         <img class="rounded-circle" [src]="avatar || 'general/user-default.jpg'" alt="user"
@@ -60,7 +103,8 @@
       </div>
 
       <div class="mt-4 mb-3 d-flex">
-        <span style="color: #20CE88; font-weight: 600; font-size: 1.1rem;">Comentarios ({{ comentariosRaiz.length }})</span>
+        <span style="color: #20CE88; font-weight: 600; font-size: 1.1rem;">Comentarios ({{ comentariosRaiz.length
+          }})</span>
         <select class="form-select ms-auto w-auto" [(ngModel)]="ordenFecha" (change)="ordenarComentarios()">
           <option value="reciente">Más reciente</option>
           <option value="antiguo">Más antiguo</option>
@@ -96,29 +140,31 @@
             <div class="w-100 text-start">
               <div [ngClass]="comentario.respuestas?.length ? 'mb-2' : 'mb-3'">
                 <button class="btn btn-sm border-0 p-0 me-3 text-white opacity-50" (click)="toggleLike(comentario)">
-                  <i class="fa-thumbs-up" [ngClass]="comentario.liked_by_user ? 'fa-solid' : 'fa-regular'"></i> {{ comentario.likes_count || 0 }}
+                  <i class="fa-thumbs-up" [ngClass]="comentario.liked_by_user ? 'fa-solid' : 'fa-regular'"></i> {{
+                  comentario.likes_count || 0 }}
                 </button>
-                <button class="btn btn-sm border-0 p-0 text-white opacity-50 me-3"
-                        (click)="responderA(comentario)">
+                <button class="btn btn-sm border-0 p-0 text-white opacity-50 me-3" (click)="responderA(comentario)">
                   <i class="fa-solid fa-comment-dots"></i> Responder
                 </button>
-                <button *ngIf="comentario.autor_id === usuarioActualId" class="btn btn-sm border-0 p-0 text-white opacity-50 me-3" (click)="editarComentario(comentario)"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
-                <button *ngIf="comentario.autor_id === usuarioActualId" class="btn btn-sm border-0 p-0 text-white opacity-50" (click)="borrarComentario(comentario.id)"><i class="fa-solid fa-trash-can"></i> Borrar</button>
+                <button *ngIf="comentario.autor_id === usuarioActualId"
+                  class="btn btn-sm border-0 p-0 text-white opacity-50 me-3" (click)="editarComentario(comentario)"><i
+                    class="fa-solid fa-pen-to-square"></i> Editar</button>
+                <button *ngIf="comentario.autor_id === usuarioActualId"
+                  class="btn btn-sm border-0 p-0 text-white opacity-50" (click)="borrarComentario(comentario.id)"><i
+                    class="fa-solid fa-trash-can"></i> Borrar</button>
 
               </div>
               <div *ngIf="comentario.id === comentarioAResponder?.id" class="my-2 text-end">
-                <textarea class="form-control form-control-sm w-100"
-                          [(ngModel)]="nuevoComentario"
-                          rows="2"
-                          placeholder="Escribe tu respuesta..."
-                          #inputResponder>
+                <textarea class="form-control form-control-sm w-100" [(ngModel)]="nuevoComentario" rows="2"
+                  placeholder="Escribe tu respuesta..." #inputResponder>
                 </textarea>
                 <div class="mt-2">
                   <button class="btn btn-danger btn-sm me-2" (click)="cancelarRespuesta()">Cancelar</button>
-                  <button class="btn btn-success btn-sm" (click)="enviarRespuesta()" [disabled]="!nuevoComentario.trim()">Responder</button>
+                  <button class="btn btn-success btn-sm" (click)="enviarRespuesta()"
+                    [disabled]="!nuevoComentario.trim()">Responder</button>
                 </div>
               </div>
-              
+
               <div *ngIf="comentariosConRespuestasVisibles.has(comentario.id)" class="">
                 <ng-container *ngFor="let resp of comentario.respuestas">
                   <ng-container *ngTemplateOutlet="renderComentario; context: { $implicit: resp }"></ng-container>
