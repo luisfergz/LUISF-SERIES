@@ -58,9 +58,12 @@
           </a>
         </div>
       </div>
-      <img class="rounded-circle ms-2 d-inherit d-md-none" alt="user"
-        style="width: 2rem; height: 2rem; cursor: pointer;"
-        (click)="alternarCuenta()" [src]="avatar || 'general/user-default.jpg'" />
+      <button type="button" class="btn p-0 ms-2 d-inherit d-md-none" style="background: none; border: none;"
+        (click)="alternarCuenta()">
+        <img class="rounded-circle" alt="user"
+          style="width: 2rem; height: 2rem; cursor: pointer;"
+          [src]="avatar || 'general/user-default.jpg'" />
+      </button>
     </div>
   </div>
 </header>

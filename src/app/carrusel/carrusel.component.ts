@@ -26,6 +26,11 @@ export class CarruselComponent {
 
   ngOnInit(): void {
     this.spinner.show();
+    this.actualizarCarrusel();
+  }
+
+  actualizarCarrusel() {
+    this.carruselConSerie = [];
     this.seriesService.obtenerCarrusel().subscribe({
       next: (data: any[]) => {
         this.carrusel = data;
@@ -37,8 +42,8 @@ export class CarruselComponent {
                 posicion: serie.posicion
               });
               this.carruselConSerie.sort((a, b) => a.posicion - b.posicion);
-              this.mostrarContenido();
             }
+            this.mostrarContenido();
           },
           error: (error) => {
             console.error('Error al cargar la serie:', error);
@@ -111,9 +116,6 @@ export class CarruselComponent {
       serie_id: item.serie.id,
       posicion: index + 1
     }));
-
-    console.log('Guardando carrusel:', datos);
-
     this.seriesService.guardarCarrusel(datos).subscribe({
       next: () => this.mostrarModal('Orden del carrusel guardado con éxito.', 'exito'),
       error: (err) => this.mostrarModal(`Error al guardar carrusel: ${err.message}`, 'error')
@@ -162,5 +164,14 @@ export class CarruselComponent {
     const modal = (window as any).bootstrap?.Modal.getOrCreateInstance(modalElement);
     modal.show();
 
+  }
+
+  cancelarCarrusel() {
+    this.actualizarCarrusel();
+  }
+
+  get seriesDisponibles(): Serie[] {
+    const idsCarrusel = this.carruselConSerie.map(c => c.serie.id);
+    return this.todasLasSeries.filter(s => !idsCarrusel.includes(s.id));
   }
 }

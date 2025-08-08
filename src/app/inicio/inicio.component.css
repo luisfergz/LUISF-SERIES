@@ -1,10 +1,7 @@
 #inicio { opacity: 0; }
 #inicio.active { opacity: 1; transition: opacity .2s ease-in-out; }
 
-#carouselInicio {
-  height: 340px;
-  margin-bottom: 3rem;
-}
+#carouselInicio { height: 340px; }
 
 .carousel-item {
   flex: 0 0 100%;
@@ -202,10 +199,7 @@
 
 /* Media Query: Móviles (max-width: 576px) */
 @media (max-width: 576px) {
-  #carouselInicio {
-    height: 240px;
-    margin-bottom: 2rem;
-  }
+  #carouselInicio { height: 240px; }
   .carousel-indicators {
     margin-bottom: 0.4rem;
   }
@@ -270,10 +264,7 @@
 
 /* Media Query: Tabletas (min-width: 577px) and (max-width: 768px) */
 @media (min-width: 577px) and (max-width: 768px) {
-  #carouselInicio {
-    height: 260px;
-    margin-bottom: 2rem;
-  }
+  #carouselInicio { height: 260px; }
   .carousel-indicators {
     margin-bottom: 0.6rem;
   }

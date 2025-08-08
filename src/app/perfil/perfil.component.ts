@@ -14,7 +14,6 @@ import { SeriesService } from '../services/series.service';
   styleUrl: './perfil.component.css'
 })
 export class PerfilComponent {
-  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   
   email = '';
   usuario: string | null = null;
@@ -67,23 +66,22 @@ export class PerfilComponent {
     this.editandoUsuario = false;
   }
 
-  cambiarAvatar() {
-    this.fileInput.nativeElement.click();
-  }
-
   async seleccionarAvatar(event: Event) {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
     this.mensaje = '';
+    
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
       this.errorAvatar = 'Solo se permiten imágenes';
+      input.value = ''; // Resetea para permitir volver a seleccionar el mismo archivo
       return;
     }
 
     if (file.size > 2 * 1024 * 1024) {
       this.errorAvatar = 'La imagen debe pesar menos de 2MB';
+      input.value = '';
       return;
     }
 
@@ -96,7 +94,8 @@ export class PerfilComponent {
     } catch (e: any) {
       this.errorAvatar = e.message || 'Error al cambiar el avatar';
     } finally {
-      this.fileInput.nativeElement.value = '';
+      input.value = ''; // Limpia el input siempre al final
     }
   }
+
 }

@@ -1,4 +1,4 @@
-<div id="carrusel" class="container mt-4 text-white text-center">
+<div id="carrusel" class="container my-4 text-white text-center">
     <h2 class="mb-3 fw-bold">Carrusel de Series</h2>
     <h4 class="lead mb-4">Agrega y arrastra las series para cambiar el orden</h4>
 
@@ -23,36 +23,44 @@
     <button class="btn btn-primary mb-3" (click)="agregarSerieAlCarrusel()">
         <i class="fa-solid fa-plus me-2"></i>Agregar Serie al Carrusel
     </button>
-    <button class="btn btn-success" (click)="guardarOrdenCarrusel()">
+    <div class="d-flex justify-content-center mt-3 gap-2">
+      <button class="btn btn-danger" (click)="cancelarCarrusel()">
+        <i class="fa-solid fa-trash me-2"></i>Cancelar
+      </button>
+      <button class="btn btn-success" (click)="guardarOrdenCarrusel()">
         <i class="fa-solid fa-save me-2"></i>Guardar Orden
-    </button>
+      </button>
+    </div>
 </div>
 
 <!-- Modal para seleccionar series -->
 <div class="modal fade" id="modalAgregarSerie" tabindex="-1" aria-labelledby="modalAgregarSerieLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
-    <div class="modal-content text-dark">
-      <div class="modal-header">
+    <div class="modal-content text-light" style="background-color: #1B1B3A;">
+      <div class="modal-header" style="border-bottom: solid 1px rgba(255, 255, 255, 0.2);">
         <h5 class="modal-title fw-bold" id="modalAgregarSerieLabel">Seleccionar series para el carrusel</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-4 mb-3" *ngFor="let serie of todasLasSeries">
-            <div class="card h-100" [class.border-primary]="seriesSeleccionadas.has(serie.id)">
-              <button type="button" class="p-0 border-0 bg-transparent w-100" (click)="toggleSeleccionSerie(serie)">
-                <img [src]="serie.banner || 'general/default-image-large.png'" class="card-img-top" alt="banner">
+          <div class="col-12 col-md-6 mb-3 text-center" *ngFor="let serie of seriesDisponibles">
+            <div 
+              class="position-relative w-100 d-flex flex-column align-items-center"
+              [ngStyle]="seriesSeleccionadas.has(serie.id) ? {'border': '3px solid #198754', 'border-radius': '8px'} : {}"
+            >
+              <button type="button" class="p-0 border-0 w-100 bg-transparent text-white" (click)="toggleSeleccionSerie(serie)">
+                <img [src]="serie.banner || 'general/default-image-large.png'" class="w-100" alt="banner">
+                <span>{{ serie.nombre }}</span>
               </button>
-              <div class="card-body">
-                <h5 class="card-title">{{ serie.nombre }}</h5>
-              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" (click)="confirmarAgregarSeries()" data-bs-dismiss="modal">Agregar</button>
+      <div class="modal-footer" style="border-top: solid 1px rgba(255, 255, 255, 0.2);">
+        <button class="btn btn-danger px-4" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-success px-4" (click)="confirmarAgregarSeries()" data-bs-dismiss="modal" [disabled]="!seriesSeleccionadas.size">
+          Agregar {{ seriesSeleccionadas.size }} serie(s)
+        </button>
       </div>
     </div>
   </div>

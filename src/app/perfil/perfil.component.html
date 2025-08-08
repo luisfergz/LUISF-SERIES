@@ -5,13 +5,13 @@
     <h3 class="fw-bold mb-3">Perfil</h3>
     <div class="justify-content-center mx-auto col-12 col-md-5 col-xl-4">
         <div id="camera-container" class="mx-auto rounded-circle overflow-hidden"
-            style="width: 10rem; height: 10rem; cursor: pointer;" (click)="cambiarAvatar()">
+            style="width: 10rem; height: 10rem;">
             <img class="rounded-circle" style="width: 10rem; height: 10rem;" [src]="avatar || 'general/user-default.jpg'" alt="user">
-            <div id="camera-btn" class="border-0 w-100 text-light fs-4 py-1"
+            <button id="camera-btn" class="border-0 w-100 text-light fs-4 py-1" (click)="inputAvatar.click()"
                 style="background-color: rgba(0, 0, 0, 0.8); transform: translateY(-100%);">
                 <i class="fa-solid fa-camera"></i>
-            </div>
-            <input #fileInput type="file" accept="image/*" (change)="seleccionarAvatar($event)" hidden>
+            </button>
+            <input #inputAvatar type="file" accept="image/*" (change)="seleccionarAvatar($event)" hidden>
         </div>
         <span class="text-danger d-block mt-2" *ngIf="errorAvatar">{{ errorAvatar }}</span>
 
