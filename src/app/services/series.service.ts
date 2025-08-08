@@ -614,16 +614,29 @@ export class SeriesService {
   }
 
   guardarCarrusel(carrusel: Carrusel[]): Observable<any> {
+    const serieIds = carrusel.map(item => item.serie_id);
+
     return this.esUsuarioAdmin().pipe(
-      switchMap((esAdmin) => {
+      switchMap(esAdmin => {
         if (!esAdmin) {
-          return throwError(() => new Error('Acceso denegado: solo los administradores pueden actualizar series'));
+          return throwError(() => new Error('Acceso denegado: solo administradores pueden modificar.'));
         }
+
+        // Primero inserta/actualiza con upsert
         return from(
           this.supabase
-            .from('carrusel')  // Asegúrate de que la tabla se llama así
-            .upsert(carrusel, { onConflict: 'serie_id' })  // Actualiza si ya existe
-            .select()  // Para devolver los datos actualizados si lo necesitas
+            .from('carrusel')
+            .upsert(carrusel, { onConflict: 'serie_id' })
+        ).pipe(
+          // Luego elimina las filas que no están en el arreglo
+          switchMap(() =>
+            from(
+              this.supabase
+                .from('carrusel')
+                .delete()
+                .not('serie_id', 'in', `(${serieIds.join(',')})`)
+            )
+          )
         );
       })
     );
