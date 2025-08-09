@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SeriesService } from '../services/series.service';
 import { Router, RouterModule } from '@angular/router';
-import { Serie } from '../models/serie.model';
 import { FormsModule } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import * as bootstrap from 'bootstrap'; // Importar Bootstrap JS
 
 @Component({
   selector: 'app-gestionar-series',
@@ -17,10 +17,16 @@ export class GestionarSeriesComponent {
   busqueda = '';
   filtroNombre = 'az';
   filtroFecha = 'todos';
-  series: any[] = [];      // <- Lista original completa
+  series: any[] = [];
   seriesFiltradas: any[] = [];
 
-  constructor(private seriesService: SeriesService, private router: Router, private spinner: NgxSpinnerService) { }
+  serieAEliminar: any = null; // Guarda la serie seleccionada
+
+  constructor(
+    private seriesService: SeriesService,
+    private router: Router,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit() {
     this.spinner.show();
@@ -54,7 +60,6 @@ export class GestionarSeriesComponent {
       );
     }
 
-    // Ordenar por nombre
     if (this.filtroNombre === 'az') {
       resultado.sort((a, b) => a.nombre.localeCompare(b.nombre));
     } else if (this.filtroNombre === 'za') {
@@ -62,9 +67,9 @@ export class GestionarSeriesComponent {
     }
 
     if (this.filtroFecha === 'recientes') {
-      resultado.sort((a, b) => new Date(b.creado ?? 0).getTime() - new Date(a.creado ?? 0).getTime()); // descendente
+      resultado.sort((a, b) => new Date(b.creado ?? 0).getTime() - new Date(a.creado ?? 0).getTime());
     } else if (this.filtroFecha === 'antiguos') {
-      resultado.sort((a, b) => new Date(a.creado ?? 0).getTime() - new Date(b.creado ?? 0).getTime()); // ascendente
+      resultado.sort((a, b) => new Date(a.creado ?? 0).getTime() - new Date(b.creado ?? 0).getTime());
     }
 
     this.seriesFiltradas = resultado;
@@ -74,10 +79,21 @@ export class GestionarSeriesComponent {
     this.router.navigate(['/agregar-serie']);
   }
 
-  eliminarSerie(id: number) {
-    this.seriesService.eliminarSerie(id).subscribe({
+  abrirModalEliminar(serie: any) {
+    this.serieAEliminar = serie;
+    const modal = new bootstrap.Modal(document.getElementById('modalEliminar')!);
+    modal.show();
+  }
+
+  confirmarEliminacion() {
+    if (!this.serieAEliminar) return;
+
+    this.seriesService.eliminarSerie(this.serieAEliminar.id).subscribe({
       next: () => {
-        this.seriesFiltradas = this.seriesFiltradas.filter((serie) => serie.id !== id);
+        this.series = this.series.filter(s => s.id !== this.serieAEliminar.id);
+        this.seriesFiltradas = this.seriesFiltradas.filter(s => s.id !== this.serieAEliminar.id);
+        this.serieAEliminar = null;
+        bootstrap.Modal.getInstance(document.getElementById('modalEliminar')!)?.hide();
       },
       error: (error) => {
         console.error('Error al eliminar la serie:', error);

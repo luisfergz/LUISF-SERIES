@@ -45,10 +45,30 @@
                 <a [routerLink]="['/editar-serie', serie.id]" class="btn btn-sm btn-primary w-100">
                     <i class="fa-solid fa-pen-to-square me-2"></i>Editar
                 </a>
-                <button class="btn btn-sm btn-danger w-100" (click)="eliminarSerie(serie.id)">
+                <button class="btn btn-sm btn-danger w-100" (click)="abrirModalEliminar(serie)">
                     <i class="fa-solid fa-trash-can me-2"></i>Eliminar
                 </button>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Modal para confirmar eliminación -->
+<div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="modalEliminarLabel">Eliminar Serie</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas eliminar la serie 
+        <strong>{{ serieAEliminar?.nombre }}</strong>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="confirmarEliminacion()">Eliminar</button>
+      </div>
+    </div>
+  </div>
 </div>

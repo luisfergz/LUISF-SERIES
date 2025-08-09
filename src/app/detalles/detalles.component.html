@@ -3,7 +3,7 @@
   <div *ngIf="serie">
     <h2 class="fw-bold mt-2 mt-md-3" style="color: yellow;">{{ serie.nombre }}</h2>
     <h3 class="fs-4 fw-bold mt-3" style="color: #20CE88">Sinopsis</h3>
-    <span class="col-12 col-md-8 col-lg-7 col-xl-5 mt-2 mx-auto d-block">{{ serie.sinopsis }}</span>
+    <span class="col-12 col-md-8 col-lg-7 col-xl-5 mt-3 mx-auto d-block text-start" style="white-space: pre-wrap;">{{ serie.sinopsis }}</span>
 
     <div *ngIf="serie.temporadas?.length" class="text-center mt-4">
       <h3 class="fs-4 fw-bold" style="color: #20CE88">Temporadas</h3>
@@ -59,7 +59,7 @@
       </div>
     </div>
 
-    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto mt-5 p-2 p-md-4 pt-3 d-flex flex-column gap-4"
+    <div *ngIf="serie.temporadas?.length || serie.peliculas?.length" class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto mt-5 p-2 p-md-4 pt-3 d-flex flex-column gap-4"
       style="border: solid 0.1rem #09F2FE; background-color: #090E36;">
       <div *ngIf="serie.temporadas?.length" class="text-center">
         <span class="fs-4 fw-bold mb-3 d-block" style="color: #20CE88">Temporadas | Información Técnica</span>
@@ -85,7 +85,7 @@
       </div>
     </div>
 
-    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto p-3 fw-bold rounded-4 mx-auto mt-3 mb-4"
+    <div class="d-none col-12 col-md-10 col-lg-8 col-xl-6 mx-auto p-3 fw-bold rounded-4 mx-auto mt-3 mb-4"
       style="border: solid 0.1rem #09F2FE; background-color: #090E36;">
       <span class="fs-4" style="color: #20CE88">Contraseña: <span class="fs-4 text-white">LuisF</span></span>
     </div>

@@ -93,12 +93,12 @@ export class SerieFormularioComponent {
       const temporadas = [
         { temporada: '1', imagen: '', link: '' },
       ];
-      temporadas.forEach(temp => this.agregarTemporada(temp));
+      // temporadas.forEach(temp => this.agregarTemporada(temp));
 
       const peliculas = [
         { temporada: '1', imagen: '', link: '' },
       ];
-      peliculas.forEach(peli => this.agregarPelicula(peli));
+      // peliculas.forEach(peli => this.agregarPelicula(peli));
 
       const infoTecnica = [
         { atributo: 'Tamaño promedio por episodio', valor: '400 MB' },
@@ -113,7 +113,7 @@ export class SerieFormularioComponent {
         { atributo: 'Temporadas', valor: '4' },
         { atributo: 'Episodios', valor: '52/52' },
       ];
-      infoTecnica.forEach(info => this.agregarInfoTecnica(info));
+      // infoTecnica.forEach(info => this.agregarInfoTecnica(info));
 
       const peliculaInfoTecnica = [
         { atributo: 'Tamaño promedio por episodio', valor: '400 MB' },
@@ -128,7 +128,7 @@ export class SerieFormularioComponent {
         { atributo: 'Temporadas', valor: '4' },
         { atributo: 'Episodios', valor: '52/52' },
       ];
-      peliculaInfoTecnica.forEach(info => this.agregarPeliculaInfoTecnica(info));
+      // peliculaInfoTecnica.forEach(info => this.agregarPeliculaInfoTecnica(info));
 
       this.mostrarContenido();
     }
