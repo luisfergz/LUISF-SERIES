@@ -11,15 +11,15 @@
           class="portada-serie w-100"
           style="object-fit: cover; object-position: center; filter: brightness(0.4);">
         <div class="position-absolute w-100 h-100 top-0 d-flex flex-column justify-content-center align-items-center text-light pb-5">
-          <h1 class="title fw-bold col-10 col-md-8 mx-auto text-center" style="color: yellow; letter-spacing: 0.1rem; text-shadow: 2px 2px 5px rgb(0, 0, 0, 0.4);">{{ serie.nombre }}</h1>
-          <div *ngIf="serie.temporadas?.length" class="d-flex rounded py-1 px-2 mt-1 mt-md-3 mx-5 align-items-center" style="background-color: rgb(24, 24, 65);">
+          <h1 class="title fw-bold col-11 col-md-9 mx-auto text-center" style="color: yellow; letter-spacing: 0.1rem; text-shadow: 2px 2px 5px rgb(0, 0, 0, 0.4);">{{ serie.nombre }}</h1>
+          <div *ngIf="serie.temporadas?.length" class="d-flex rounded py-1 px-2 mt-1 mt-md-3 mx-4 align-items-center" style="background-color: rgb(24, 24, 65);">
             <span class="temporada fw-bold me-2 ps-1" style="font-weight: 600;">Temporadas:</span>
             <div class="d-flex flex-wrap gap-1" *ngIf="serie.temporadas.length > 0">
-              <div *ngFor="let temp of serie.temporadas | slice:0:13; let i = index"
+              <div *ngFor="let temp of serie.temporadas | slice:0:6; let i = index"
                   class="temp-cont d-flex justify-content-center align-items-center fw-bold rounded-1"
                   style="background-color: rgb(49, 75, 155);">
                 <span class="temp-valor">
-                  {{ i < 12 ? temp.temporada : '...' }}
+                  {{ i < 5 ? temp.temporada : '...' }}
                 </span>
               </div>
             </div>
@@ -27,17 +27,17 @@
           <div *ngIf="serie.peliculas?.length " class="d-flex rounded py-1 px-2 mt-1 mt-md-3 mx-5 align-items-center" style="background-color: rgb(24, 24, 65);">
             <span class="temporada fw-bold me-2 ps-1" style="font-weight: 600;">Peliculas:</span>
             <div class="d-flex flex-wrap gap-1" *ngIf="serie.peliculas.length > 0">
-              <div *ngFor="let temp of serie.peliculas | slice:0:13; let i = index"
+              <div *ngFor="let temp of serie.peliculas | slice:0:6; let i = index"
                   class="temp-cont d-flex justify-content-center align-items-center fw-bold rounded-1"
                   style="background-color: rgb(49, 75, 155);">
                 <span class="temp-valor">
-                  {{ i < 12 ? i + 1 : '...' }}
+                  {{ i < 5 ? i + 1 : '...' }}
                 </span>
               </div>
             </div>
           </div>
-          <a class="descargar btn btn-link text-decoration-none px-4 fw-bold rounded-4 fs-5 fs-md-2 mt-3 mt-md-4"
-            style="letter-spacing: 0.2rem; text-shadow: 2px 2px 0 rgb(138, 141, 0); border: solid 0.1rem yellow; padding-top: 0.4rem; padding-bottom: 0.6rem;"
+          <a class="descargar btn btn-link text-decoration-none px-4 fw-bold rounded-4 mt-3 mt-md-4"
+            style="letter-spacing: 0.2rem; text-shadow: 2px 2px 0 rgb(138, 141, 0); border: solid 0.1rem yellow;"
             [routerLink]="['/series', serie.slug]">
             VER MÁS
             <!-- DESCARGA AQUI -->

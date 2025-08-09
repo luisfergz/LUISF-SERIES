@@ -31,4 +31,6 @@ export class FooterComponent {
     //   url: 'https://twitter.com/luisfseries'
     // },
   ];
+
+  currentYear: number = new Date().getFullYear();
 }
