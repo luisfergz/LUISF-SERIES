@@ -26,7 +26,7 @@
 
 @media (max-width: 768px) {
   #carouselInicio, .portada-serie { height: 240px; }
-  .title { font-size: clamp(1.2rem, 2vw, 1.5rem); }
+  .title { font-size: 1.3rem; }
   .temporada { font-size: 0.9rem; }
   .temp-cont { width: 1.3rem; height: 1.3rem; }
   .temp-valor { font-size: 0.85rem; }
