@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { SeriesService } from '../services/series.service';
 import { CommonModule } from '@angular/common';
 import { Comentario, Serie } from '../models/serie.model';
@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-detalles',
   standalone: true,
-  imports: [CommonModule, NgxSpinnerModule, FormsModule],
+  imports: [CommonModule, NgxSpinnerModule, FormsModule, RouterModule],
   templateUrl: './detalles.component.html',
   styleUrls: ['./detalles.component.css']
 })
@@ -20,6 +20,8 @@ export class DetallesComponent {
   nuevoComentario: string = '';
   avatar: string | null = null;
   error: string | null = null;
+  slug: string | null = null;
+  serie_id: number | null = null;
 
   comentarioAResponder: Comentario | null = null;
   usuarioActualId: string | null = null;
@@ -30,6 +32,8 @@ export class DetallesComponent {
   comentariosConRespuestasVisibles = new Set<number>();
   ordenFecha: 'reciente' | 'antiguo' = 'reciente';
 
+  esAdmin = false;
+
   constructor(
     private route: ActivatedRoute,
     private seriesService: SeriesService,
@@ -39,8 +43,11 @@ export class DetallesComponent {
 
   async ngOnInit(): Promise<void> {
     this.spinner.show();
-    const slug = this.route.snapshot.paramMap.get('slug')!;
-    this.seriesService.obtenerSeriePorSlug(slug).subscribe({
+    this.slug = this.route.snapshot.paramMap.get('slug')!;
+    this.seriesService.obtenerIdPorSlug(this.slug!).subscribe(id => {
+      this.serie_id = id;
+    });
+    this.seriesService.obtenerSeriePorSlug(this.slug).subscribe({
       next: async (data) => {
         this.serie = data;
         if (data?.id) {
@@ -58,6 +65,15 @@ export class DetallesComponent {
     });
     const user = await this.authService.getUser();
     this.usuarioActualId = user?.id ?? null;
+
+    this.seriesService.esUsuarioAdmin().subscribe({
+      next: (isAdmin) => {
+        this.esAdmin = isAdmin || false;
+      },
+      error: () => {
+        this.esAdmin = false;
+      }
+    });
   }
 
   mostrarContenido() {

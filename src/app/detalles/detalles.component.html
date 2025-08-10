@@ -1,5 +1,10 @@
 <!-- Contenido principal -->
 <div id="detalles" class="container-fluid text-white text-center">
+  <div *ngIf="esAdmin" class="position-absolute end-0 me-3">
+    <a class="btn btn-success rounded-circle" [routerLink]="['/editar-serie', serie_id]">
+      <i class="fa-solid fa-pen-to-square"></i>
+    </a>
+  </div>
   <div *ngIf="serie">
     <h2 class="fw-bold mt-2 mt-md-3" style="color: yellow;">{{ serie.nombre }}</h2>
     <h3 class="fs-4 fw-bold mt-3" style="color: #20CE88">Sinopsis</h3>

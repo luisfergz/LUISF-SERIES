@@ -53,6 +53,23 @@ export class SeriesService {
     );
   }
 
+  obtenerIdPorSlug(slug: string): Observable<number | null> {
+    return from(
+      this.supabase
+        .from('serie')
+        .select('id')
+        .eq('slug', slug)
+        .limit(1)
+    ).pipe(
+      map(response => {
+        if (response.error) throw response.error;
+        return response.data?.[0]?.id ?? null;
+      }),
+      catchError(() => of(null))
+    );
+  }
+
+
   obtenerSeriePorId(id: number): Observable<Serie | undefined> {
     return from(
       this.supabase

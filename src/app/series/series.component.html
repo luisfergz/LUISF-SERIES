@@ -47,7 +47,7 @@
       />
       <div class="d-flex flex-fill flex-column align-items-center">
         <span class="fw-bold fs-4 mb-1" style="color: yellow;">{{ serie.nombre }}</span>
-        <p>{{ serie.sinopsiscorta }}</p>
+        <p style="text-align: justify; font-size: .9rem;">{{ serie.sinopsiscorta }}</p>
         <a class="ver-mas btn btn-primary mt-auto px-4 border-0 rounded-4" style="width: fit-content; text-shadow: 2.16px 2.08px 0 #f0310bbb; font-weight: 600;" [routerLink]="['/series', serie.slug]">VER MÁS</a>
       </div>
     </div>

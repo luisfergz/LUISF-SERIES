@@ -56,6 +56,7 @@ export class CarruselComponent {
         this.mostrarContenido();
       }
     });
+    this.mostrarContenido();
   }
 
   mostrarContenido() {
