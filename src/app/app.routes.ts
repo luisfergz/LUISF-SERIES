@@ -14,6 +14,9 @@ import { SignupComponent } from './signup/signup.component';
 import { RecuperarPasswordComponent } from './recuperar-password/recuperar-password.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { ActualizarPasswordComponent } from './actualizar-password/actualizar-password.component';
+import { AcercaDeComponent } from './acerca-de/acerca-de.component';
+import { AvisoDePrivacidadComponent } from './aviso-de-privacidad/aviso-de-privacidad.component';
+import { PoliticaDeCookiesComponent } from './politica-de-cookies/politica-de-cookies.component';
 
 export const routes: Routes = [
   { path: '', component: InicioComponent },
@@ -22,6 +25,9 @@ export const routes: Routes = [
   { path: 'blog', component: BlogComponent },
   { path: 'series/:slug', component: DetallesComponent },
   { path: 'admin', component: AdminComponent },
+  { path: 'acerca-de', component: AcercaDeComponent },
+  { path: 'aviso-de-privacidad', component: AvisoDePrivacidadComponent },
+  { path: 'politica-de-cookies', component: PoliticaDeCookiesComponent },
   { path: 'login', component: LoginComponent, canActivate: [noAuthGuard] },
   { path: 'signup', component: SignupComponent, canActivate: [noAuthGuard] },
   { path: 'perfil', component: PerfilComponent, canActivate: [authGuard] },

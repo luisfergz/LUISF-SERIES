@@ -30,6 +30,15 @@ footer {
   color: #fff;
 }
 
+.info-link {
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .info-link {
+    font-size: .9rem;
+  }
+}
 
 /* Media Query: Móviles (max-width: 576px) */
 @media (max-width: 576px) {

@@ -5,7 +5,12 @@
         <i [class]="social.icon"></i>
       </a>
     </div> -->
-    <div class="copyright">
+    <div class="links d-flex gap-3 mt-2 flex-wrap">
+      <a class="info-link text-white" [routerLink]="['/acerca-de']">Acerca de</a>
+      <a class="info-link text-white" [routerLink]="['/politica-de-cookies']">Política de Cookies</a>
+      <a class="info-link text-white" [routerLink]="['/aviso-de-privacidad']">Aviso de Privacidad</a>
+    </div>
+    <div class="copyright mt-3">
       <span class="lead">© {{ currentYear }} LuisF Series | Series Para Todos</span>
     </div>
   </div>
